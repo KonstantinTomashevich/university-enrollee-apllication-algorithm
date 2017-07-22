@@ -4,10 +4,11 @@
 
 #include <UniversityEnrolleeApllicationAlgorithm/Core/StudyForm.hpp>
 #include <UniversityEnrolleeApllicationAlgorithm/Core/EnrolleeChoise.hpp>
+#include <UniversityEnrolleeApllicationAlgorithm/Utils/ReferenceCounted.hpp>
 
 namespace UniversityEnrolleeApllicationAlgorithm
 {
-class Enrollee
+class Enrollee : public ReferenceCounted
 {
 public:
     Enrollee ();

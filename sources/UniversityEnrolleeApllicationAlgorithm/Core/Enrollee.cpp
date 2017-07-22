@@ -4,6 +4,7 @@
 namespace UniversityEnrolleeApllicationAlgorithm
 {
 Enrollee::Enrollee () :
+    ReferenceCounted (),
     examsResults_ (),
     currentChoiseIndex_ (0),
     choises_ (0)
