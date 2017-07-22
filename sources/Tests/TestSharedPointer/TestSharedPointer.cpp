@@ -2,13 +2,13 @@
 #include <UniversityEnrolleeApllicationAlgorithm/Utils/SharedPointer.hpp>
 #include <iostream>
 
-const unsigned ERROR_INCORRECT_REFS_COUNT_AFTER_CREATION = 1;
-const unsigned ERROR_INCORRECT_REFS_COUNT_AFTER_SECOND_POINTER = 2;
-const unsigned ERROR_INCORRECT_REFS_COUNT_AFTER_SECOND_POINTER_DELETION = 3;
-const unsigned ERROR_INCORRECT_REFS_COUNT_WHILE_FUNCTION_CALL = 4;
-const unsigned ERROR_INCORRECT_REFS_COUNT_AFTER_FUNCTION_CALL = 5;
-const unsigned ERROR_INCORRECT_TRACKING_OBJECT_AFTER_DETACH = 6;
-const unsigned ERROR_INCORRECT_REFS_COUNT_AFTER_DETACH = 7;
+const char *ERROR_INCORRECT_REFS_COUNT_AFTER_CREATION = "Incorrect refs count after creation!";
+const char *ERROR_INCORRECT_REFS_COUNT_AFTER_SECOND_POINTER = "Incorrect refs count after second pointer!";
+const char *ERROR_INCORRECT_REFS_COUNT_AFTER_SECOND_POINTER_DELETION = "Incorrect refs count after second pointer deletion!";
+const char *ERROR_INCORRECT_REFS_COUNT_WHILE_FUNCTION_CALL = "Incorrect refs count while function call!";
+const char *ERROR_INCORRECT_REFS_COUNT_AFTER_FUNCTION_CALL = "Incorrect refs count after function call!";
+const char *ERROR_INCORRECT_TRACKING_OBJECT_AFTER_DETACH = "Incorrect tracking object after detach!";
+const char *ERROR_INCORRECT_REFS_COUNT_AFTER_DETACH = "Incorrect refs count after detach!";
 
 using namespace UniversityEnrolleeApllicationAlgorithm;
 bool TestFunction (SharedPointer <ReferenceCounted> ptr)
@@ -26,7 +26,8 @@ int main ()
     std::cout << "After first pointer creation: " << pointer->GetReferencesCount () << std::endl;
     if (pointer->GetReferencesCount () != 1)
     {
-        return ERROR_INCORRECT_REFS_COUNT_AFTER_CREATION;
+        std::cout << ERROR_INCORRECT_REFS_COUNT_AFTER_CREATION << std::endl;
+        return 1;
     }
 
     {
@@ -34,37 +35,43 @@ int main ()
         std::cout << "After second pointer creation: " << secondPointer->GetReferencesCount () << std::endl;
         if (pointer->GetReferencesCount () != 2)
         {
-            return ERROR_INCORRECT_REFS_COUNT_AFTER_SECOND_POINTER;
+            std::cout << ERROR_INCORRECT_REFS_COUNT_AFTER_SECOND_POINTER << std::endl;
+            return 1;
         }
     }
 
     std::cout << "After second pointer deletion: " << pointer->GetReferencesCount () << std::endl;
     if (pointer->GetReferencesCount () != 1)
     {
-        return ERROR_INCORRECT_REFS_COUNT_AFTER_SECOND_POINTER_DELETION;
+        std::cout << ERROR_INCORRECT_REFS_COUNT_AFTER_SECOND_POINTER_DELETION << std::endl;
+        return 1;
     }
 
     if (!TestFunction (pointer))
     {
-        return ERROR_INCORRECT_REFS_COUNT_WHILE_FUNCTION_CALL;
+        std::cout << ERROR_INCORRECT_REFS_COUNT_WHILE_FUNCTION_CALL << std::endl;
+        return 1;
     }
 
     std::cout << "After function call: " << pointer->GetReferencesCount () << std::endl;
     if (pointer->GetReferencesCount () != 1)
     {
-        return ERROR_INCORRECT_REFS_COUNT_AFTER_FUNCTION_CALL;
+        std::cout << ERROR_INCORRECT_REFS_COUNT_AFTER_FUNCTION_CALL << std::endl;
+        return 1;
     }
 
     pointer.Detach ();
     if (pointer.GetTrackingObject () != 0)
     {
-        return ERROR_INCORRECT_TRACKING_OBJECT_AFTER_DETACH;
+        std::cout << ERROR_INCORRECT_TRACKING_OBJECT_AFTER_DETACH << std::endl;
+        return 1;
     }
 
     std::cout << "After detach: " << object->GetReferencesCount () << std::endl;
     if (object->GetReferencesCount () != 1)
     {
-        return ERROR_INCORRECT_REFS_COUNT_AFTER_DETACH;
+        std::cout << ERROR_INCORRECT_REFS_COUNT_AFTER_DETACH << std::endl;
+        return 1;
     }
 
     return 0;
