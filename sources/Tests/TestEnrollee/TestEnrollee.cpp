@@ -22,6 +22,8 @@ const unsigned LANGUAGE_EXAM = CStringToHash ("Language");
 int main ()
 {
     SharedPointer <Enrollee> enrollee (new Enrollee ());
+    enrollee->SetPasportSeries ("XX");
+    enrollee->SetPasportNumber ("0000000");
     std::cout << "Setting exams results: " << MATH_RESULT << " " <<
                  PHYSICS_RESULT << " " << LANGUAGE_RESULT << std::endl;
 

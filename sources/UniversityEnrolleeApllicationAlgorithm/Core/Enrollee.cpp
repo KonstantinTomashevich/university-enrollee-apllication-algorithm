@@ -5,6 +5,9 @@ namespace UniversityEnrolleeApllicationAlgorithm
 {
 Enrollee::Enrollee () :
     ReferenceCounted (),
+    passportSeries_ (),
+    passportNumber_ (),
+
     examsResults_ (),
     currentChoiseIndex_ (0),
     choises_ (0)
@@ -15,6 +18,26 @@ Enrollee::Enrollee () :
 Enrollee::~Enrollee ()
 {
 
+}
+
+std::string Enrollee::GetPassportSeries () const
+{
+    return passportSeries_;
+}
+
+void Enrollee::SetPasportSeries (const std::string &passportSeries)
+{
+    passportSeries_ = passportSeries;
+}
+
+std::string Enrollee::GetPassportNumber() const
+{
+    return passportNumber_;
+}
+
+void Enrollee::SetPasportNumber (const std::string &passportNumber)
+{
+    passportNumber_ = passportNumber;
 }
 
 unsigned Enrollee::GetExamResult (unsigned examSubjectNameHash) const
@@ -76,7 +99,7 @@ EnrolleeChoise Enrollee::GetChoiseByIndex (unsigned index) const
     }
 }
 
-void Enrollee::AddChoiseToBack (EnrolleeChoise choise)
+void Enrollee::AddChoiseToBack (const EnrolleeChoise &choise)
 {
     choises_.push_back (choise);
 }
