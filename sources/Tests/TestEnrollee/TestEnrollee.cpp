@@ -86,7 +86,7 @@ int main ()
     enrollee->RefreshChoiseIndex ();
     std::cout << "Choise index refreshed." << std::endl;
     std::cout << "Current choise: (faculty): " << enrollee->GetCurrentChoise ().faculty_ << std::endl;
-    if (enrollee->GetCurrentChoise ().faculty_ != 3)
+    if (enrollee->GetCurrentChoise ().faculty_ != enrollee->GetChoiseByIndex (0).faculty_)
     {
         std::cout << ERROR_INCORRECT_CHOISE_AFTER_REFRESH << std::endl;
         return 1;

@@ -64,6 +64,18 @@ EnrolleeChoise Enrollee::GetCurrentChoise () const
     }
 }
 
+EnrolleeChoise Enrollee::GetChoiseByIndex (unsigned index) const
+{
+    if (index < choises_.size ())
+    {
+        return choises_ [index];
+    }
+    else
+    {
+        return EMPTY_ENROLLEE_CHOISE;
+    }
+}
+
 void Enrollee::AddChoiseToBack (EnrolleeChoise choise)
 {
     choises_.push_back (choise);

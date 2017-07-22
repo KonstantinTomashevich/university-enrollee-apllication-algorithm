@@ -24,6 +24,8 @@ public:
 
     unsigned GetChoisesCount () const;
     EnrolleeChoise GetCurrentChoise () const;
+    EnrolleeChoise GetChoiseByIndex (unsigned index) const;
+
     void AddChoiseToBack (EnrolleeChoise choise);
     void RemoveChoiseByIndex (unsigned index);
     void SwapChoisesAtIndexes (unsigned firstIndex, unsigned secondIndex);
