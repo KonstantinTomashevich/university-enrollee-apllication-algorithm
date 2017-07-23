@@ -31,7 +31,7 @@ public:
     void SetMaxEnrolleesInPaidForm (unsigned maxEnrolleesInPaidForm);
 
 private:
-    void GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm);
+    void GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const;
 
     unsigned id_;
     /// List of required exams names hashes. Should be sorted by priority! Example.

@@ -3,7 +3,7 @@
 
 namespace UniversityEnrolleeApllicationAlgorithm
 {
-bool CompareEnrollees (Specialty *specialty, Enrollee *first, Enrollee *second)
+bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
 {
     unsigned firstScore = CalculateEnrolleeScore (specialty, first);
     unsigned secondScore = CalculateEnrolleeScore (specialty, second);
@@ -41,7 +41,7 @@ bool CompareEnrollees (Specialty *specialty, Enrollee *first, Enrollee *second)
     return false;
 }
 
-unsigned CalculateEnrolleeScore (Specialty *specialty, Enrollee *enrollee)
+unsigned CalculateEnrolleeScore (const Specialty *specialty, const Enrollee *enrollee)
 {
     const std::vector <std::vector <unsigned> > &exams = specialty->GetRequiredExams ();
     unsigned score = std::round (enrollee->GetCertificateMedianMark () * 10);
@@ -53,7 +53,7 @@ unsigned CalculateEnrolleeScore (Specialty *specialty, Enrollee *enrollee)
     return score;
 }
 
-unsigned GetEnrolleeBestResultFromExams (Enrollee *enrollee, const std::vector <unsigned> &exams)
+unsigned GetEnrolleeBestResultFromExams (const Enrollee *enrollee, const std::vector <unsigned> &exams)
 {
     unsigned char best = 0;
     for (auto iterator = exams.cbegin (); iterator != exams.cend (); iterator++)

@@ -5,7 +5,7 @@
 namespace UniversityEnrolleeApllicationAlgorithm
 {
 /// Returns true if first enrollee better than second.
-bool CompareEnrollees (Specialty *specialty, Enrollee *first, Enrollee *second);
-unsigned CalculateEnrolleeScore (Specialty *specialty, Enrollee *enrollee);
-unsigned GetEnrolleeBestResultFromExams (Enrollee *enrollee, const std::vector <unsigned> &exams);
+bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const Enrollee *second);
+unsigned CalculateEnrolleeScore (const Specialty *specialty, const Enrollee *enrollee);
+unsigned GetEnrolleeBestResultFromExams (const Enrollee *enrollee, const std::vector <unsigned> &exams);
 }

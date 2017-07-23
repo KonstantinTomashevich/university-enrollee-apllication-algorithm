@@ -94,9 +94,9 @@ void Specialty::SetMaxEnrolleesInPaidForm (unsigned maxEnrolleesInPaidForm)
     maxEnrolleesInPaidForm_ = maxEnrolleesInPaidForm;
 }
 
-void Specialty::GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm)
+void Specialty::GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const
 {
-    std::vector <Enrollee *> &enrollees = (studyForm == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_;
+    std::vector <Enrollee *> enrollees = (studyForm == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_;
     unsigned maxEnrollees = (studyForm == STUDY_FORM_FREE) ? maxEnrolleesInFreeForm_ : maxEnrolleesInPaidForm_;
 
     if (enrollees.size () > maxEnrollees)

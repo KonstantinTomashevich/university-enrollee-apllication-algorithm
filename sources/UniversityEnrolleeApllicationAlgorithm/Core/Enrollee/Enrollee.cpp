@@ -24,12 +24,12 @@ Enrollee::~Enrollee ()
 
 }
 
-std::string Enrollee::GetPassportSeries () const
+const std::string &Enrollee::GetPassportSeries () const
 {
     return passportSeries_;
 }
 
-std::string Enrollee::GetPassportNumber() const
+const std::string &Enrollee::GetPassportNumber () const
 {
     return passportNumber_;
 }
@@ -67,6 +67,11 @@ void Enrollee::RefreshChoiseIndex ()
 unsigned Enrollee::GetChoisesCount () const
 {
     return choises_.size ();
+}
+
+const std::vector<EnrolleeChoise> &Enrollee::GetChoices () const
+{
+    return choises_;
 }
 
 EnrolleeChoise Enrollee::GetCurrentChoise () const

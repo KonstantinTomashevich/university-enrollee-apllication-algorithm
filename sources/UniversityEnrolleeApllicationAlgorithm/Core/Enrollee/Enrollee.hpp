@@ -15,8 +15,8 @@ public:
     Enrollee (const std::string &passportSeries, const std::string &passportNumber);
     virtual ~Enrollee ();
 
-    std::string GetPassportSeries () const;
-    std::string GetPassportNumber () const;
+    const std::string &GetPassportSeries () const;
+    const std::string &GetPassportNumber () const;
 
     unsigned char GetExamResult (unsigned examSubjectNameHash) const;
     void SetExamResult (unsigned examSubjectNameHash, unsigned char examResult);
@@ -27,6 +27,8 @@ public:
     void RefreshChoiseIndex ();
 
     unsigned GetChoisesCount () const;
+    const std::vector <EnrolleeChoise> &GetChoices () const;
+
     EnrolleeChoise GetCurrentChoise () const;
     EnrolleeChoise GetChoiseByIndex (unsigned index) const;
 
