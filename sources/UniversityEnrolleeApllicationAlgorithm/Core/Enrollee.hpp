@@ -12,14 +12,11 @@ namespace UniversityEnrolleeApllicationAlgorithm
 class Enrollee : public ReferenceCounted
 {
 public:
-    Enrollee ();
+    Enrollee (const std::string &passportSeries, const std::string &passportNumber);
     virtual ~Enrollee ();
 
     std::string GetPassportSeries () const;
-    void SetPasportSeries (const std::string &passportSeries);
-
     std::string GetPassportNumber () const;
-    void SetPasportNumber (const std::string &passportNumber);
 
     unsigned GetExamResult (unsigned examSubjectNameHash) const;
     void SetExamResult (unsigned examSubjectNameHash, unsigned examResult);

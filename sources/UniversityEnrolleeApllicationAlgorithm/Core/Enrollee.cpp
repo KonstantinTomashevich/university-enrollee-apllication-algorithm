@@ -3,10 +3,10 @@
 
 namespace UniversityEnrolleeApllicationAlgorithm
 {
-Enrollee::Enrollee () :
+Enrollee::Enrollee (const std::string &passportSeries, const std::string &passportNumber) :
     ReferenceCounted (),
-    passportSeries_ (),
-    passportNumber_ (),
+    passportSeries_ (passportSeries),
+    passportNumber_ (passportNumber),
 
     examsResults_ (),
     currentChoiseIndex_ (0),
@@ -25,19 +25,9 @@ std::string Enrollee::GetPassportSeries () const
     return passportSeries_;
 }
 
-void Enrollee::SetPasportSeries (const std::string &passportSeries)
-{
-    passportSeries_ = passportSeries;
-}
-
 std::string Enrollee::GetPassportNumber() const
 {
     return passportNumber_;
-}
-
-void Enrollee::SetPasportNumber (const std::string &passportNumber)
-{
-    passportNumber_ = passportNumber;
 }
 
 unsigned Enrollee::GetExamResult (unsigned examSubjectNameHash) const
