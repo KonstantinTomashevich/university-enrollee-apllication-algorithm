@@ -2,12 +2,18 @@
 #include <UniversityEnrolleeApllicationAlgorithm/Utils/SharedPointer.hpp>
 #include <UniversityEnrolleeApllicationAlgorithm/Utils/CStringToHash.hpp>
 #include <iostream>
+#include <math.h>
 
-const unsigned MATH_RESULT = 93;
-const unsigned PHYSICS_RESULT = 92;
-const unsigned LANGUAGE_RESULT = 97;
+const unsigned char MATH_RESULT = 93;
+const unsigned char PHYSICS_RESULT = 92;
+const unsigned char LANGUAGE_RESULT = 97;
+
+const unsigned char MATH_MARK = 9;
+const unsigned char PHYSICS_MARK = 9;
+const unsigned char LANGUAGE_MARK = 8;
 
 const char *ERROR_INCORRECT_EXAMS_RESULTS = "Incorrect exams results!";
+const char *ERROR_INCORRECT_MEDIAN_MARK = "Incorrect median mark!";
 const char *ERROR_INCORRECT_CHOISES_COUNT = "Incorrect choises count!";
 const char *ERROR_INCORRECT_CHOISES_COUNT_AFTER_FIRST_REMOVE = "Incorrect choises count after first remove!";
 const char *ERROR_INCORRECT_CHOISE_FACULTY = "Incorrect choise faculty!";
@@ -29,14 +35,26 @@ int main ()
     enrollee->SetExamResult (PHYSICS_EXAM, PHYSICS_RESULT);
     enrollee->SetExamResult (LANGUAGE_EXAM, LANGUAGE_RESULT);
 
-    std::cout << "Setted exams results: " << enrollee->GetExamResult (MATH_EXAM) << " " <<
-                 enrollee->GetExamResult (PHYSICS_EXAM) << " " << enrollee->GetExamResult (LANGUAGE_EXAM)<< std::endl;
+    std::cout << "Setted exams results: " << enrollee->GetExamResult (MATH_EXAM) * 1 << " " <<
+                 enrollee->GetExamResult (PHYSICS_EXAM) * 1 << " " << enrollee->GetExamResult (LANGUAGE_EXAM) * 1 << std::endl;
 
     if (enrollee->GetExamResult (MATH_EXAM) != MATH_RESULT ||
             enrollee->GetExamResult (PHYSICS_EXAM) != PHYSICS_RESULT ||
             enrollee->GetExamResult (LANGUAGE_EXAM) != LANGUAGE_RESULT)
     {
         std::cout << ERROR_INCORRECT_EXAMS_RESULTS << std::endl;
+        return 1;
+    }
+
+    enrollee->SetCertificateMark (MATH_EXAM, MATH_MARK);
+    enrollee->SetCertificateMark (PHYSICS_EXAM, PHYSICS_MARK);
+    enrollee->SetCertificateMark (LANGUAGE_EXAM, LANGUAGE_MARK);
+    enrollee->CalculateCertificateMedianMark ();
+
+    std::cout << "Certificate median mark: " << enrollee->GetCertificateMedianMark () << std::endl;
+    if (enrollee->GetCertificateMedianMark () != 8.7f)
+    {
+        std::cout << ERROR_INCORRECT_MEDIAN_MARK << std::endl;
         return 1;
     }
 

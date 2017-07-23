@@ -1,5 +1,6 @@
 #include "Enrollee.hpp"
 #include <algorithm>
+#include <math.h>
 
 namespace UniversityEnrolleeApllicationAlgorithm
 {
@@ -10,7 +11,10 @@ Enrollee::Enrollee (const std::string &passportSeries, const std::string &passpo
 
     examsResults_ (),
     currentChoiseIndex_ (0),
-    choises_ (0)
+    choises_ (0),
+
+    certificateMarks_ (),
+    certificateMedianMark_ ()
 {
 
 }
@@ -30,12 +34,12 @@ std::string Enrollee::GetPassportNumber() const
     return passportNumber_;
 }
 
-unsigned Enrollee::GetExamResult (unsigned examSubjectNameHash) const
+unsigned char Enrollee::GetExamResult (unsigned examSubjectNameHash) const
 {
     return examsResults_.at (examSubjectNameHash);
 }
 
-void Enrollee::SetExamResult (unsigned examSubjectNameHash, unsigned examResult)
+void Enrollee::SetExamResult (unsigned examSubjectNameHash, unsigned char examResult)
 {
     examsResults_ [examSubjectNameHash] = examResult;
 }
@@ -102,5 +106,31 @@ void Enrollee::RemoveChoiseByIndex (unsigned index)
 void Enrollee::SwapChoisesAtIndexes (unsigned firstIndex, unsigned secondIndex)
 {
     std::iter_swap (choises_.begin () + firstIndex, choises_.begin () + secondIndex);
+}
+
+unsigned char Enrollee::GetCertificateMark (unsigned subjectNameHash) const
+{
+    return certificateMarks_.at (subjectNameHash);
+}
+
+void Enrollee::SetCertificateMark (unsigned subjectNameHash, unsigned char mark)
+{
+    certificateMarks_ [subjectNameHash] = mark;
+}
+
+float Enrollee::GetCertificateMedianMark () const
+{
+    return certificateMedianMark_;
+}
+
+void Enrollee::CalculateCertificateMedianMark ()
+{
+    int sum = 0;
+    for (auto iterator = certificateMarks_.cbegin (); iterator != certificateMarks_.cend (); iterator++)
+    {
+        sum += iterator->second;
+    }
+
+    certificateMedianMark_ = std::round (sum * 10.0f / certificateMarks_.size ()) / 10.0f;
 }
 }
