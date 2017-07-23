@@ -1,4 +1,4 @@
-#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee.hpp>
+#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/Enrollee.hpp>
 #include <UniversityEnrolleeApllicationAlgorithm/Utils/SharedPointer.hpp>
 #include <UniversityEnrolleeApllicationAlgorithm/Utils/CStringToHash.hpp>
 #include <iostream>

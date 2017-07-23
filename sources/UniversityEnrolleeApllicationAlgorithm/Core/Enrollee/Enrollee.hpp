@@ -3,8 +3,8 @@
 #include <vector>
 #include <string>
 
-#include <UniversityEnrolleeApllicationAlgorithm/Core/StudyForm.hpp>
-#include <UniversityEnrolleeApllicationAlgorithm/Core/EnrolleeChoise.hpp>
+#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/StudyForm.hpp>
+#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/EnrolleeChoise.hpp>
 #include <UniversityEnrolleeApllicationAlgorithm/Utils/ReferenceCounted.hpp>
 
 namespace UniversityEnrolleeApllicationAlgorithm

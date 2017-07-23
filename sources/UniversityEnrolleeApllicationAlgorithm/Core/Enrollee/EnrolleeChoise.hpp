@@ -1,5 +1,5 @@
 #pragma once
-#include <UniversityEnrolleeApllicationAlgorithm/Core/StudyForm.hpp>
+#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/StudyForm.hpp>
 
 namespace UniversityEnrolleeApllicationAlgorithm
 {
