@@ -1,7 +1,7 @@
 #include "EnrolleeHelpers.hpp"
 #include <math.h>
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
 {

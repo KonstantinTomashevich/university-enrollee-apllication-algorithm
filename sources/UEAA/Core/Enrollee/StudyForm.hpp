@@ -1,5 +1,5 @@
 #pragma once
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 enum StudyForm
 {

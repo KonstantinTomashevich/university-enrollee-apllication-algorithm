@@ -1,5 +1,5 @@
 #pragma once
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 unsigned CStringToHash (const char *cString);
 }

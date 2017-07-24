@@ -1,6 +1,6 @@
-#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/Enrollee.hpp>
-#include <UniversityEnrolleeApllicationAlgorithm/Utils/SharedPointer.hpp>
-#include <UniversityEnrolleeApllicationAlgorithm/Utils/CStringToHash.hpp>
+#include <UEAA/Core/Enrollee/Enrollee.hpp>
+#include <UEAA/Utils/SharedPointer.hpp>
+#include <UEAA/Utils/CStringToHash.hpp>
 #include <iostream>
 #include <math.h>
 
@@ -20,14 +20,13 @@ const char *ERROR_INCORRECT_CHOISE_FACULTY = "Incorrect choise faculty!";
 const char *ERROR_INCORRECT_HAS_MORE_CHOICES = "Incorrect has more choises return!";
 const char *ERROR_INCORRECT_CHOISE_AFTER_REFRESH = "Incorrect choice after refresh!";
 
-using namespace UniversityEnrolleeApllicationAlgorithm;
-const unsigned MATH_EXAM = CStringToHash ("Math");
-const unsigned PHYSICS_EXAM = CStringToHash ("Physics");
-const unsigned LANGUAGE_EXAM = CStringToHash ("Language");
+const unsigned MATH_EXAM = UEAA::CStringToHash ("Math");
+const unsigned PHYSICS_EXAM = UEAA::CStringToHash ("Physics");
+const unsigned LANGUAGE_EXAM = UEAA::CStringToHash ("Language");
 
 int main ()
 {
-    SharedPointer <Enrollee> enrollee (new Enrollee ("XX", "0000000"));
+    UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee ("XX", "0000000"));
     std::cout << "Setting exams results: " << MATH_RESULT << " " <<
                  PHYSICS_RESULT << " " << LANGUAGE_RESULT << std::endl;
 
@@ -60,7 +59,7 @@ int main ()
 
     for (unsigned faculty = 0; faculty <= 3; faculty++)
     {
-        EnrolleeChoise choise (faculty, 1, STUDY_FORM_FREE);
+        UEAA::EnrolleeChoise choise (faculty, 1, UEAA::STUDY_FORM_FREE);
         std::cout << "Added faculty choise: " << choise.faculty_ << std::endl;
         enrollee->AddChoiseToBack (choise);
     }
@@ -84,7 +83,7 @@ int main ()
     std::cout << "Choises 0 and 2 swapped." << std::endl;
     for (unsigned faculty = 3; faculty >= 1; faculty--)
     {
-        EnrolleeChoise choise = enrollee->GetCurrentChoise ();
+        UEAA::EnrolleeChoise choise = enrollee->GetCurrentChoise ();
         std::cout << "Choise (faculty): " << choise.faculty_ << std::endl;
         if (choise.faculty_ != faculty)
         {

@@ -1,6 +1,6 @@
 #include "ReferenceCounted.hpp"
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 ReferenceCounted::ReferenceCounted () :
     references_ (0)

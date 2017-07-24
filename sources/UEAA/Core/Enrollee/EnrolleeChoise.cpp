@@ -1,6 +1,6 @@
 #include "EnrolleeChoise.hpp"
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 EnrolleeChoise::EnrolleeChoise () :
     faculty_ (0),

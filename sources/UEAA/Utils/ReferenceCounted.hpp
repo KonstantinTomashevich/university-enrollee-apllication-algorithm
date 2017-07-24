@@ -1,6 +1,6 @@
 #pragma once
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 class ReferenceCounted
 {

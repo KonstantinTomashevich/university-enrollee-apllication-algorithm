@@ -1,6 +1,6 @@
 #include "CStringToHash.hpp"
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 unsigned CStringToHash (const char *cString)
 {

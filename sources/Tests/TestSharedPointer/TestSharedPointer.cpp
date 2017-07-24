@@ -1,5 +1,5 @@
-#include <UniversityEnrolleeApllicationAlgorithm/Utils/ReferenceCounted.hpp>
-#include <UniversityEnrolleeApllicationAlgorithm/Utils/SharedPointer.hpp>
+#include <UEAA/Utils/ReferenceCounted.hpp>
+#include <UEAA/Utils/SharedPointer.hpp>
 #include <iostream>
 
 const char *ERROR_INCORRECT_REFS_COUNT_AFTER_CREATION = "Incorrect refs count after creation!";
@@ -10,8 +10,7 @@ const char *ERROR_INCORRECT_REFS_COUNT_AFTER_FUNCTION_CALL = "Incorrect refs cou
 const char *ERROR_INCORRECT_TRACKING_OBJECT_AFTER_DETACH = "Incorrect tracking object after detach!";
 const char *ERROR_INCORRECT_REFS_COUNT_AFTER_DETACH = "Incorrect refs count after detach!";
 
-using namespace UniversityEnrolleeApllicationAlgorithm;
-bool TestFunction (SharedPointer <ReferenceCounted> ptr)
+bool TestFunction (UEAA::SharedPointer <UEAA::ReferenceCounted> ptr)
 {
     std::cout << "While function call: " << ptr->GetReferencesCount () << std::endl;
     return ptr->GetReferencesCount () == 2;
@@ -19,8 +18,8 @@ bool TestFunction (SharedPointer <ReferenceCounted> ptr)
 
 int main ()
 {
-    ReferenceCounted *object = new ReferenceCounted ();
-    SharedPointer <ReferenceCounted> pointer;
+    UEAA::ReferenceCounted *object = new UEAA::ReferenceCounted ();
+    UEAA::SharedPointer <UEAA::ReferenceCounted> pointer;
     pointer.SetTrackingObject (object);
 
     std::cout << "After first pointer creation: " << pointer->GetReferencesCount () << std::endl;
@@ -31,7 +30,7 @@ int main ()
     }
 
     {
-        SharedPointer <ReferenceCounted> secondPointer (pointer);
+        UEAA::SharedPointer <UEAA::ReferenceCounted> secondPointer (pointer);
         std::cout << "After second pointer creation: " << secondPointer->GetReferencesCount () << std::endl;
         if (pointer->GetReferencesCount () != 2)
         {

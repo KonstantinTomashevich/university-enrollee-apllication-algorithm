@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
-#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/StudyForm.hpp>
-#include <UniversityEnrolleeApllicationAlgorithm/Utils/ReferenceCounted.hpp>
+#include <UEAA/Core/Enrollee/StudyForm.hpp>
+#include <UEAA/Utils/ReferenceCounted.hpp>
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 class Enrollee;
 class Specialty : public ReferenceCounted

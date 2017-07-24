@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <math.h>
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 Enrollee::Enrollee (const std::string &passportSeries, const std::string &passportNumber) :
     ReferenceCounted (),

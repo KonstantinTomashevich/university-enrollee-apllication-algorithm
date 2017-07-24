@@ -1,8 +1,8 @@
 #pragma once
-#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/Enrollee.hpp>
-#include <UniversityEnrolleeApllicationAlgorithm/Core/University/Specialty.hpp>
+#include <UEAA/Core/Enrollee/Enrollee.hpp>
+#include <UEAA/Core/University/Specialty.hpp>
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 /// Returns true if first enrollee better than second.
 bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const Enrollee *second);

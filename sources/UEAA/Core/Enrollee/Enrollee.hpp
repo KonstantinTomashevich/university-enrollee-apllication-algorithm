@@ -3,11 +3,11 @@
 #include <vector>
 #include <string>
 
-#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/StudyForm.hpp>
-#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/EnrolleeChoise.hpp>
-#include <UniversityEnrolleeApllicationAlgorithm/Utils/ReferenceCounted.hpp>
+#include <UEAA/Core/Enrollee/StudyForm.hpp>
+#include <UEAA/Core/Enrollee/EnrolleeChoise.hpp>
+#include <UEAA/Utils/ReferenceCounted.hpp>
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 class Enrollee : public ReferenceCounted
 {

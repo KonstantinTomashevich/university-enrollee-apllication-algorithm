@@ -1,5 +1,5 @@
 #pragma once
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 template <class T> class SharedPointer
 {

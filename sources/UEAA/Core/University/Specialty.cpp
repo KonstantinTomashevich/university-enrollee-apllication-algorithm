@@ -1,7 +1,7 @@
 #include "Specialty.hpp"
-#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/Enrollee.hpp>
+#include <UEAA/Core/Enrollee/Enrollee.hpp>
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 Specialty::Specialty (unsigned id) :
     ReferenceCounted (),

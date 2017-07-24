@@ -1,7 +1,7 @@
 #pragma once
-#include <UniversityEnrolleeApllicationAlgorithm/Core/Enrollee/StudyForm.hpp>
+#include <UEAA/Core/Enrollee/StudyForm.hpp>
 
-namespace UniversityEnrolleeApllicationAlgorithm
+namespace UEAA
 {
 struct EnrolleeChoise
 {
