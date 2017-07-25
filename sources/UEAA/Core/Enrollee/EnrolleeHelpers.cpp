@@ -5,6 +5,7 @@ namespace UEAA
 {
 bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
 {
+    // TODO: What about repuclican olimpiad winners?
     unsigned firstScore = CalculateEnrolleeScore (specialty, first);
     unsigned secondScore = CalculateEnrolleeScore (specialty, second);
 

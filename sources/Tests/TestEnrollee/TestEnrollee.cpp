@@ -12,14 +12,6 @@ const unsigned char MATH_MARK = 9;
 const unsigned char PHYSICS_MARK = 9;
 const unsigned char LANGUAGE_MARK = 8;
 
-const char *ERROR_INCORRECT_EXAMS_RESULTS = "Incorrect exams results!";
-const char *ERROR_INCORRECT_MEDIAN_MARK = "Incorrect median mark!";
-const char *ERROR_INCORRECT_CHOISES_COUNT = "Incorrect choises count!";
-const char *ERROR_INCORRECT_CHOISES_COUNT_AFTER_FIRST_REMOVE = "Incorrect choises count after first remove!";
-const char *ERROR_INCORRECT_CHOISE_FACULTY = "Incorrect choise faculty!";
-const char *ERROR_INCORRECT_HAS_MORE_CHOICES = "Incorrect has more choises return!";
-const char *ERROR_INCORRECT_CHOISE_AFTER_REFRESH = "Incorrect choice after refresh!";
-
 const unsigned MATH_EXAM = UEAA::CStringToHash ("Math");
 const unsigned PHYSICS_EXAM = UEAA::CStringToHash ("Physics");
 const unsigned LANGUAGE_EXAM = UEAA::CStringToHash ("Language");
@@ -41,7 +33,7 @@ int main ()
             enrollee->GetExamResult (PHYSICS_EXAM) != PHYSICS_RESULT ||
             enrollee->GetExamResult (LANGUAGE_EXAM) != LANGUAGE_RESULT)
     {
-        std::cout << ERROR_INCORRECT_EXAMS_RESULTS << std::endl;
+        std::cout << "Incorrect exams results!" << std::endl;
         return 1;
     }
 
@@ -53,7 +45,7 @@ int main ()
     std::cout << "Certificate median mark: " << enrollee->GetCertificateMedianMark () << std::endl;
     if (enrollee->GetCertificateMedianMark () != 8.7f)
     {
-        std::cout << ERROR_INCORRECT_MEDIAN_MARK << std::endl;
+        std::cout << "Incorrect median mark!" << std::endl;
         return 1;
     }
 
@@ -67,7 +59,7 @@ int main ()
     std::cout << "Choises count: " << enrollee->GetChoisesCount () << std::endl;
     if (enrollee->GetChoisesCount () != 4)
     {
-        std::cout << ERROR_INCORRECT_CHOISES_COUNT << std::endl;
+        std::cout << "Incorrect choises count!" << std::endl;
         return 1;
     }
 
@@ -75,7 +67,7 @@ int main ()
     std::cout << "Choises count after first remove: " << enrollee->GetChoisesCount () << std::endl;
     if (enrollee->GetChoisesCount () != 3)
     {
-        std::cout << ERROR_INCORRECT_CHOISES_COUNT_AFTER_FIRST_REMOVE << std::endl;
+        std::cout << "Incorrect choises count after first remove!" << std::endl;
         return 1;
     }
 
@@ -87,7 +79,7 @@ int main ()
         std::cout << "Choise (faculty): " << choise.faculty_ << std::endl;
         if (choise.faculty_ != faculty)
         {
-            std::cout << ERROR_INCORRECT_CHOISE_FACULTY<< std::endl;
+            std::cout << "Incorrect choise faculty!"<< std::endl;
             return 1;
         }
         enrollee->IncreaseChoiceIndex ();
@@ -96,7 +88,7 @@ int main ()
     std::cout << "Has more choices: " << enrollee->HasMoreChoises () << std::endl;
     if (enrollee->HasMoreChoises ())
     {
-        std::cout << ERROR_INCORRECT_HAS_MORE_CHOICES << std::endl;
+        std::cout << "Incorrect has more choises return!" << std::endl;
         return 1;
     }
 
@@ -105,7 +97,7 @@ int main ()
     std::cout << "Current choise: (faculty): " << enrollee->GetCurrentChoise ().faculty_ << std::endl;
     if (enrollee->GetCurrentChoise ().faculty_ != enrollee->GetChoiseByIndex (0).faculty_)
     {
-        std::cout << ERROR_INCORRECT_CHOISE_AFTER_REFRESH << std::endl;
+        std::cout << "Incorrect choice after refresh!" << std::endl;
         return 1;
     }
 
