@@ -14,15 +14,18 @@ bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const 
         return firstScore > secondScore;
     }
 
-    const std::vector <std::vector <unsigned> > &exams = specialty->GetRequiredExams ();
+    const std::vector <std::pair <bool, std::vector <unsigned> > > &exams = specialty->GetRequiredExams ();
     for (auto iterator = exams.cbegin (); iterator != exams.cend (); iterator++)
     {
-        unsigned char firstEnrolleeResult = GetEnrolleeBestResultFromExams (first,  *iterator);
-        unsigned char secondEnrolleeResult = GetEnrolleeBestResultFromExams (second, *iterator);
-
-        if (firstEnrolleeResult != secondEnrolleeResult)
+        if (iterator->first)
         {
-            return firstEnrolleeResult > secondEnrolleeResult;
+            unsigned char firstEnrolleeResult = GetEnrolleeBestResultFromExams (first,  iterator->second);
+            unsigned char secondEnrolleeResult = GetEnrolleeBestResultFromExams (second, iterator->second);
+
+            if (firstEnrolleeResult != secondEnrolleeResult)
+            {
+                return firstEnrolleeResult > secondEnrolleeResult;
+            }
         }
     }
 
@@ -44,12 +47,12 @@ bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const 
 
 unsigned CalculateEnrolleeScore (const Specialty *specialty, const Enrollee *enrollee)
 {
-    const std::vector <std::vector <unsigned> > &exams = specialty->GetRequiredExams ();
+    const std::vector <std::pair <bool, std::vector <unsigned> > > &exams = specialty->GetRequiredExams ();
     unsigned score = std::round (enrollee->GetCertificateMedianMark () * 10);
 
     for (auto iterator = exams.cbegin (); iterator != exams.cend (); iterator++)
     {
-        score += GetEnrolleeBestResultFromExams (enrollee, *iterator);
+        score += GetEnrolleeBestResultFromExams (enrollee, iterator->second);
     }
     return score;
 }

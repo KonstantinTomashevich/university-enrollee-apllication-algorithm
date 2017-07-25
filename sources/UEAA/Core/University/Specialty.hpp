@@ -13,8 +13,8 @@ public:
     virtual ~Specialty ();
     unsigned GetId () const;
 
-    const std::vector <std::vector <unsigned> > &GetRequiredExams () const;
-    void SetRequiredExams (const std::vector <std::vector <unsigned> > &requiredExams);
+    const std::vector <std::pair <bool, std::vector <unsigned> > > &GetRequiredExams () const;
+    void SetRequiredExams (const std::vector <std::pair <bool, std::vector <unsigned> > > &requiredExams);
 
     const std::vector <unsigned> &GetMarksInCertificatePriority () const;
     void SetMarksInCertificatePriority (const std::vector <unsigned> &marksInCertificatePriority);
@@ -34,11 +34,13 @@ private:
     void GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const;
 
     unsigned id_;
-    /// List of required exams names hashes. Should be sorted by priority! Example.
+    /// List of required exams names hashes. Should be sorted by priority!
+    /// Also if bool in pair is false, exam will be skipped if enrollees have same scores.
+    /// Example.
     /// 0: Math -- highest priority
     /// 1: Physics
     /// 2: [BelarusianLanguage; RussianLanguage] -- if two exams specified, best exam will be selected for enrollees comparision.
-    std::vector <std::vector <unsigned> > requiredExams_;
+    std::vector <std::pair <bool, std::vector <unsigned> > > requiredExams_;
     /// Priority for marks in certificate, used for comparing enrollees, which have same exams results.
     std::vector <unsigned> marksInCertificatePriority_;
 
