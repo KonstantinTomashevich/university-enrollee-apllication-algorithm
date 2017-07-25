@@ -36,7 +36,14 @@ const std::string &Enrollee::GetPassportNumber () const
 
 unsigned char Enrollee::GetExamResult (unsigned examSubjectNameHash) const
 {
-    return examsResults_.at (examSubjectNameHash);
+    try
+    {
+        return examsResults_.at (examSubjectNameHash);
+    }
+    catch (std::out_of_range exception)
+    {
+        return 0;
+    }
 }
 
 void Enrollee::SetExamResult (unsigned examSubjectNameHash, unsigned char examResult)
