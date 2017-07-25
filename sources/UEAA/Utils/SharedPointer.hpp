@@ -10,7 +10,7 @@ public:
 
     }
 
-    explicit SharedPointer (T *trackingObject) :
+    SharedPointer (T *trackingObject) :
         trackingObject_ (trackingObject)
     {
         AddReference ();

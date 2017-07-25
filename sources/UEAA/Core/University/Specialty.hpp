@@ -21,7 +21,7 @@ public:
 
     const std::vector <Enrollee *> &GetEnrolleesInFreeForm () const;
     const std::vector <Enrollee *> &GetEnrolleesInPaidForm () const;
-    void AddEnrollee (Enrollee *enrollee);
+    bool AddEnrollee (Enrollee *enrollee);
     std::vector <Enrollee *> RemoveExcessEnrollees ();
 
     unsigned GetMaxEnrolleesInFreeForm () const;
@@ -32,6 +32,7 @@ public:
 
 private:
     void GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const;
+    void AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *> &queue);
 
     unsigned id_;
     /// List of required exams names hashes. Should be sorted by priority!
