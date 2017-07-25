@@ -49,6 +49,11 @@ public:
         trackingObject_ = 0;
     }
 
+    operator T * () const
+    {
+        return GetTrackingObject ();
+    }
+
 private:
     T *trackingObject_;
 
