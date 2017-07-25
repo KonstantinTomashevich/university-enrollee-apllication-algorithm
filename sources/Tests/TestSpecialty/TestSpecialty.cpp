@@ -106,7 +106,7 @@ int main ()
              anotherEnrolleesIterator != anotherEnrollees.cend (); anotherEnrolleesIterator++)
         {
             const UEAA::Enrollee *anotherEnrollee = *anotherEnrolleesIterator;
-            if (UEAA::CompareEnrollees (specialty, excessEnrollee, anotherEnrollee))
+            if (UEAA::IsFirstEnrolleBetter (specialty, excessEnrollee, anotherEnrollee))
             {
                 std::cout << "Error! Better enrollee isn't applied!" << std::endl << "Better enrollee:" << std::endl;
                 PrintEnrollee (excessEnrollee);

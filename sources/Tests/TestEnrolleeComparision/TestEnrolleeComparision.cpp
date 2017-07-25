@@ -47,7 +47,7 @@ int main ()
     std::cout << "Enrollee 1 total score: " << UEAA::CalculateEnrolleeScore (specialty, enrollee1) << std::endl;
     std::cout << "Enrollee 2 total score: " << UEAA::CalculateEnrolleeScore (specialty, enrollee2) << std::endl;
 
-    bool comparisionResult = UEAA::CompareEnrollees (specialty, enrollee1, enrollee2);
+    bool comparisionResult = UEAA::IsFirstEnrolleBetter (specialty, enrollee1, enrollee2);
     std::cout << "Is first enrollee better than second: " << comparisionResult << std::endl;
     if (comparisionResult)
     {
@@ -60,7 +60,7 @@ int main ()
     enrollee2->SetExamResult (BELARUSIAN_LANGUAGE_EXAM, 73);
     std::cout << "Enrollee 2 total score: " << UEAA::CalculateEnrolleeScore (specialty, enrollee2) << std::endl;
 
-    comparisionResult = UEAA::CompareEnrollees (specialty, enrollee2, enrollee1);
+    comparisionResult = UEAA::IsFirstEnrolleBetter (specialty, enrollee2, enrollee1);
     std::cout << "Is second enrollee better that first: " << comparisionResult << std::endl;
     if (!comparisionResult)
     {
@@ -74,7 +74,7 @@ int main ()
     enrollee2->SetExamResult (BELARUSIAN_LANGUAGE_EXAM, 67);
     std::cout << "Enrollee 2 total score: " << UEAA::CalculateEnrolleeScore (specialty, enrollee2) << std::endl;
 
-    comparisionResult = UEAA::CompareEnrollees (specialty, enrollee1, enrollee2);
+    comparisionResult = UEAA::IsFirstEnrolleBetter (specialty, enrollee1, enrollee2);
     std::cout << "Is first enrollee better than second: " << comparisionResult << std::endl;
     if (comparisionResult)
     {

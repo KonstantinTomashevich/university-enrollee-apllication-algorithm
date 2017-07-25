@@ -3,7 +3,7 @@
 
 namespace UEAA
 {
-bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
+bool IsFirstEnrolleBetter (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
 {
     if (!CanEnrolleeChoiseSpecialty (specialty, first))
     {

@@ -133,7 +133,7 @@ void Specialty::AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *>
     {
         for (auto iterator = queue.begin (); iterator != queue.end (); iterator++)
         {
-            if (CompareEnrollees (this, enrollee, *iterator))
+            if (IsFirstEnrolleBetter (this, enrollee, *iterator))
             {
                 queue.insert (iterator, enrollee);
                 return;
