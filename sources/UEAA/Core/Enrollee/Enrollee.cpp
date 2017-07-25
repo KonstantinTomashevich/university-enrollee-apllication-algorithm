@@ -40,7 +40,7 @@ unsigned char Enrollee::GetExamResult (unsigned examSubjectNameHash) const
     {
         return examsResults_.at (examSubjectNameHash);
     }
-    catch (std::out_of_range exception)
+    catch (std::out_of_range &exception)
     {
         return 0;
     }

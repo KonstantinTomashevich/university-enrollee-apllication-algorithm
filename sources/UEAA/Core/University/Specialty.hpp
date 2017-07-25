@@ -11,7 +11,7 @@ class Enrollee;
 class Specialty : public ReferenceCounted
 {
 public:
-    Specialty (unsigned id, std::string name);
+    Specialty (unsigned id, const std::string &name);
     virtual ~Specialty ();
 
     unsigned GetId () const;

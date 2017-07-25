@@ -4,7 +4,7 @@
 
 namespace UEAA
 {
-Specialty::Specialty (unsigned id, std::string name) :
+Specialty::Specialty (unsigned id, const std::string &name) :
     ReferenceCounted (),
     id_ (id),
     name_ (name),
