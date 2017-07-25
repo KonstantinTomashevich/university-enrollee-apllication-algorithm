@@ -5,6 +5,15 @@ namespace UEAA
 {
 bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
 {
+    if (!CanEnrolleeChoiseSpecialty (specialty, first))
+    {
+        return false;
+    }
+    else if (!CanEnrolleeChoiseSpecialty (specialty, second))
+    {
+        return true;
+    }
+
     // TODO: What about repuclican olimpiad winners?
     unsigned firstScore = CalculateEnrolleeScore (specialty, first);
     unsigned secondScore = CalculateEnrolleeScore (specialty, second);
@@ -43,6 +52,19 @@ bool CompareEnrollees (const Specialty *specialty, const Enrollee *first, const 
 
     // TODO: Not all BSU checks implemented.
     return false;
+}
+
+bool CanEnrolleeChoiseSpecialty (const Specialty *specialty, const Enrollee *enrollee)
+{
+    const std::vector <std::pair <bool, std::vector <unsigned> > > &exams = specialty->GetRequiredExams ();
+    for (auto iterator = exams.cbegin (); iterator != exams.cend (); iterator++)
+    {
+        if (GetEnrolleeBestResultFromExams (enrollee, iterator->second) == 0)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 unsigned CalculateEnrolleeScore (const Specialty *specialty, const Enrollee *enrollee)
