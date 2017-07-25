@@ -15,7 +15,7 @@ const unsigned RUSSIAN_LANGUAGE_EXAM = UEAA::CStringToHash ("RussianLanguage");
 void InitSpecialty (UEAA::Specialty *specialty);
 int main ()
 {
-    UEAA::SharedPointer <UEAA::Specialty> specialty (new UEAA::Specialty (1));
+    UEAA::SharedPointer <UEAA::Specialty> specialty (new UEAA::Specialty (1, "XXX"));
     InitSpecialty (specialty);
 
     UEAA::SharedPointer <UEAA::Enrollee> enrollee1 (new UEAA::Enrollee ("XX", "0000000"));

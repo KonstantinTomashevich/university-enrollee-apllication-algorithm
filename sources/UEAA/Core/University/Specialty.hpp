@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <string>
+
 #include <UEAA/Core/Enrollee/StudyForm.hpp>
 #include <UEAA/Utils/ReferenceCounted.hpp>
 
@@ -9,9 +11,11 @@ class Enrollee;
 class Specialty : public ReferenceCounted
 {
 public:
-    explicit Specialty (unsigned id);
+    Specialty (unsigned id, std::string name);
     virtual ~Specialty ();
+
     unsigned GetId () const;
+    const std::string &GetName () const;
 
     const std::vector <std::pair <bool, std::vector <unsigned> > > &GetRequiredExams () const;
     void SetRequiredExams (const std::vector <std::pair <bool, std::vector <unsigned> > > &requiredExams);
@@ -35,6 +39,7 @@ private:
     void AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *> &queue);
 
     unsigned id_;
+    std::string name_;
     /// List of required exams names hashes. Should be sorted by priority!
     /// Also if bool in pair is false, exam will be skipped if enrollees have same scores.
     /// Example.
