@@ -1,27 +1,35 @@
 #include "Enrollee.hpp"
 #include <algorithm>
 #include <math.h>
+#include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
 
 namespace UEAA
 {
 Enrollee::Enrollee (const std::string &passportSeries, const std::string &passportNumber) :
     ReferenceCounted (),
+    id_ (),
     passportSeries_ (passportSeries),
     passportNumber_ (passportNumber),
 
     examsResults_ (),
     currentChoiseIndex_ (0),
     choises_ (0),
+    lastUpdateResult_ (),
 
     certificateMarks_ (),
     certificateMedianMark_ ()
 {
-
+    id_ = CalculateEnrolleeHash (this);
 }
 
 Enrollee::~Enrollee ()
 {
 
+}
+
+unsigned Enrollee::GetId () const
+{
+    return id_;
 }
 
 const std::string &Enrollee::GetPassportSeries () const
@@ -118,6 +126,16 @@ void Enrollee::RemoveChoiseByIndex (unsigned index)
 void Enrollee::SwapChoisesAtIndexes (unsigned firstIndex, unsigned secondIndex)
 {
     std::iter_swap (choises_.begin () + firstIndex, choises_.begin () + secondIndex);
+}
+
+EnrolleeChoise Enrollee::GetLastUpdateResult () const
+{
+    return lastUpdateResult_;
+}
+
+void Enrollee::SetLastUpdateResult (const EnrolleeChoise &lastUpdateResult)
+{
+    lastUpdateResult_ = lastUpdateResult;
 }
 
 unsigned char Enrollee::GetCertificateMark (unsigned subjectNameHash) const

@@ -15,6 +15,7 @@ public:
     Enrollee (const std::string &passportSeries, const std::string &passportNumber);
     virtual ~Enrollee ();
 
+    unsigned GetId () const;
     const std::string &GetPassportSeries () const;
     const std::string &GetPassportNumber () const;
 
@@ -36,6 +37,9 @@ public:
     void RemoveChoiseByIndex (unsigned index);
     void SwapChoisesAtIndexes (unsigned firstIndex, unsigned secondIndex);
 
+    EnrolleeChoise GetLastUpdateResult () const;
+    void SetLastUpdateResult (const EnrolleeChoise &lastUpdateResult);
+
     unsigned char GetCertificateMark (unsigned subjectNameHash) const;
     void SetCertificateMark (unsigned subjectNameHash, unsigned char mark);
 
@@ -43,6 +47,7 @@ public:
     void CalculateCertificateMedianMark ();
 
 private:
+    unsigned id_;
     std::string passportSeries_;
     std::string passportNumber_;
 
@@ -50,6 +55,7 @@ private:
     std::map <unsigned, unsigned char> examsResults_;
     unsigned currentChoiseIndex_;
     std::vector <EnrolleeChoise> choises_;
+    EnrolleeChoise lastUpdateResult_;
 
     /// School education certificate marks. Key is school subject name hash. Marks will be in range (0, 10].
     std::map <unsigned, unsigned char> certificateMarks_;
