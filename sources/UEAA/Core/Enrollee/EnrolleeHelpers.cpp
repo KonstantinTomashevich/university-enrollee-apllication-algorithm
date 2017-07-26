@@ -1,5 +1,6 @@
 #include "EnrolleeHelpers.hpp"
 #include <math.h>
+#include <UEAA/Utils/CStringToHash.hpp>
 
 namespace UEAA
 {
@@ -91,5 +92,15 @@ unsigned GetEnrolleeBestResultFromExams (const Enrollee *enrollee, const std::ve
         }
     }
     return best;
+}
+
+unsigned CalculateEnrolleeHash (const Enrollee *enrollee)
+{
+    return CalculateEnrolleeHash (enrollee->GetPassportSeries (), enrollee->GetPassportNumber ());
+}
+
+unsigned CalculateEnrolleeHash (const std::string &passportSeries, const std::string &pasportNumber)
+{
+    return CStringToHash ((passportSeries + passportSeries).c_str ());
 }
 }
