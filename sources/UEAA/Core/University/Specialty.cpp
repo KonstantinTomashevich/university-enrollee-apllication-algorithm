@@ -94,6 +94,12 @@ std::vector <Enrollee *> Specialty::RemoveExcessEnrollees ()
     return excessEnrollees;
 }
 
+void Specialty::ClearEnrollees ()
+{
+    enrolleesInFreeForm_.clear ();
+    enrolleesInPaidForm_.clear ();
+}
+
 unsigned Specialty::GetMaxEnrolleesInFreeForm () const
 {
     return maxEnrolleesInFreeForm_;

@@ -27,6 +27,7 @@ public:
     const std::vector <Enrollee *> &GetEnrolleesInPaidForm () const;
     bool AddEnrollee (Enrollee *enrollee);
     std::vector <Enrollee *> RemoveExcessEnrollees ();
+    void ClearEnrollees ();
 
     unsigned GetMaxEnrolleesInFreeForm () const;
     void SetMaxEnrolleesInFreeForm (unsigned maxEnrolleesInFreeForm);
