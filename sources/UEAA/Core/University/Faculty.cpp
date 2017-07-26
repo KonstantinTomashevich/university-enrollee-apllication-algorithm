@@ -62,4 +62,28 @@ bool Faculty::RemoveSpecialty (unsigned id)
     specialties_.erase (iterator);
     return true;
 }
+
+void Faculty::RemoveAllSpecialties ()
+{
+    specialties_.clear ();
+}
+
+void Faculty::ClearAllSpecialtiesEnrollees ()
+{
+    for (auto iterator = specialties_.begin (); iterator != specialties_.end (); iterator++)
+    {
+        iterator->second->ClearEnrollees ();
+    }
+}
+
+std::vector <Enrollee *> Faculty::GetExcessEnrollees()
+{
+    std::vector <Enrollee *> excessEnrolees;
+    for (auto iterator = specialties_.begin (); iterator != specialties_.end (); iterator++)
+    {
+        std::vector <Enrollee *> thisSpecialtyExcess = iterator->second->RemoveExcessEnrollees ();
+        excessEnrolees.insert (excessEnrolees.end (), thisSpecialtyExcess.begin (), thisSpecialtyExcess.end ());
+    }
+    return excessEnrolees;
+}
 }

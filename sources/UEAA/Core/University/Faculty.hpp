@@ -21,6 +21,10 @@ public:
     Specialty *GetSpecialty (unsigned id) const;
     bool RemoveSpecialty (unsigned id);
 
+    void RemoveAllSpecialties ();
+    void ClearAllSpecialtiesEnrollees ();
+    std::vector <Enrollee *> GetExcessEnrollees ();
+
 private:
     unsigned id_;
     std::string name_;
