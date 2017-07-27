@@ -99,8 +99,8 @@ unsigned CalculateEnrolleeHash (const Enrollee *enrollee)
     return CalculateEnrolleeHash (enrollee->GetPassportSeries (), enrollee->GetPassportNumber ());
 }
 
-unsigned CalculateEnrolleeHash (const std::string &passportSeries, const std::string &pasportNumber)
+unsigned CalculateEnrolleeHash (const std::string &passportSeries, const std::string &passportNumber)
 {
-    return CStringToHash ((passportSeries + passportSeries).c_str ());
+    return CStringToHash ((passportSeries + passportNumber).c_str ());
 }
 }

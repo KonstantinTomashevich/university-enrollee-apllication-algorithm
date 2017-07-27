@@ -7,7 +7,7 @@ namespace UEAA
 {
 Enrollee::Enrollee (const std::string &passportSeries, const std::string &passportNumber) :
     ReferenceCounted (),
-    id_ (),
+    id_ (0),
     passportSeries_ (passportSeries),
     passportNumber_ (passportNumber),
 

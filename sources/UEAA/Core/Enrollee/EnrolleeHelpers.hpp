@@ -9,5 +9,5 @@ bool CanEnrolleeChoiseSpecialty (const Specialty *specialty, const Enrollee *enr
 unsigned CalculateEnrolleeScore (const Specialty *specialty, const Enrollee *enrollee);
 unsigned GetEnrolleeBestResultFromExams (const Enrollee *enrollee, const std::vector <unsigned> &exams);
 unsigned CalculateEnrolleeHash (const Enrollee *enrollee);
-unsigned CalculateEnrolleeHash (const std::string &passportSeries, const std::string &pasportNumber);
+unsigned CalculateEnrolleeHash (const std::string &passportSeries, const std::string &passportNumber);
 }
