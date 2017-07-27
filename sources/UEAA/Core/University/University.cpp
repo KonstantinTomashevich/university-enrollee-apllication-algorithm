@@ -2,7 +2,6 @@
 
 namespace UEAA
 {
-
 University::University (const std::string &name) :
     ReferenceCounted (),
     name_ (name),
@@ -19,9 +18,14 @@ University::~University ()
 
 bool University::AddFaculty (Faculty *faculty)
 {
+    if (!faculty)
+    {
+        return false;
+    }
+
     if (faculties_.find (faculty->GetId ()) == faculties_.end ())
     {
-        faculties_ [faculty->GetId ()] = faculty;
+        faculties_.emplace (faculty->GetId (), faculty);
         return true;
     }
     else
@@ -61,9 +65,14 @@ void University::RemoveAllFaculties ()
 
 bool University::AddEnrollee (Enrollee *enrollee)
 {
+    if (!enrollee)
+    {
+        return false;
+    }
+
     if (enrollees_.find (enrollee->GetId ()) == enrollees_.end ())
     {
-        enrollees_ [enrollee->GetId ()] = enrollee;
+        enrollees_.emplace (enrollee->GetId (), enrollee);
         return true;
     }
     else
@@ -110,7 +119,9 @@ void University::ClearEnrooleesApplicationInfo ()
 
     for (auto iterator = enrollees_.begin (); iterator != enrollees_.end (); iterator++)
     {
-        iterator->second->SetLastUpdateResult (EMPTY_ENROLLEE_CHOISE);
+        Enrollee *enrollee = iterator->second;
+        enrollee->SetLastUpdateResult (EMPTY_ENROLLEE_CHOISE);
+        enrollee->RefreshChoiseIndex ();
     }
 }
 
@@ -177,8 +188,13 @@ void University::ReaddExcessToProcessingList (std::vector <Enrollee *> &processi
     for (auto iterator = faculties_.begin (); iterator != faculties_.end (); iterator++)
     {
         Faculty *faculty = iterator->second;
-        std::vector <Enrollee *> excess = faculty->GetExcessEnrollees ();
-        processing.insert (processing.end (), excess.begin (), excess.end ());
+        std::vector <Enrollee *> excessInFaculty = faculty->GetExcessEnrollees ();
+        for (auto iterator = excessInFaculty.begin (); iterator != excessInFaculty.end (); iterator++)
+        {
+            Enrollee *enrollee = *iterator;
+            enrollee->IncreaseChoiceIndex ();
+            processing.push_back (enrollee);
+        }
     }
 }
 }
