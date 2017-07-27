@@ -36,7 +36,8 @@ public:
     void SetMaxEnrolleesInPaidForm (unsigned maxEnrolleesInPaidForm);
 
 private:
-    void GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const;
+    /// Returns false if there is no excess enrollees.
+    bool GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const;
     void AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *> &queue);
 
     unsigned id_;

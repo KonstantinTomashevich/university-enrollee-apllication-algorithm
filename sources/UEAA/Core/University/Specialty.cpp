@@ -86,11 +86,20 @@ bool Specialty::AddEnrollee (Enrollee *enrollee)
 std::vector <Enrollee *> Specialty::RemoveExcessEnrollees ()
 {
     std::vector <Enrollee *> excessEnrollees;
-    GetExcessEnrollees (excessEnrollees, STUDY_FORM_FREE);
-    GetExcessEnrollees (excessEnrollees, STUDY_FORM_PAID);
+    bool freeChanged = GetExcessEnrollees (excessEnrollees, STUDY_FORM_FREE);
+    bool paidChanged = GetExcessEnrollees (excessEnrollees, STUDY_FORM_PAID);
 
-    enrolleesInFreeForm_.erase (enrolleesInFreeForm_.begin () + maxEnrolleesInFreeForm_, enrolleesInFreeForm_.end ());
-    enrolleesInPaidForm_.erase (enrolleesInPaidForm_.begin () + maxEnrolleesInPaidForm_, enrolleesInPaidForm_.end ());
+    if (freeChanged)
+    {
+        enrolleesInFreeForm_.erase (enrolleesInFreeForm_.begin () + maxEnrolleesInFreeForm_, enrolleesInFreeForm_.end ());
+        enrolleesInFreeForm_.shrink_to_fit ();
+    }
+
+    if (paidChanged)
+    {
+        enrolleesInPaidForm_.erase (enrolleesInPaidForm_.begin () + maxEnrolleesInPaidForm_, enrolleesInPaidForm_.end ());
+        enrolleesInPaidForm_.shrink_to_fit ();
+    }
     return excessEnrollees;
 }
 
@@ -120,10 +129,11 @@ void Specialty::SetMaxEnrolleesInPaidForm (unsigned maxEnrolleesInPaidForm)
     maxEnrolleesInPaidForm_ = maxEnrolleesInPaidForm;
 }
 
-void Specialty::GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const
+bool Specialty::GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const
 {
-    std::vector <Enrollee *> enrollees = (studyForm == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_;
+    const std::vector <Enrollee *> &enrollees = (studyForm == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_;
     unsigned maxEnrollees = (studyForm == STUDY_FORM_FREE) ? maxEnrolleesInFreeForm_ : maxEnrolleesInPaidForm_;
+    bool changed = false;
 
     if (enrollees.size () > maxEnrollees)
     {
@@ -131,8 +141,10 @@ void Specialty::GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm 
              iterator != enrollees.cend (); iterator++)
         {
             output.push_back (*iterator);
+            changed = true;
         }
     }
+    return changed;
 }
 
 void Specialty::AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *> &queue)
@@ -146,7 +158,8 @@ void Specialty::AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *>
     {
         for (auto iterator = queue.begin (); iterator != queue.end (); iterator++)
         {
-            if (IsFirstEnrolleBetter (this, enrollee, *iterator))
+            Enrollee *anotherEnrollee = *iterator;
+            if (IsFirstEnrolleBetter (this, enrollee, anotherEnrollee))
             {
                 queue.insert (iterator, enrollee);
                 return;
