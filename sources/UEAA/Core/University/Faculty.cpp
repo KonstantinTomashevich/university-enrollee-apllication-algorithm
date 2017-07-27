@@ -28,9 +28,14 @@ const std::string &Faculty::GetName () const
 
 bool Faculty::AddSpecialty (Specialty *specialty)
 {
+    if (!specialty)
+    {
+        return false;
+    }
+
     if (specialties_.find (specialty->GetId ()) == specialties_.end ())
     {
-        specialties_ [specialty->GetId ()] = specialty;
+        specialties_.emplace (specialty->GetId (), specialty);
         return true;
     }
     else
@@ -76,12 +81,13 @@ void Faculty::ClearAllSpecialtiesEnrollees ()
     }
 }
 
-std::vector <Enrollee *> Faculty::GetExcessEnrollees()
+std::vector <Enrollee *> Faculty::GetExcessEnrollees ()
 {
     std::vector <Enrollee *> excessEnrolees;
     for (auto iterator = specialties_.begin (); iterator != specialties_.end (); iterator++)
     {
-        std::vector <Enrollee *> thisSpecialtyExcess = iterator->second->RemoveExcessEnrollees ();
+        Specialty *specialty = iterator->second;
+        std::vector <Enrollee *> thisSpecialtyExcess = specialty->RemoveExcessEnrollees ();
         excessEnrolees.insert (excessEnrolees.end (), thisSpecialtyExcess.begin (), thisSpecialtyExcess.end ());
     }
     return excessEnrolees;
