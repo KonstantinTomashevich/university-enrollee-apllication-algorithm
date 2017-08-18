@@ -1,21 +1,21 @@
 #include "EnrolleeHelpers.hpp"
-#include <math.h>
+#include <cmath>
 #include <UEAA/Utils/CStringToHash.hpp>
 
 namespace UEAA
 {
-bool IsFirstEnrolleBetter (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
+bool IsFirstEnrolleeBetter (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
 {
-    if (!CanEnrolleeChoiseSpecialty (specialty, first))
+    if (!CanEnrolleeChoiceSpecialty (specialty, first))
     {
         return false;
     }
-    else if (!CanEnrolleeChoiseSpecialty (specialty, second))
+    else if (!CanEnrolleeChoiceSpecialty (specialty, second))
     {
         return true;
     }
 
-    // TODO: What about repuclican olimpiad winners?
+    // TODO: What about olimpiad winners?
     unsigned firstScore = CalculateEnrolleeScore (specialty, first);
     unsigned secondScore = CalculateEnrolleeScore (specialty, second);
 
@@ -55,7 +55,7 @@ bool IsFirstEnrolleBetter (const Specialty *specialty, const Enrollee *first, co
     return false;
 }
 
-bool CanEnrolleeChoiseSpecialty (const Specialty *specialty, const Enrollee *enrollee)
+bool CanEnrolleeChoiceSpecialty (const Specialty *specialty, const Enrollee *enrollee)
 {
     const std::vector <std::pair <bool, std::vector <unsigned> > > &exams = specialty->GetRequiredExams ();
     for (auto iterator = exams.cbegin (); iterator != exams.cend (); iterator++)

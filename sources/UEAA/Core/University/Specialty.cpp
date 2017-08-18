@@ -68,18 +68,18 @@ const std::vector <Enrollee *> &Specialty::GetEnrolleesInPaidForm () const
 
 bool Specialty::AddEnrollee (Enrollee *enrollee)
 {
-    EnrolleeChoise choise = enrollee->GetCurrentChoise ();
-    if (choise.specialty_ != id_)
+    EnrolleeChoice choice = enrollee->GetCurrentChoice ();
+    if (choice.specialty_ != id_)
     {
         return false;
     }
 
-    if (!CanEnrolleeChoiseSpecialty (this, enrollee))
+    if (!CanEnrolleeChoiceSpecialty (this, enrollee))
     {
         return false;
     }
 
-    AddEnrolleeToOrder (enrollee, (choise.studyForm_ == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_);
+    AddEnrolleeToOrder (enrollee, (choice.studyForm_ == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_);
     return true;
 }
 
@@ -159,7 +159,7 @@ void Specialty::AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *>
         for (auto iterator = queue.begin (); iterator != queue.end (); iterator++)
         {
             Enrollee *anotherEnrollee = *iterator;
-            if (IsFirstEnrolleBetter (this, enrollee, anotherEnrollee))
+            if (IsFirstEnrolleeBetter (this, enrollee, anotherEnrollee))
             {
                 queue.insert (iterator, enrollee);
                 return;

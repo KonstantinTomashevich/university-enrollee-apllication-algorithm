@@ -1,6 +1,6 @@
 #include "Enrollee.hpp"
 #include <algorithm>
-#include <math.h>
+#include <cmath>
 #include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
 
 namespace UEAA
@@ -12,8 +12,8 @@ Enrollee::Enrollee (const std::string &passportSeries, const std::string &passpo
     passportNumber_ (passportNumber),
 
     examsResults_ (),
-    currentChoiseIndex_ (0),
-    choises_ (0),
+    currentChoiceIndex_ (0),
+    choices_ (0),
     lastUpdateResult_ (),
 
     certificateMarks_ (),
@@ -59,81 +59,81 @@ void Enrollee::SetExamResult (unsigned examSubjectNameHash, unsigned char examRe
     examsResults_ [examSubjectNameHash] = examResult;
 }
 
-bool Enrollee::HasMoreChoises () const
+bool Enrollee::HasMoreChoices () const
 {
-    return currentChoiseIndex_ < choises_.size ();
+    return currentChoiceIndex_ < choices_.size ();
 }
 
-unsigned Enrollee::GetCurrentChoiseIndex () const
+unsigned Enrollee::GetCurrentChoiceIndex () const
 {
-    return currentChoiseIndex_;
+    return currentChoiceIndex_;
 }
 
 void Enrollee::IncreaseChoiceIndex ()
 {
-    currentChoiseIndex_++;
+    currentChoiceIndex_++;
 }
 
-void Enrollee::RefreshChoiseIndex ()
+void Enrollee::RefreshChoiceIndex ()
 {
-    currentChoiseIndex_ = 0;
+    currentChoiceIndex_ = 0;
 }
 
-unsigned Enrollee::GetChoisesCount () const
+unsigned Enrollee::GetChoicesCount () const
 {
-    return choises_.size ();
+    return choices_.size ();
 }
 
-const std::vector<EnrolleeChoise> &Enrollee::GetChoices () const
+const std::vector<EnrolleeChoice> &Enrollee::GetChoices () const
 {
-    return choises_;
+    return choices_;
 }
 
-EnrolleeChoise Enrollee::GetCurrentChoise () const
+EnrolleeChoice Enrollee::GetCurrentChoice () const
 {
-    if (HasMoreChoises ())
+    if (HasMoreChoices ())
     {
-        return choises_ [currentChoiseIndex_];
+        return choices_.at (currentChoiceIndex_);
     }
     else
     {
-        return EMPTY_ENROLLEE_CHOISE;
+        return EMPTY_ENROLLEE_CHOICE;
     }
 }
 
-EnrolleeChoise Enrollee::GetChoiseByIndex (unsigned index) const
+EnrolleeChoice Enrollee::GetChoiceByIndex (unsigned index) const
 {
-    if (index < choises_.size ())
+    if (index < choices_.size ())
     {
-        return choises_ [index];
+        return choices_.at (index);
     }
     else
     {
-        return EMPTY_ENROLLEE_CHOISE;
+        return EMPTY_ENROLLEE_CHOICE;
     }
 }
 
-void Enrollee::AddChoiseToBack (const EnrolleeChoise &choise)
+void Enrollee::AddChoiceToBack (const EnrolleeChoice &choice)
 {
-    choises_.push_back (choise);
+    choices_.push_back (choice);
 }
 
-void Enrollee::RemoveChoiseByIndex (unsigned index)
+void Enrollee::RemoveChoiceByIndex (unsigned index)
 {
-    choises_.erase (choises_.begin () + index);
+    choices_.erase (choices_.begin () + index);
 }
 
-void Enrollee::SwapChoisesAtIndexes (unsigned firstIndex, unsigned secondIndex)
+void Enrollee::SwapChoicesAtIndexes (unsigned firstIndex, unsigned secondIndex)
 {
-    std::iter_swap (choises_.begin () + firstIndex, choises_.begin () + secondIndex);
+    std::iter_swap (choices_.begin () + firstIndex, choices_.begin () + secondIndex);
 }
 
-EnrolleeChoise Enrollee::GetLastUpdateResult () const
+EnrolleeChoice Enrollee::GetLastUpdateResult () const
 {
     return lastUpdateResult_;
 }
 
-void Enrollee::SetLastUpdateResult (const EnrolleeChoise &lastUpdateResult)
+void Enrollee::SetLastUpdateResult (const EnrolleeChoice &lastUpdateResult)
 {
     lastUpdateResult_ = lastUpdateResult;
 }

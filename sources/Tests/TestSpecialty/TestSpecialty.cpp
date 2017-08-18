@@ -5,7 +5,7 @@
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Utils/CStringToHash.hpp>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <time.h>
 
 const unsigned MATH_EXAM = UEAA::CStringToHash ("Math");
@@ -34,7 +34,7 @@ int main ()
     std::cout << "GENERATED ENROLLEES FOR FREE FORM:" << std::endl;
     for (unsigned index = 0; index < GENERATE_FOR_FREE_FORM; index++)
     {
-        UEAA::Enrollee *enrollee = GenerateEnrollee (UEAA::STUDY_FORM_FREE);
+        UEAA::SharedPointer <UEAA::Enrollee> enrollee = GenerateEnrollee (UEAA::STUDY_FORM_FREE);
         PrintEnrollee (enrollee);
         enrolleesBuffer.push_back (enrollee);
         if (!specialty->AddEnrollee (enrollee))
@@ -47,7 +47,7 @@ int main ()
     std::cout << "GENERATED ENROLLEES FOR PAID FORM:" << std::endl;
     for (unsigned index = 0; index < GENERATE_FOR_PAID_FORM; index++)
     {
-        UEAA::Enrollee *enrollee = GenerateEnrollee (UEAA::STUDY_FORM_PAID);
+        UEAA::SharedPointer <UEAA::Enrollee> enrollee = GenerateEnrollee (UEAA::STUDY_FORM_PAID);
         PrintEnrollee (enrollee);
         enrolleesBuffer.push_back (enrollee);
         if (!specialty->AddEnrollee (enrollee))
@@ -58,18 +58,18 @@ int main ()
     }
 
     std::cout << std::endl;
-    std::cout << "Choised free form: " << specialty->GetEnrolleesInFreeForm ().size () << std::endl;
-    std::cout << "Choised paid form: " << specialty->GetEnrolleesInPaidForm ().size () << std::endl;
+    std::cout << "Choose free form: " << specialty->GetEnrolleesInFreeForm ().size () << std::endl;
+    std::cout << "Choose paid form: " << specialty->GetEnrolleesInPaidForm ().size () << std::endl;
 
     if (specialty->GetEnrolleesInFreeForm ().size () != GENERATE_FOR_FREE_FORM)
     {
-        std::cout << "Incorrect enrolles count in free form (before removing)!" << std::endl;
+        std::cout << "Incorrect enrollees count in free form (before removing)!" << std::endl;
         return 1;
     }
 
     if (specialty->GetEnrolleesInPaidForm ().size () != GENERATE_FOR_PAID_FORM)
     {
-        std::cout << "Incorrect enrolles count in paid form (before removing)!" << std::endl;
+        std::cout << "Incorrect enrollees count in paid form (before removing)!" << std::endl;
         return 1;
     }
 
@@ -80,13 +80,13 @@ int main ()
 
     if (specialty->GetEnrolleesInFreeForm ().size () != MAX_IN_FREE_FORM)
     {
-        std::cout << "Incorrect enrolles count in free form (after removing)!" << std::endl;
+        std::cout << "Incorrect enrollees count in free form (after removing)!" << std::endl;
         return 1;
     }
 
     if (specialty->GetEnrolleesInPaidForm ().size () != MAX_IN_PAID_FORM)
     {
-        std::cout << "Incorrect enrolles count in paid form (after removing)!" << std::endl;
+        std::cout << "Incorrect enrollees count in paid form (after removing)!" << std::endl;
         return 1;
     }
 
@@ -100,13 +100,13 @@ int main ()
     {
         const UEAA::Enrollee *excessEnrollee = *iterator;
         const std::vector <UEAA::Enrollee *> anotherEnrollees =
-                (excessEnrollee->GetCurrentChoise ().studyForm_ == UEAA::STUDY_FORM_FREE) ?
+                (excessEnrollee->GetCurrentChoice ().studyForm_ == UEAA::STUDY_FORM_FREE) ?
                     specialty->GetEnrolleesInFreeForm () : specialty->GetEnrolleesInPaidForm ();
         for (auto anotherEnrolleesIterator = anotherEnrollees.cbegin ();
              anotherEnrolleesIterator != anotherEnrollees.cend (); anotherEnrolleesIterator++)
         {
             const UEAA::Enrollee *anotherEnrollee = *anotherEnrolleesIterator;
-            if (UEAA::IsFirstEnrolleBetter (specialty, excessEnrollee, anotherEnrollee))
+            if (UEAA::IsFirstEnrolleeBetter (specialty, excessEnrollee, anotherEnrollee))
             {
                 std::cout << "Error! Better enrollee isn't applied!" << std::endl << "Better enrollee:" << std::endl;
                 PrintEnrollee (excessEnrollee);
@@ -168,7 +168,7 @@ UEAA::Enrollee *GenerateEnrollee (UEAA::StudyForm studyForm)
     enrollee->SetExamResult (PHYSICS_EXAM, 30 + rand () % 71);
     enrollee->SetExamResult (LANGUAGE_EXAM, 30 + rand () % 71);
 
-    enrollee->AddChoiseToBack (UEAA::EnrolleeChoise (0, SPECIALTY_ID, studyForm));
+    enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (0, SPECIALTY_ID, studyForm));
     return enrollee;
 }
 

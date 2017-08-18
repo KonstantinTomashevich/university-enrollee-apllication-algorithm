@@ -1,6 +1,6 @@
 #include "TestUniversity.hpp"
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <time.h>
 
 int main ()
@@ -54,14 +54,14 @@ int main ()
     for (auto iterator = excessEnrollees.begin (); iterator != excessEnrollees.end (); iterator++)
     {
         UEAA::Enrollee *enrollee = *iterator;
-        enrollee->RefreshChoiseIndex ();
-        while (enrollee->HasMoreChoises ())
+        enrollee->RefreshChoiceIndex ();
+        while (enrollee->HasMoreChoices ())
         {
-            UEAA::EnrolleeChoise choise = enrollee->GetCurrentChoise ();
-            UEAA::Faculty *faculty = university->GetFaculty (choise.faculty_);
+            UEAA::EnrolleeChoice choice = enrollee->GetCurrentChoice ();
+            UEAA::Faculty *faculty = university->GetFaculty (choice.faculty_);
             if (faculty)
             {
-                UEAA::Specialty *specialty = faculty->GetSpecialty (choise.specialty_);
+                UEAA::Specialty *specialty = faculty->GetSpecialty (choice.specialty_);
                 if (specialty)
                 {
                     const std::vector <UEAA::Enrollee *> anotherEnrollees = specialty->GetEnrolleesInFreeForm ();
@@ -69,7 +69,7 @@ int main ()
                          anotherEnrolleeIterator != anotherEnrollees.cend (); anotherEnrolleeIterator++)
                     {
                         const UEAA::Enrollee *anotherEnrollee = *anotherEnrolleeIterator;
-                        if (UEAA::IsFirstEnrolleBetter (specialty, enrollee, anotherEnrollee))
+                        if (UEAA::IsFirstEnrolleeBetter (specialty, enrollee, anotherEnrollee))
                         {
                             std::cout << "Error! Better enrollee isn't applied!" << std::endl <<
                                          "Faculty: " << faculty->GetName () << std::endl <<
@@ -113,17 +113,17 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts)
 
     if (addTech)
     {
-        enrollee->AddChoiseToBack (UEAA::EnrolleeChoise (
+        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
                                        TECH_FACULTY, TechFaculty::APPLIED_COMPUTER_SCIENCE, UEAA::STUDY_FORM_FREE));
-        enrollee->AddChoiseToBack (UEAA::EnrolleeChoise (
+        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
                                        TECH_FACULTY, TechFaculty::COMPUTER_SCIENCE, UEAA::STUDY_FORM_FREE));
     }
 
     if (addArts)
     {
-        enrollee->AddChoiseToBack (UEAA::EnrolleeChoise (
+        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
                                        ARTS_FACULTY, ArtsFaculty::PAINTING, UEAA::STUDY_FORM_FREE));
-        enrollee->AddChoiseToBack (UEAA::EnrolleeChoise (
+        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
                                        ARTS_FACULTY, ArtsFaculty::THEATRE, UEAA::STUDY_FORM_FREE));
     }
     enrolleesGeneratorCounter_++;

@@ -25,13 +25,13 @@ public:
     bool RemoveEnrollee (unsigned id);
     void RemoveAllEnrollees ();
 
-    void ClearEnrooleesApplicationInfo ();
-    /// Returns array of unapplicateed enrolees.
+    void ClearEnroleesApplicationInfo ();
+    /// Returns array of excess enrolees.
     std::vector <Enrollee *> ProcessEnrolleesApplication ();
 
 private:
     void ProcessEnroleesChoices (std::vector <Enrollee *> &processing, std::vector <Enrollee *> &excess) const;
-    void ReaddExcessToProcessingList (std::vector <Enrollee *> &processing) const;
+    void AddExcessToProcessingList (std::vector <Enrollee *> &processing) const;
 
     std::string name_;
     std::map <unsigned, SharedPointer <Faculty> > faculties_;

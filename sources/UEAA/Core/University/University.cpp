@@ -110,7 +110,7 @@ void University::RemoveAllEnrollees ()
     enrollees_.clear ();
 }
 
-void University::ClearEnrooleesApplicationInfo ()
+void University::ClearEnroleesApplicationInfo ()
 {
     for (auto iterator = faculties_.begin (); iterator != faculties_.end (); iterator++)
     {
@@ -120,27 +120,27 @@ void University::ClearEnrooleesApplicationInfo ()
     for (auto iterator = enrollees_.begin (); iterator != enrollees_.end (); iterator++)
     {
         Enrollee *enrollee = iterator->second;
-        enrollee->SetLastUpdateResult (EMPTY_ENROLLEE_CHOISE);
-        enrollee->RefreshChoiseIndex ();
+        enrollee->SetLastUpdateResult (EMPTY_ENROLLEE_CHOICE);
+        enrollee->RefreshChoiceIndex ();
     }
 }
 
 std::vector <Enrollee *> University::ProcessEnrolleesApplication ()
 {
-    ClearEnrooleesApplicationInfo ();
+    ClearEnroleesApplicationInfo ();
     std::vector <Enrollee *> processing;
     std::vector <Enrollee *> excessEnrolees;
 
     for (auto iterator = enrollees_.begin (); iterator != enrollees_.end (); iterator++)
     {
-        processing.push_back (iterator->second);
+        processing.push_back (iterator->second.GetTrackingObject ());
     }
 
     while (!processing.empty ())
     {
         ProcessEnroleesChoices (processing, excessEnrolees);
         processing.clear ();
-        ReaddExcessToProcessingList (processing);
+        AddExcessToProcessingList (processing);
     }
     return excessEnrolees;
 }
@@ -151,17 +151,17 @@ void University::ProcessEnroleesChoices (std::vector <Enrollee *> &processing, s
     {
         Enrollee *enrollee = *iterator;
         bool isAdded = false;
-        while (enrollee->HasMoreChoises () && !isAdded)
+        while (enrollee->HasMoreChoices () && !isAdded)
         {
-            EnrolleeChoise choise = enrollee->GetCurrentChoise ();
-            Faculty *faculty = GetFaculty (choise.faculty_);
+            EnrolleeChoice choice = enrollee->GetCurrentChoice ();
+            Faculty *faculty = GetFaculty (choice.faculty_);
             if (faculty)
             {
-                Specialty *specialty = faculty->GetSpecialty (choise.specialty_);
+                Specialty *specialty = faculty->GetSpecialty (choice.specialty_);
                 if (specialty)
                 {
                     specialty->AddEnrollee (enrollee);
-                    enrollee->SetLastUpdateResult (choise);
+                    enrollee->SetLastUpdateResult (choice);
                     isAdded = true;
                 }
                 else
@@ -175,23 +175,24 @@ void University::ProcessEnroleesChoices (std::vector <Enrollee *> &processing, s
             }
         }
 
-        if (!enrollee->HasMoreChoises ())
+        if (!enrollee->HasMoreChoices ())
         {
             excess.push_back (enrollee);
-            enrollee->SetLastUpdateResult (EMPTY_ENROLLEE_CHOISE);
+            enrollee->SetLastUpdateResult (EMPTY_ENROLLEE_CHOICE);
         }
     }
 }
 
-void University::ReaddExcessToProcessingList (std::vector <Enrollee *> &processing) const
+void University::AddExcessToProcessingList (std::vector <Enrollee *> &processing) const
 {
     for (auto iterator = faculties_.begin (); iterator != faculties_.end (); iterator++)
     {
         Faculty *faculty = iterator->second;
         std::vector <Enrollee *> excessInFaculty = faculty->GetExcessEnrollees ();
-        for (auto iterator = excessInFaculty.begin (); iterator != excessInFaculty.end (); iterator++)
+        for (auto excessInFacultyIterator = excessInFaculty.begin ();
+             excessInFacultyIterator != excessInFaculty.end (); excessInFacultyIterator++)
         {
-            Enrollee *enrollee = *iterator;
+            Enrollee *enrollee = *excessInFacultyIterator;
             enrollee->IncreaseChoiceIndex ();
             processing.push_back (enrollee);
         }

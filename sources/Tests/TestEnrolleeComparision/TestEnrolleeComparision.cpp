@@ -5,7 +5,7 @@
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Utils/CStringToHash.hpp>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 const unsigned MATH_EXAM = UEAA::CStringToHash ("Math");
 const unsigned PHYSICS_EXAM = UEAA::CStringToHash ("Physics");
@@ -47,7 +47,7 @@ int main ()
     std::cout << "Enrollee 1 total score: " << UEAA::CalculateEnrolleeScore (specialty, enrollee1) << std::endl;
     std::cout << "Enrollee 2 total score: " << UEAA::CalculateEnrolleeScore (specialty, enrollee2) << std::endl;
 
-    bool comparisionResult = UEAA::IsFirstEnrolleBetter (specialty, enrollee1, enrollee2);
+    bool comparisionResult = UEAA::IsFirstEnrolleeBetter (specialty, enrollee1, enrollee2);
     std::cout << "Is first enrollee better than second: " << comparisionResult << std::endl;
     if (comparisionResult)
     {
@@ -55,12 +55,12 @@ int main ()
         return 1;
     }
 
-    std::cout << "Reseting enrollee 2 results." << std::endl;
+    std::cout << "Resetting enrollee 2 results." << std::endl;
     enrollee2->SetExamResult (MATH_EXAM, 81);
     enrollee2->SetExamResult (BELARUSIAN_LANGUAGE_EXAM, 73);
     std::cout << "Enrollee 2 total score: " << UEAA::CalculateEnrolleeScore (specialty, enrollee2) << std::endl;
 
-    comparisionResult = UEAA::IsFirstEnrolleBetter (specialty, enrollee2, enrollee1);
+    comparisionResult = UEAA::IsFirstEnrolleeBetter (specialty, enrollee2, enrollee1);
     std::cout << "Is second enrollee better that first: " << comparisionResult << std::endl;
     if (!comparisionResult)
     {
@@ -68,13 +68,13 @@ int main ()
         return 1;
     }
 
-    std::cout << "Reseting enrollee 2 results." << std::endl;
+    std::cout << "Resetting enrollee 2 results." << std::endl;
     enrollee2->SetExamResult (MATH_EXAM, 80);
     enrollee2->SetExamResult (PHYSICS_EXAM, 78);
     enrollee2->SetExamResult (BELARUSIAN_LANGUAGE_EXAM, 67);
     std::cout << "Enrollee 2 total score: " << UEAA::CalculateEnrolleeScore (specialty, enrollee2) << std::endl;
 
-    comparisionResult = UEAA::IsFirstEnrolleBetter (specialty, enrollee1, enrollee2);
+    comparisionResult = UEAA::IsFirstEnrolleeBetter (specialty, enrollee1, enrollee2);
     std::cout << "Is first enrollee better than second: " << comparisionResult << std::endl;
     if (comparisionResult)
     {

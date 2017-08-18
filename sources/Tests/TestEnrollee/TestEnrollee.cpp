@@ -2,7 +2,7 @@
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Utils/CStringToHash.hpp>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 const unsigned char MATH_RESULT = 93;
 const unsigned char PHYSICS_RESULT = 92;
@@ -51,51 +51,51 @@ int main ()
 
     for (unsigned faculty = 0; faculty <= 3; faculty++)
     {
-        UEAA::EnrolleeChoise choise (faculty, 1, UEAA::STUDY_FORM_FREE);
-        std::cout << "Added faculty choise: " << choise.faculty_ << std::endl;
-        enrollee->AddChoiseToBack (choise);
+        UEAA::EnrolleeChoice choice (faculty, 1, UEAA::STUDY_FORM_FREE);
+        std::cout << "Added faculty choice: " << choice.faculty_ << std::endl;
+        enrollee->AddChoiceToBack (choice);
     }
 
-    std::cout << "Choises count: " << enrollee->GetChoisesCount () << std::endl;
-    if (enrollee->GetChoisesCount () != 4)
+    std::cout << "Choices count: " << enrollee->GetChoicesCount () << std::endl;
+    if (enrollee->GetChoicesCount () != 4)
     {
-        std::cout << "Incorrect choises count!" << std::endl;
+        std::cout << "Incorrect choices count!" << std::endl;
         return 1;
     }
 
-    enrollee->RemoveChoiseByIndex (0);
-    std::cout << "Choises count after first remove: " << enrollee->GetChoisesCount () << std::endl;
-    if (enrollee->GetChoisesCount () != 3)
+    enrollee->RemoveChoiceByIndex (0);
+    std::cout << "Choices count after first remove: " << enrollee->GetChoicesCount () << std::endl;
+    if (enrollee->GetChoicesCount () != 3)
     {
-        std::cout << "Incorrect choises count after first remove!" << std::endl;
+        std::cout << "Incorrect choices count after first remove!" << std::endl;
         return 1;
     }
 
-    enrollee->SwapChoisesAtIndexes (0, 2);
-    std::cout << "Choises 0 and 2 swapped." << std::endl;
+    enrollee->SwapChoicesAtIndexes (0, 2);
+    std::cout << "Choices 0 and 2 swapped." << std::endl;
     for (unsigned faculty = 3; faculty >= 1; faculty--)
     {
-        UEAA::EnrolleeChoise choise = enrollee->GetCurrentChoise ();
-        std::cout << "Choise (faculty): " << choise.faculty_ << std::endl;
-        if (choise.faculty_ != faculty)
+        UEAA::EnrolleeChoice choice = enrollee->GetCurrentChoice ();
+        std::cout << "Choice (faculty): " << choice.faculty_ << std::endl;
+        if (choice.faculty_ != faculty)
         {
-            std::cout << "Incorrect choise faculty!"<< std::endl;
+            std::cout << "Incorrect choice faculty!"<< std::endl;
             return 1;
         }
         enrollee->IncreaseChoiceIndex ();
     }
 
-    std::cout << "Has more choices: " << enrollee->HasMoreChoises () << std::endl;
-    if (enrollee->HasMoreChoises ())
+    std::cout << "Has more choices: " << enrollee->HasMoreChoices () << std::endl;
+    if (enrollee->HasMoreChoices ())
     {
-        std::cout << "Incorrect has more choises return!" << std::endl;
+        std::cout << "Incorrect has more choices return!" << std::endl;
         return 1;
     }
 
-    enrollee->RefreshChoiseIndex ();
-    std::cout << "Choise index refreshed." << std::endl;
-    std::cout << "Current choise: (faculty): " << enrollee->GetCurrentChoise ().faculty_ << std::endl;
-    if (enrollee->GetCurrentChoise ().faculty_ != enrollee->GetChoiseByIndex (0).faculty_)
+    enrollee->RefreshChoiceIndex ();
+    std::cout << "Choice index refreshed." << std::endl;
+    std::cout << "Current choice: (faculty): " << enrollee->GetCurrentChoice ().faculty_ << std::endl;
+    if (enrollee->GetCurrentChoice ().faculty_ != enrollee->GetChoiceByIndex (0).faculty_)
     {
         std::cout << "Incorrect choice after refresh!" << std::endl;
         return 1;

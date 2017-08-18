@@ -4,7 +4,7 @@
 #include <string>
 
 #include <UEAA/Core/Enrollee/StudyForm.hpp>
-#include <UEAA/Core/Enrollee/EnrolleeChoise.hpp>
+#include <UEAA/Core/Enrollee/EnrolleeChoice.hpp>
 #include <UEAA/Utils/ReferenceCounted.hpp>
 
 namespace UEAA
@@ -22,23 +22,23 @@ public:
     unsigned char GetExamResult (unsigned examSubjectNameHash) const;
     void SetExamResult (unsigned examSubjectNameHash, unsigned char examResult);
 
-    bool HasMoreChoises () const;
-    unsigned GetCurrentChoiseIndex () const;
+    bool HasMoreChoices () const;
+    unsigned GetCurrentChoiceIndex () const;
     void IncreaseChoiceIndex ();
-    void RefreshChoiseIndex ();
+    void RefreshChoiceIndex ();
 
-    unsigned GetChoisesCount () const;
-    const std::vector <EnrolleeChoise> &GetChoices () const;
+    unsigned GetChoicesCount () const;
+    const std::vector <EnrolleeChoice> &GetChoices () const;
 
-    EnrolleeChoise GetCurrentChoise () const;
-    EnrolleeChoise GetChoiseByIndex (unsigned index) const;
+    EnrolleeChoice GetCurrentChoice () const;
+    EnrolleeChoice GetChoiceByIndex (unsigned index) const;
 
-    void AddChoiseToBack (const EnrolleeChoise &choise);
-    void RemoveChoiseByIndex (unsigned index);
-    void SwapChoisesAtIndexes (unsigned firstIndex, unsigned secondIndex);
+    void AddChoiceToBack (const EnrolleeChoice &choice);
+    void RemoveChoiceByIndex (unsigned index);
+    void SwapChoicesAtIndexes (unsigned firstIndex, unsigned secondIndex);
 
-    EnrolleeChoise GetLastUpdateResult () const;
-    void SetLastUpdateResult (const EnrolleeChoise &lastUpdateResult);
+    EnrolleeChoice GetLastUpdateResult () const;
+    void SetLastUpdateResult (const EnrolleeChoice &lastUpdateResult);
 
     unsigned char GetCertificateMark (unsigned subjectNameHash) const;
     void SetCertificateMark (unsigned subjectNameHash, unsigned char mark);
@@ -53,9 +53,9 @@ private:
 
     /// Exams results map. Key is exam subject name hash. Results will be in range (0, 100].
     std::map <unsigned, unsigned char> examsResults_;
-    unsigned currentChoiseIndex_;
-    std::vector <EnrolleeChoise> choises_;
-    EnrolleeChoise lastUpdateResult_;
+    unsigned currentChoiceIndex_;
+    std::vector <EnrolleeChoice> choices_;
+    EnrolleeChoice lastUpdateResult_;
 
     /// School education certificate marks. Key is school subject name hash. Marks will be in range (0, 10].
     std::map <unsigned, unsigned char> certificateMarks_;
