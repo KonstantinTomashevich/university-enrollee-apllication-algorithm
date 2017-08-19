@@ -1,3 +1,4 @@
+#include <UEAA/BuildConfiguration.hpp>
 #include "EnrolleeHelpers.hpp"
 #include <cmath>
 #include <UEAA/Utils/CStringToHash.hpp>

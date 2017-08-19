@@ -1,3 +1,4 @@
+#include <UEAA/BuildConfiguration.hpp>
 #include "ReferenceCounted.hpp"
 
 namespace UEAA

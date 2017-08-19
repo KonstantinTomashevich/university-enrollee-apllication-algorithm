@@ -1,4 +1,5 @@
 #include "University.hpp"
+#include <UEAA/BuildConfiguration.hpp>
 #include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
 
 namespace UEAA

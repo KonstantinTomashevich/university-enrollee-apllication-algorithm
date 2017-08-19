@@ -1,3 +1,4 @@
+#include <UEAA/BuildConfiguration.hpp>
 #include "Specialty.hpp"
 #include <UEAA/Core/Enrollee/Enrollee.hpp>
 #include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>

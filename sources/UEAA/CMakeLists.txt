@@ -1,3 +1,4 @@
+configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/BuildConfiguration.hpp.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/BuildConfiguration.hpp")
 file (GLOB_RECURSE Headers *.hpp)
 file (GLOB_RECURSE Objects *.cpp)
 add_library (UEAA ${Headers} ${Objects})

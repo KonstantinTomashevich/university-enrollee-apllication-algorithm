@@ -1,3 +1,4 @@
+#include <UEAA/BuildConfiguration.hpp>
 #include "Faculty.hpp"
 
 namespace UEAA

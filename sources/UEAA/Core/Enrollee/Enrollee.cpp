@@ -1,3 +1,4 @@
+#include <UEAA/BuildConfiguration.hpp>
 #include "Enrollee.hpp"
 #include <algorithm>
 #include <cmath>
