@@ -14,6 +14,7 @@ class University : public ReferenceCounted
 public:
     explicit University (const std::string &name);
     virtual ~University ();
+    const std::string &GetName () const;
 
     bool AddFaculty (Faculty *faculty);
     Faculty *GetFaculty (unsigned id) const;
@@ -22,6 +23,7 @@ public:
 
     bool AddEnrollee (Enrollee *enrollee);
     Enrollee *GetEnrollee (unsigned id) const;
+    Enrollee *GetEnrollee (const std::string &passportSeries, const std::string &passportNumber) const;
     bool RemoveEnrollee (unsigned id);
     void RemoveAllEnrollees ();
 

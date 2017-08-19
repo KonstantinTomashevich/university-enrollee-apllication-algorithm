@@ -1,4 +1,5 @@
 #include "University.hpp"
+#include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
 
 namespace UEAA
 {
@@ -14,6 +15,11 @@ University::University (const std::string &name) :
 University::~University ()
 {
 
+}
+
+const std::string &University::GetName () const
+{
+    return name_;
 }
 
 bool University::AddFaculty (Faculty *faculty)
@@ -91,6 +97,11 @@ Enrollee *University::GetEnrollee (unsigned id) const
     {
         return 0;
     }
+}
+
+Enrollee *University::GetEnrollee (const std::string &passportSeries, const std::string &passportNumber) const
+{
+    return GetEnrollee (CalculateEnrolleeHash (passportSeries, passportNumber));
 }
 
 bool University::RemoveEnrollee (unsigned id)
