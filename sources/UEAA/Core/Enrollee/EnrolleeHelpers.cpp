@@ -16,6 +16,18 @@ bool IsFirstEnrolleeBetter (const Specialty *specialty, const Enrollee *first, c
         return true;
     }
 
+    if (specialty->IsPedagogical ())
+    {
+        if (first->HasSchoolGoldMedal () && !second->HasSchoolGoldMedal ())
+        {
+            return true;
+        }
+        else if (!first->HasSchoolGoldMedal () && second->HasSchoolGoldMedal ())
+        {
+            return false;
+        }
+    }
+
     // TODO: What about olimpiad winners?
     unsigned firstScore = CalculateEnrolleeScore (specialty, first);
     unsigned secondScore = CalculateEnrolleeScore (specialty, second);

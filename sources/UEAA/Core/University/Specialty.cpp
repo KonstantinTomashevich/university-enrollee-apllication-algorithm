@@ -17,7 +17,8 @@ Specialty::Specialty (unsigned id, const std::string &name) :
     enrolleesInPaidForm_ (),
 
     maxEnrolleesInFreeForm_ (0),
-    maxEnrolleesInPaidForm_ (0)
+    maxEnrolleesInPaidForm_ (0),
+    isPedagogical_ (false)
 {
 
 }
@@ -169,5 +170,15 @@ void Specialty::AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *>
 
         queue.push_back (enrollee);
     }
+}
+
+bool Specialty::IsPedagogical () const
+{
+    return isPedagogical_;
+}
+
+void Specialty::SetIsPedagogical (bool isPedagogical)
+{
+    isPedagogical_ = isPedagogical;
 }
 }

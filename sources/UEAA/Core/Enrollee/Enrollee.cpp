@@ -18,7 +18,8 @@ Enrollee::Enrollee (const std::string &passportSeries, const std::string &passpo
     lastUpdateResult_ (),
 
     certificateMarks_ (),
-    certificateMedianMark_ ()
+    certificateMedianMark_ (),
+    hasSchoolGoldMedal_ (false)
 {
     id_ = CalculateEnrolleeHash (this);
 }
@@ -163,5 +164,15 @@ void Enrollee::CalculateCertificateMedianMark ()
     }
 
     certificateMedianMark_ = std::round (sum * 10.0f / certificateMarks_.size ()) / 10.0f;
+}
+
+bool Enrollee::HasSchoolGoldMedal () const
+{
+    return hasSchoolGoldMedal_;
+}
+
+void Enrollee::SetHasSchoolGoldMedal (bool hasSchoolGoldMedal)
+{
+    hasSchoolGoldMedal_ = hasSchoolGoldMedal;
 }
 }

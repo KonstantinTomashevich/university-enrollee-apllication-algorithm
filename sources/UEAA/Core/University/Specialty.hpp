@@ -35,6 +35,9 @@ public:
     unsigned GetMaxEnrolleesInPaidForm () const;
     void SetMaxEnrolleesInPaidForm (unsigned maxEnrolleesInPaidForm);
 
+    bool IsPedagogical () const;
+    void SetIsPedagogical (bool isPedagogical);
+
 private:
     /// Returns false if there is no excess enrollees.
     bool GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const;
@@ -57,5 +60,6 @@ private:
 
     unsigned maxEnrolleesInFreeForm_;
     unsigned maxEnrolleesInPaidForm_;
+    bool isPedagogical_;
 };
 }

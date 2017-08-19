@@ -2,3 +2,6 @@ configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/BuildConfiguration.hpp.cmake" "${CM
 file (GLOB_RECURSE Headers *.hpp)
 file (GLOB_RECURSE Objects *.cpp)
 add_library (UEAA ${Headers} ${Objects})
+if (UEAA_XML_IO)
+    target_link_libraries (UEAA TinyXML2)
+endif ()

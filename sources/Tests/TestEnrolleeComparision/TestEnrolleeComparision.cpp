@@ -82,11 +82,22 @@ int main ()
         return 1;
     }
 
+    std::cout << "Adding school gold medal to first enrollee." << std::endl;
+    enrollee1->SetHasSchoolGoldMedal (true);
+    comparisionResult = UEAA::IsFirstEnrolleeBetter (specialty, enrollee2, enrollee1);
+    std::cout << "Is second enrollee better than first: " << comparisionResult << std::endl;
+    if (comparisionResult)
+    {
+        std::cout << "Error in fourth enrollees comparision!" << std::endl;
+        return 1;
+    }
+
     return 0;
 }
 
 void InitSpecialty (UEAA::Specialty *specialty)
 {
+    specialty->SetIsPedagogical (true);
     {
         std::vector <std::pair <bool, std::vector <unsigned> > > exams;
         {

@@ -46,6 +46,9 @@ public:
     float GetCertificateMedianMark () const;
     void CalculateCertificateMedianMark ();
 
+    bool HasSchoolGoldMedal () const;
+    void SetHasSchoolGoldMedal (bool hasSchoolGoldMedal);
+
 private:
     unsigned id_;
     std::string passportSeries_;
@@ -60,5 +63,6 @@ private:
     /// School education certificate marks. Key is school subject name hash. Marks will be in range (0, 10].
     std::map <unsigned, unsigned char> certificateMarks_;
     float certificateMedianMark_;
+    bool hasSchoolGoldMedal_;
 };
 }
