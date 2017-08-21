@@ -73,8 +73,8 @@ int main ()
                         if (UEAA::IsFirstEnrolleeBetter (specialty, enrollee, anotherEnrollee))
                         {
                             std::cout << "Error! Better enrollee isn't applied!" << std::endl <<
-                                         "Faculty: " << faculty->GetName () << std::endl <<
-                                         "Specialty: " << specialty->GetName () << std::endl <<
+                                         "Faculty: " << faculty->GetId () << std::endl <<
+                                         "Specialty: " << specialty->GetId () << std::endl <<
                                          "Better enrollee:" << std::endl;
                             PrintEnrollee (enrollee, deHashTable);
                             std::cout << "Another enrollee:" << std::endl;
@@ -160,7 +160,7 @@ UEAA::University *CreateTestUniversity ()
 
 UEAA::Faculty *CreateTechFaculty ()
 {
-    UEAA::Faculty *techFaculty = new UEAA::Faculty (TECH_FACULTY, "Tech Faculty");
+    UEAA::Faculty *techFaculty = new UEAA::Faculty (TECH_FACULTY);
     UEAA::SharedPointer <UEAA::Specialty> acsSpecialty (
                 CreateTechSpecialty (TechFaculty::APPLIED_COMPUTER_SCIENCE, "Applied Computer Science", TechFaculty::ACS_MAX_ENROLLEES_IN_FREE_FORM));
     if (!techFaculty->AddSpecialty (acsSpecialty))
@@ -221,7 +221,7 @@ UEAA::Specialty *CreateTechSpecialty (unsigned id, const std::string &name, unsi
 
 UEAA::Faculty *CreateArtsFaculty ()
 {
-    UEAA::Faculty *artsFaculty = new UEAA::Faculty (ARTS_FACULTY, "Arts Faculty");
+    UEAA::Faculty *artsFaculty = new UEAA::Faculty (ARTS_FACULTY);
     UEAA::SharedPointer <UEAA::Specialty> paintingSpecialty (
                 CreateArtsSpecialty (ArtsFaculty::PAINTING, "Painting", ArtsFaculty::PAINTING_MAX_ENROLLEES_IN_FREE_FORM));
     if (!artsFaculty->AddSpecialty (paintingSpecialty))

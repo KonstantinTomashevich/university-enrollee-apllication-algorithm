@@ -3,10 +3,9 @@
 
 namespace UEAA
 {
-Faculty::Faculty (unsigned id, const std::string &name) :
+Faculty::Faculty (unsigned id) :
     ReferenceCounted (),
     id_ (id),
-    name_ (name),
     specialties_ ()
 {
 
@@ -20,11 +19,6 @@ Faculty::~Faculty ()
 unsigned Faculty::GetId () const
 {
     return id_;
-}
-
-const std::string &Faculty::GetName () const
-{
-    return name_;
 }
 
 bool Faculty::AddSpecialty (Specialty *specialty)
