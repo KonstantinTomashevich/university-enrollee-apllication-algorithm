@@ -21,7 +21,7 @@ std::string DeHashTable::DeHash (unsigned hash) const
     {
         return deHashTable_.at (hash);
     }
-    catch (std::out_of_range exception)
+    catch (std::out_of_range &exception)
     {
         return "";
     }
