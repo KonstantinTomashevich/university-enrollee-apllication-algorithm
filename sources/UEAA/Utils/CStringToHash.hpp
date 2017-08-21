@@ -1,5 +1,6 @@
 #pragma once
 namespace UEAA
 {
-unsigned CStringToHash (const char *cString);
+class DeHashTable;
+unsigned CStringToHash (const char *cString, DeHashTable *deHashTable = 0);
 }
