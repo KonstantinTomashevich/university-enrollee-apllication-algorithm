@@ -11,3 +11,4 @@ enum RODType
 
 bool IsFirstDiplomaBetter (RODType first, RODType second);
 }
+
