@@ -139,7 +139,7 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
 
 UEAA::University *CreateTestUniversity ()
 {
-    UEAA::University *university = new UEAA::University ("TestUniversity");
+    UEAA::University *university = new UEAA::University ();
     UEAA::SharedPointer <UEAA::Faculty> techFaculty (CreateTechFaculty ());
     if (!university->AddFaculty (techFaculty))
     {

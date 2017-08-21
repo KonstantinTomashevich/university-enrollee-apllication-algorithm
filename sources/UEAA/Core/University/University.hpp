@@ -12,9 +12,8 @@ namespace UEAA
 class University : public ReferenceCounted
 {
 public:
-    explicit University (const std::string &name);
+    University ();
     virtual ~University ();
-    const std::string &GetName () const;
 
     bool AddFaculty (Faculty *faculty);
     Faculty *GetFaculty (unsigned id) const;
@@ -35,7 +34,6 @@ private:
     void ProcessEnroleesChoices (std::vector <Enrollee *> &processing, std::vector <Enrollee *> &excess) const;
     void AddExcessToProcessingList (std::vector <Enrollee *> &processing) const;
 
-    std::string name_;
     std::map <unsigned, SharedPointer <Faculty> > faculties_;
     std::map <unsigned, SharedPointer <Enrollee> > enrollees_;
 };
