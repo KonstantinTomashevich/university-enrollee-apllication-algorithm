@@ -8,6 +8,7 @@
 
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Utils/CStringToHash.hpp>
+#include <UEAA/Utils/DeHashTable.hpp>
 
 const unsigned MATH_EXAM = UEAA::CStringToHash ("Math");
 const unsigned PHYSICS_EXAM = UEAA::CStringToHash ("Physics");
@@ -40,13 +41,11 @@ const unsigned ARTS_ENROLLEES = 100;
 const unsigned TECH_AND_ARTS_ENROLLEES = 100;
 
 static unsigned enrolleesGeneratorCounter_ = 0;
-UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts);
+UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable *deHashTable);
 
 UEAA::University *CreateTestUniversity ();
 UEAA::Faculty *CreateTechFaculty ();
 UEAA::Specialty *CreateTechSpecialty (unsigned id, const std::string &name, unsigned maxFreeEnrollees);
 UEAA::Faculty *CreateArtsFaculty ();
 UEAA::Specialty *CreateArtsSpecialty (unsigned id, const std::string &name, unsigned maxFreeEnrollees);
-
-void PrintEnrollee (const UEAA::Enrollee *enrollee);
-void PrintEnrolleesVector (const std::vector <UEAA::Enrollee *> &enrollees);
+void PrintEnrollee (const UEAA::Enrollee *enrollee, UEAA::DeHashTable *deHashTable);

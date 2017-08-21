@@ -6,11 +6,9 @@
 
 namespace UEAA
 {
-Enrollee::Enrollee (const std::string &passportSeries, const std::string &passportNumber) :
+Enrollee::Enrollee (unsigned id) :
     ReferenceCounted (),
-    id_ (0),
-    passportSeries_ (passportSeries),
-    passportNumber_ (passportNumber),
+    id_ (id),
 
     examsResults_ (),
     currentChoiceIndex_ (0),
@@ -24,7 +22,7 @@ Enrollee::Enrollee (const std::string &passportSeries, const std::string &passpo
     rodSubject_ (0),
     rodType_ (ROD_NONE)
 {
-    id_ = CalculateEnrolleeHash (this);
+
 }
 
 Enrollee::~Enrollee ()
@@ -35,16 +33,6 @@ Enrollee::~Enrollee ()
 unsigned Enrollee::GetId () const
 {
     return id_;
-}
-
-const std::string &Enrollee::GetPassportSeries () const
-{
-    return passportSeries_;
-}
-
-const std::string &Enrollee::GetPassportNumber () const
-{
-    return passportNumber_;
 }
 
 unsigned char Enrollee::GetExamResult (unsigned examSubjectNameHash) const

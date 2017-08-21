@@ -135,11 +135,6 @@ unsigned GetEnrolleeBestResultFromExams (const Enrollee *enrollee, const std::ve
     return best;
 }
 
-unsigned CalculateEnrolleeHash (const Enrollee *enrollee, DeHashTable *deHashTable)
-{
-    return CalculateEnrolleeHash (enrollee->GetPassportSeries (), enrollee->GetPassportNumber (), deHashTable);
-}
-
 unsigned CalculateEnrolleeHash (const std::string &passportSeries, const std::string &passportNumber, DeHashTable *deHashTable)
 {
     return CStringToHash ((passportSeries + passportNumber).c_str (), deHashTable);

@@ -1,6 +1,7 @@
 #include <UEAA/Core/Enrollee/Enrollee.hpp>
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Utils/CStringToHash.hpp>
+#include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
 #include <iostream>
 #include <cmath>
 
@@ -18,7 +19,7 @@ const unsigned LANGUAGE_EXAM = UEAA::CStringToHash ("Language");
 
 int main ()
 {
-    UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee ("XX", "0000000"));
+    UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee (UEAA::CalculateEnrolleeHash ("XX", "0000000")));
     std::cout << "Setting exams results: " << MATH_RESULT << " " <<
                  PHYSICS_RESULT << " " << LANGUAGE_RESULT << std::endl;
 

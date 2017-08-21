@@ -13,13 +13,10 @@ namespace UEAA
 class Enrollee : public ReferenceCounted
 {
 public:
-    Enrollee (const std::string &passportSeries, const std::string &passportNumber);
+    explicit Enrollee (unsigned id);
     virtual ~Enrollee ();
 
     unsigned GetId () const;
-    const std::string &GetPassportSeries () const;
-    const std::string &GetPassportNumber () const;
-
     unsigned char GetExamResult (unsigned examSubjectNameHash) const;
     void SetExamResult (unsigned examSubjectNameHash, unsigned char examResult);
 
@@ -58,9 +55,6 @@ public:
 
 private:
     unsigned id_;
-    std::string passportSeries_;
-    std::string passportNumber_;
-
     /// Exams results map. Key is exam subject name hash. Results will be in range (0, 100].
     std::map <unsigned, unsigned char> examsResults_;
     unsigned currentChoiceIndex_;

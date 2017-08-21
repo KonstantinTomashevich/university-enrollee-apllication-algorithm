@@ -13,11 +13,12 @@ int main ()
         return 1;
     }
 
+    UEAA::SharedPointer <UEAA::DeHashTable> deHashTable (new UEAA::DeHashTable ());
     std::cout << "Generating enrollees..." << std::endl;
     for (unsigned index = 0; index < TECH_ENROLLEES; index++)
     {
-        UEAA::SharedPointer <UEAA::Enrollee> enrollee (GenerateEnrollee (true, false));
-        PrintEnrollee (enrollee);
+        UEAA::SharedPointer <UEAA::Enrollee> enrollee (GenerateEnrollee (true, false, deHashTable));
+        PrintEnrollee (enrollee, deHashTable);
         if (!university->AddEnrollee (enrollee))
         {
             std::cout << "Can't add enrollee!" << std::endl;
@@ -27,8 +28,8 @@ int main ()
 
     for (unsigned index = 0; index < ARTS_ENROLLEES; index++)
     {
-        UEAA::SharedPointer <UEAA::Enrollee> enrollee (GenerateEnrollee (false, true));
-        PrintEnrollee (enrollee);
+        UEAA::SharedPointer <UEAA::Enrollee> enrollee (GenerateEnrollee (false, true, deHashTable));
+        PrintEnrollee (enrollee, deHashTable);
         if (!university->AddEnrollee (enrollee))
         {
             std::cout << "Can't add enrollee!" << std::endl;
@@ -38,8 +39,8 @@ int main ()
 
     for (unsigned index = 0; index < TECH_AND_ARTS_ENROLLEES; index++)
     {
-        UEAA::SharedPointer <UEAA::Enrollee> enrollee (GenerateEnrollee (true, true));
-        PrintEnrollee (enrollee);
+        UEAA::SharedPointer <UEAA::Enrollee> enrollee (GenerateEnrollee (true, true, deHashTable));
+        PrintEnrollee (enrollee, deHashTable);
         if (!university->AddEnrollee (enrollee))
         {
             std::cout << "Can't add enrollee!" << std::endl;
@@ -75,9 +76,9 @@ int main ()
                                          "Faculty: " << faculty->GetName () << std::endl <<
                                          "Specialty: " << specialty->GetName () << std::endl <<
                                          "Better enrollee:" << std::endl;
-                            PrintEnrollee (enrollee);
+                            PrintEnrollee (enrollee, deHashTable);
                             std::cout << "Another enrollee:" << std::endl;
-                            PrintEnrollee (anotherEnrollee);
+                            PrintEnrollee (anotherEnrollee, deHashTable);
                             return 1;
                         }
                     }
@@ -89,9 +90,15 @@ int main ()
     return 0;
 }
 
-UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts)
+UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable *deHashTable)
 {
-    UEAA::Enrollee *enrollee = new UEAA::Enrollee ("XX", std::to_string (enrolleesGeneratorCounter_));
+    std::string passportNumber = std::to_string (enrolleesGeneratorCounter_);
+    while (passportNumber.size () < 7)
+    {
+        passportNumber = "0" + passportNumber;
+    }
+    UEAA::Enrollee *enrollee = new UEAA::Enrollee (UEAA::CalculateEnrolleeHash ("XX", passportNumber, deHashTable));
+
     enrollee->SetCertificateMark (MATH_EXAM, 5 + rand () % 6);
     enrollee->SetCertificateMark (PHYSICS_EXAM, 5 + rand () % 6);
     enrollee->SetCertificateMark (LANGUAGE_EXAM, 5 + rand () % 6);
@@ -272,9 +279,9 @@ UEAA::Specialty *CreateArtsSpecialty (unsigned id, const std::string &name, unsi
     return specialty;
 }
 
-void PrintEnrollee (const UEAA::Enrollee *enrollee)
+void PrintEnrollee (const UEAA::Enrollee *enrollee, UEAA::DeHashTable *deHashTable)
 {
-    std::cout << "Enrollee " << enrollee->GetPassportSeries () << enrollee->GetPassportNumber () << ":" << std::endl <<
+    std::cout << "Enrollee " << deHashTable->DeHash (enrollee->GetId ()) << ":" << std::endl <<
                  "    Median:   " << enrollee->GetCertificateMedianMark () * 1 << std::endl <<
                  "    Math:     " << enrollee->GetExamResult (MATH_EXAM) * 1 << std::endl <<
                  "    Physics:  " << enrollee->GetExamResult (PHYSICS_EXAM) * 1 << std::endl <<
@@ -282,12 +289,4 @@ void PrintEnrollee (const UEAA::Enrollee *enrollee)
                  "    Society:  " << enrollee->GetExamResult (SOCIETY_EXAM) * 1 << std::endl <<
                  "    Arts:     " << enrollee->GetExamResult (ARTS_INTERNAL_EXAM) * 1 << std::endl <<
                  std::endl;
-}
-
-void PrintEnrolleesVector (const std::vector <UEAA::Enrollee *> &enrollees)
-{
-    for (auto iterator = enrollees.cbegin (); iterator != enrollees.cend (); iterator++)
-    {
-        PrintEnrollee (*iterator);
-    }
 }

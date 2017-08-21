@@ -158,7 +158,7 @@ void InitSpecialty (UEAA::Specialty *specialty)
 
 UEAA::Enrollee *GenerateEnrollee (UEAA::StudyForm studyForm)
 {
-    UEAA::Enrollee *enrollee = new UEAA::Enrollee ("XX", "0000000");
+    UEAA::Enrollee *enrollee = new UEAA::Enrollee (UEAA::CalculateEnrolleeHash ("XX", "0000000"));
     enrollee->SetCertificateMark (MATH_EXAM, 5 + rand () % 6);
     enrollee->SetCertificateMark (PHYSICS_EXAM, 5 + rand () % 6);
     enrollee->SetCertificateMark (LANGUAGE_EXAM, 5 + rand () % 6);
