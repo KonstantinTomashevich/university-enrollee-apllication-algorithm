@@ -189,12 +189,12 @@ void Enrollee::SetRODSubject (unsigned rodSubject)
     rodSubject_ = rodSubject;
 }
 
-RepublicanOlympiadDiplomaType Enrollee::GetRODType () const
+RODType Enrollee::GetRODType () const
 {
     return rodType_;
 }
 
-void Enrollee::SetRODType (RepublicanOlympiadDiplomaType rodType)
+void Enrollee::SetRODType (RODType rodType)
 {
     rodType_ = rodType;
 }

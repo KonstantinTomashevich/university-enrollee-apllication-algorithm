@@ -5,7 +5,7 @@
 
 #include <UEAA/Core/Enrollee/StudyForm.hpp>
 #include <UEAA/Core/Enrollee/EnrolleeChoice.hpp>
-#include <UEAA/Core/Enrollee/RepublicanOlympiadDiplomaType.hpp>
+#include <UEAA/Core/Enrollee/RODType.hpp>
 #include <UEAA/Utils/ReferenceCounted.hpp>
 
 namespace UEAA
@@ -53,8 +53,8 @@ public:
     unsigned GetRODSubject () const;
     void SetRODSubject (unsigned rodSubject);
 
-    RepublicanOlympiadDiplomaType GetRODType () const;
-    void SetRODType (RepublicanOlympiadDiplomaType rodType);
+    RODType GetRODType () const;
+    void SetRODType (RODType rodType);
 
 private:
     unsigned id_;
@@ -76,6 +76,6 @@ private:
 
     /// Enrollees with republican diploma have priority.
     unsigned rodSubject_;
-    RepublicanOlympiadDiplomaType rodType_;
+    RODType rodType_;
 };
 }
