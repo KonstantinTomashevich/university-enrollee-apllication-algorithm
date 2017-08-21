@@ -45,7 +45,7 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
 
 UEAA::University *CreateTestUniversity ();
 UEAA::Faculty *CreateTechFaculty ();
-UEAA::Specialty *CreateTechSpecialty (unsigned id, const std::string &name, unsigned maxFreeEnrollees);
+UEAA::Specialty *CreateTechSpecialty (unsigned id, unsigned maxFreeEnrollees);
 UEAA::Faculty *CreateArtsFaculty ();
-UEAA::Specialty *CreateArtsSpecialty (unsigned id, const std::string &name, unsigned maxFreeEnrollees);
+UEAA::Specialty *CreateArtsSpecialty (unsigned id, unsigned maxFreeEnrollees);
 void PrintEnrollee (const UEAA::Enrollee *enrollee, UEAA::DeHashTable *deHashTable);

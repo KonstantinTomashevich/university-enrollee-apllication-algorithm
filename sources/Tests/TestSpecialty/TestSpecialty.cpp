@@ -28,7 +28,7 @@ int main ()
     srand (time (0));
     std::vector <UEAA::SharedPointer <UEAA::Enrollee> > enrolleesBuffer;
 
-    UEAA::SharedPointer <UEAA::Specialty> specialty (new UEAA::Specialty (SPECIALTY_ID, "XXX"));
+    UEAA::SharedPointer <UEAA::Specialty> specialty (new UEAA::Specialty (SPECIALTY_ID));
     InitSpecialty (specialty);
 
     std::cout << "GENERATED ENROLLEES FOR FREE FORM:" << std::endl;

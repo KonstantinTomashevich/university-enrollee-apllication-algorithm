@@ -8,10 +8,9 @@
 
 namespace UEAA
 {
-Specialty::Specialty (unsigned id, const std::string &name) :
+Specialty::Specialty (unsigned id) :
     ReferenceCounted (),
     id_ (id),
-    name_ (name),
 
     requiredExams_ (),
     marksInCertificatePriority_ (),
@@ -36,11 +35,6 @@ Specialty::~Specialty ()
 unsigned Specialty::GetId () const
 {
     return id_;
-}
-
-const std::string &Specialty::GetName () const
-{
-    return name_;
 }
 
 const std::vector<std::pair<bool, std::vector<unsigned> > > &Specialty::GetRequiredExams() const

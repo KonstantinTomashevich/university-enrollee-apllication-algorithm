@@ -11,12 +11,10 @@ class Enrollee;
 class Specialty : public ReferenceCounted
 {
 public:
-    Specialty (unsigned id, const std::string &name);
+    explicit Specialty (unsigned id);
     virtual ~Specialty ();
 
     unsigned GetId () const;
-    const std::string &GetName () const;
-
     const std::vector <std::pair <bool, std::vector <unsigned> > > &GetRequiredExams () const;
     void SetRequiredExams (const std::vector <std::pair <bool, std::vector <unsigned> > > &requiredExams);
 
@@ -49,7 +47,6 @@ private:
     void AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *> &queue);
 
     unsigned id_;
-    std::string name_;
     /// List of required exams names hashes. Should be sorted by priority!
     /// Also if bool in pair is false, exam will be skipped if enrollees have same scores.
     /// Example.
