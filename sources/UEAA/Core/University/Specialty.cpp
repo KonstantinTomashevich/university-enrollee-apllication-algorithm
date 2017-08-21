@@ -2,6 +2,9 @@
 #include "Specialty.hpp"
 #include <UEAA/Core/Enrollee/Enrollee.hpp>
 #include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
+#include <algorithm>
+
+#include <iostream>
 
 namespace UEAA
 {
@@ -18,7 +21,9 @@ Specialty::Specialty (unsigned id, const std::string &name) :
 
     maxEnrolleesInFreeForm_ (0),
     maxEnrolleesInPaidForm_ (0),
-    isPedagogical_ (false)
+
+    isPedagogical_ (false),
+    acceptedRODSubjects_ ()
 {
 
 }
@@ -180,5 +185,38 @@ bool Specialty::IsPedagogical () const
 void Specialty::SetIsPedagogical (bool isPedagogical)
 {
     isPedagogical_ = isPedagogical;
+}
+
+void Specialty::AddAcceptedRODSubject (unsigned subject)
+{
+    if (!IsRODSubjectAccepted (subject))
+    {
+        acceptedRODSubjects_.push_back (subject);
+    }
+}
+
+bool Specialty::RemoveAcceptedRODSubject (unsigned subject)
+{
+    auto iterator = std::find (acceptedRODSubjects_.begin (), acceptedRODSubjects_.end (), subject);
+    if (iterator != acceptedRODSubjects_.end ())
+    {
+        acceptedRODSubjects_.erase (iterator);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Specialty::IsRODSubjectAccepted (unsigned subject) const
+{
+    auto iterator = std::find (acceptedRODSubjects_.cbegin (), acceptedRODSubjects_.cend (), subject);
+    return iterator != acceptedRODSubjects_.cend ();
+}
+
+const std::vector <unsigned> &Specialty::GetAcceptedRODSubjects () const
+{
+    return acceptedRODSubjects_;
 }
 }

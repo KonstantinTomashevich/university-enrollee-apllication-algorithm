@@ -38,6 +38,11 @@ public:
     bool IsPedagogical () const;
     void SetIsPedagogical (bool isPedagogical);
 
+    void AddAcceptedRODSubject (unsigned subject);
+    bool RemoveAcceptedRODSubject (unsigned subject);
+    bool IsRODSubjectAccepted (unsigned subject) const;
+    const std::vector <unsigned> &GetAcceptedRODSubjects () const;
+
 private:
     /// Returns false if there is no excess enrollees.
     bool GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const;
@@ -60,6 +65,11 @@ private:
 
     unsigned maxEnrolleesInFreeForm_;
     unsigned maxEnrolleesInPaidForm_;
+
+    /// Enrollees with gold medal have priority in pedagogical specialties queues.
     bool isPedagogical_;
+
+    /// Enrollees with diploma of republican olympiad in this subjects have priority.
+    std::vector <unsigned> acceptedRODSubjects_;
 };
 }

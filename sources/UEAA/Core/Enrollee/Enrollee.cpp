@@ -19,7 +19,10 @@ Enrollee::Enrollee (const std::string &passportSeries, const std::string &passpo
 
     certificateMarks_ (),
     certificateMedianMark_ (),
-    hasSchoolGoldMedal_ (false)
+    hasSchoolGoldMedal_ (false),
+
+    rodSubject_ (0),
+    rodType_ (ROD_NONE)
 {
     id_ = CalculateEnrolleeHash (this);
 }
@@ -174,5 +177,25 @@ bool Enrollee::HasSchoolGoldMedal () const
 void Enrollee::SetHasSchoolGoldMedal (bool hasSchoolGoldMedal)
 {
     hasSchoolGoldMedal_ = hasSchoolGoldMedal;
+}
+
+unsigned Enrollee::GetRODSubject () const
+{
+    return rodSubject_;
+}
+
+void Enrollee::SetRODSubject (unsigned rodSubject)
+{
+    rodSubject_ = rodSubject;
+}
+
+RepublicanOlympiadDiplomaType Enrollee::GetRODType () const
+{
+    return rodType_;
+}
+
+void Enrollee::SetRODType (RepublicanOlympiadDiplomaType rodType)
+{
+    rodType_ = rodType;
 }
 }

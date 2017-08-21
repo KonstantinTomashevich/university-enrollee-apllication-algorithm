@@ -7,6 +7,7 @@ namespace UEAA
 {
 bool IsFirstEnrolleeBetter (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
 {
+    // TODO: Maybe split this function to smaller pieces?
     if (!CanEnrolleeChoiceSpecialty (specialty, first))
     {
         return false;
@@ -15,6 +16,34 @@ bool IsFirstEnrolleeBetter (const Specialty *specialty, const Enrollee *first, c
     {
         return true;
     }
+
+    if (first->GetRODType () != ROD_NONE && second->GetRODType () != ROD_NONE)
+    {
+        if (specialty->IsRODSubjectAccepted (first->GetRODSubject ()) &&
+                specialty->IsRODSubjectAccepted (second->GetRODSubject ()))
+        {
+            return IsFirstDiplomaBetter (first->GetRODType (), second->GetRODType ());
+        }
+        else if (specialty->IsRODSubjectAccepted (first->GetRODSubject ()))
+        {
+            return true;
+        }
+        else if (specialty->IsRODSubjectAccepted (second->GetRODSubject ()) )
+        {
+            return false;
+        }
+    }
+
+    else if (first->GetRODType () != ROD_NONE && specialty->IsRODSubjectAccepted (first->GetRODSubject ()))
+    {
+        return true;
+    }
+
+    else if (second->GetRODType () != ROD_NONE && specialty->IsRODSubjectAccepted (second->GetRODSubject ()))
+    {
+        return false;
+    }
+
 
     if (specialty->IsPedagogical ())
     {
@@ -28,7 +57,6 @@ bool IsFirstEnrolleeBetter (const Specialty *specialty, const Enrollee *first, c
         }
     }
 
-    // TODO: What about olimpiad winners?
     unsigned firstScore = CalculateEnrolleeScore (specialty, first);
     unsigned secondScore = CalculateEnrolleeScore (specialty, second);
 

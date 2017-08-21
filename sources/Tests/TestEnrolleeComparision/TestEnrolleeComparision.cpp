@@ -51,7 +51,7 @@ int main ()
     std::cout << "Is first enrollee better than second: " << comparisionResult << std::endl;
     if (comparisionResult)
     {
-        std::cout << "Error in first enrollees comparision!" << std::endl;
+        std::cout << "Error in enrollees comparision №1!" << std::endl;
         return 1;
     }
 
@@ -64,7 +64,7 @@ int main ()
     std::cout << "Is second enrollee better that first: " << comparisionResult << std::endl;
     if (!comparisionResult)
     {
-        std::cout << "Error in second enrollees comparision!" << std::endl;
+        std::cout << "Error in enrollees comparision №2!" << std::endl;
         return 1;
     }
 
@@ -78,7 +78,7 @@ int main ()
     std::cout << "Is first enrollee better than second: " << comparisionResult << std::endl;
     if (comparisionResult)
     {
-        std::cout << "Error in third enrollees comparision!" << std::endl;
+        std::cout << "Error in enrollees comparision №3!" << std::endl;
         return 1;
     }
 
@@ -88,7 +88,38 @@ int main ()
     std::cout << "Is second enrollee better than first: " << comparisionResult << std::endl;
     if (comparisionResult)
     {
-        std::cout << "Error in fourth enrollees comparision!" << std::endl;
+        std::cout << "Error in enrollees comparision №4!" << std::endl;
+        return 1;
+    }
+
+    enrollee1->SetHasSchoolGoldMedal (false);
+    enrollee1->SetRODSubject (MATH_EXAM);
+    enrollee1->SetRODType (UEAA::ROD_SECOND);
+
+    comparisionResult = UEAA::IsFirstEnrolleeBetter (specialty, enrollee1, enrollee2);
+    std::cout << "Is first enrollee better than second: " << comparisionResult << std::endl;
+    if (!comparisionResult)
+    {
+        std::cout << "Error in enrollees comparision №5!" << std::endl;
+        return 1;
+    }
+
+    enrollee2->SetRODSubject (BELARUSIAN_LANGUAGE_EXAM);
+    enrollee2->SetRODType (UEAA::ROD_FIRST);
+    comparisionResult = UEAA::IsFirstEnrolleeBetter (specialty, enrollee1, enrollee2);
+    std::cout << "Is first enrollee better than second: " << comparisionResult << std::endl;
+    if (!comparisionResult)
+    {
+        std::cout << "Error in enrollees comparision №6!" << std::endl;
+        return 1;
+    }
+
+    enrollee2->SetRODSubject (MATH_EXAM);
+    comparisionResult = UEAA::IsFirstEnrolleeBetter (specialty, enrollee1, enrollee2);
+    std::cout << "Is first enrollee better than second: " << comparisionResult << std::endl;
+    if (comparisionResult)
+    {
+        std::cout << "Error in enrollees comparision №7!" << std::endl;
         return 1;
     }
 
@@ -98,6 +129,8 @@ int main ()
 void InitSpecialty (UEAA::Specialty *specialty)
 {
     specialty->SetIsPedagogical (true);
+    specialty->AddAcceptedRODSubject (MATH_EXAM);
+
     {
         std::vector <std::pair <bool, std::vector <unsigned> > > exams;
         {

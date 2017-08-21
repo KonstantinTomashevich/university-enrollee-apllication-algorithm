@@ -5,6 +5,7 @@
 
 #include <UEAA/Core/Enrollee/StudyForm.hpp>
 #include <UEAA/Core/Enrollee/EnrolleeChoice.hpp>
+#include <UEAA/Core/Enrollee/RepublicanOlympiadDiplomaType.hpp>
 #include <UEAA/Utils/ReferenceCounted.hpp>
 
 namespace UEAA
@@ -49,6 +50,12 @@ public:
     bool HasSchoolGoldMedal () const;
     void SetHasSchoolGoldMedal (bool hasSchoolGoldMedal);
 
+    unsigned GetRODSubject () const;
+    void SetRODSubject (unsigned rodSubject);
+
+    RepublicanOlympiadDiplomaType GetRODType () const;
+    void SetRODType (RepublicanOlympiadDiplomaType rodType);
+
 private:
     unsigned id_;
     std::string passportSeries_;
@@ -63,6 +70,12 @@ private:
     /// School education certificate marks. Key is school subject name hash. Marks will be in range (0, 10].
     std::map <unsigned, unsigned char> certificateMarks_;
     float certificateMedianMark_;
+
+    /// Enrollees with gold medal have priority in pedagogical specialties queues.
     bool hasSchoolGoldMedal_;
+
+    /// Enrollees with republican diploma have priority.
+    unsigned rodSubject_;
+    RepublicanOlympiadDiplomaType rodType_;
 };
 }
