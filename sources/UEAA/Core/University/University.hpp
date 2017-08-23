@@ -17,12 +17,19 @@ public:
 
     bool AddFaculty (Faculty *faculty);
     Faculty *GetFaculty (unsigned id) const;
+    unsigned GetFacultiesCount () const;
+    Faculty *GetFacultyByIndex (unsigned index) const;
+
     bool RemoveFaculty (unsigned id);
     void RemoveAllFaculties ();
 
     bool AddEnrollee (Enrollee *enrollee);
     Enrollee *GetEnrollee (unsigned id) const;
     Enrollee *GetEnrollee (const std::string &passportSeries, const std::string &passportNumber) const;
+
+    unsigned GetEnrolleesCount () const;
+    Enrollee *GetEnrolleeByIndex (unsigned index) const;
+
     bool RemoveEnrollee (unsigned id);
     void RemoveAllEnrollees ();
 

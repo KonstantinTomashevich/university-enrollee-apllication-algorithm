@@ -43,7 +43,26 @@ Faculty *University::GetFaculty (unsigned id) const
     }
     catch (std::out_of_range &exception)
     {
-        return 0;
+        return nullptr;
+    }
+}
+
+unsigned University::GetFacultiesCount () const
+{
+    return faculties_.size ();
+}
+
+Faculty *University::GetFacultyByIndex (unsigned index) const
+{
+    if (index < faculties_.size ())
+    {
+        auto iterator = faculties_.cbegin ();
+        for (; index > 0; iterator++, index--) {}
+        return iterator->second.GetTrackingObject ();
+    }
+    else
+    {
+        return nullptr;
     }
 }
 
@@ -90,13 +109,32 @@ Enrollee *University::GetEnrollee (unsigned id) const
     }
     catch (std::out_of_range &exception)
     {
-        return 0;
+        return nullptr;
     }
 }
 
 Enrollee *University::GetEnrollee (const std::string &passportSeries, const std::string &passportNumber) const
 {
     return GetEnrollee (CalculateEnrolleeHash (passportSeries, passportNumber));
+}
+
+unsigned University::GetEnrolleesCount () const
+{
+    return enrollees_.size ();
+}
+
+Enrollee *University::GetEnrolleeByIndex (unsigned index) const
+{
+    if (index < enrollees_.size ())
+    {
+        auto iterator = enrollees_.cbegin ();
+        for (; index > 0; iterator++, index--) {}
+        return iterator->second.GetTrackingObject ();
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 bool University::RemoveEnrollee (unsigned id)

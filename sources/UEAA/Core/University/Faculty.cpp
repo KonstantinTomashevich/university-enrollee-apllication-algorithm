@@ -47,7 +47,7 @@ Specialty *Faculty::GetSpecialty (unsigned id) const
     }
     catch (std::out_of_range &exception)
     {
-        return 0;
+        return nullptr;
     }
 }
 
@@ -61,6 +61,25 @@ bool Faculty::RemoveSpecialty (unsigned id)
 
     specialties_.erase (iterator);
     return true;
+}
+
+unsigned Faculty::GetSpecialtiesCount () const
+{
+    return specialties_.size ();
+}
+
+Specialty *Faculty::GetSpecialtyByIndex (unsigned index) const
+{
+    if (index < specialties_.size ())
+    {
+        auto iterator = specialties_.cbegin ();
+        for (; index > 0; iterator++, index--) {}
+        return iterator->second.GetTrackingObject ();
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 void Faculty::RemoveAllSpecialties ()

@@ -19,6 +19,8 @@ public:
     Specialty *GetSpecialty (unsigned id) const;
     bool RemoveSpecialty (unsigned id);
 
+    unsigned GetSpecialtiesCount () const;
+    Specialty *GetSpecialtyByIndex (unsigned index) const;
     void RemoveAllSpecialties ();
     void ClearAllSpecialtiesEnrollees ();
     std::vector <Enrollee *> GetExcessEnrollees ();
