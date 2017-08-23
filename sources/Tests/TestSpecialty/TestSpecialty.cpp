@@ -127,24 +127,9 @@ void InitSpecialty (UEAA::Specialty *specialty)
 
     {
         std::vector <std::pair <bool, std::vector <unsigned> > > exams;
-        {
-            std::vector <unsigned> exam;
-            exam.push_back (MATH_EXAM);
-            exams.push_back (std::pair <bool, std::vector <unsigned> > (true, exam));
-        }
-
-        {
-            std::vector <unsigned> exam;
-            exam.push_back (PHYSICS_EXAM);
-            exams.push_back (std::pair <bool, std::vector <unsigned> > (true, exam));
-        }
-
-        {
-            std::vector <unsigned> exam;
-            exam.push_back (LANGUAGE_EXAM);
-            exams.push_back (std::pair <bool, std::vector <unsigned> > (false, exam));
-        }
-
+        exams.push_back (std::pair <bool, std::vector <unsigned> > (true, {MATH_EXAM}));
+        exams.push_back (std::pair <bool, std::vector <unsigned> > (true, {PHYSICS_EXAM}));
+        exams.push_back (std::pair <bool, std::vector <unsigned> > (false, {LANGUAGE_EXAM}));
         specialty->SetRequiredExams (exams);
     }
 

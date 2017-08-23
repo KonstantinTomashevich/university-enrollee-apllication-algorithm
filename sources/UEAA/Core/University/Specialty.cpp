@@ -37,12 +37,12 @@ unsigned Specialty::GetId () const
     return id_;
 }
 
-const std::vector<std::pair<bool, std::vector<unsigned> > > &Specialty::GetRequiredExams() const
+const std::vector <std::pair <bool, std::vector <unsigned> > > &Specialty::GetRequiredExams () const
 {
     return requiredExams_;
 }
 
-void Specialty::SetRequiredExams (const std::vector<std::pair<bool, std::vector<unsigned> > > &requiredExams)
+void Specialty::SetRequiredExams (const std::vector <std::pair <bool, std::vector <unsigned> > > &requiredExams)
 {
     requiredExams_ = requiredExams;
 }

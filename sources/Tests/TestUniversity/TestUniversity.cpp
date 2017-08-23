@@ -189,24 +189,9 @@ UEAA::Specialty *CreateTechSpecialty (unsigned id, unsigned maxFreeEnrollees)
 
     {
         std::vector <std::pair <bool, std::vector <unsigned> > > exams;
-        {
-            std::vector <unsigned> exam;
-            exam.push_back (MATH_EXAM);
-            exams.push_back (std::pair <bool, std::vector <unsigned> > (true, exam));
-        }
-
-        {
-            std::vector <unsigned> exam;
-            exam.push_back (PHYSICS_EXAM);
-            exams.push_back (std::pair <bool, std::vector <unsigned> > (true, exam));
-        }
-
-        {
-            std::vector <unsigned> exam;
-            exam.push_back (LANGUAGE_EXAM);
-            exams.push_back (std::pair <bool, std::vector <unsigned> > (false, exam));
-        }
-
+        exams.push_back (std::pair <bool, std::vector <unsigned> > (true, {MATH_EXAM}));
+        exams.push_back (std::pair <bool, std::vector <unsigned> > (true, {PHYSICS_EXAM}));
+        exams.push_back (std::pair <bool, std::vector <unsigned> > (false, {LANGUAGE_EXAM}));
         specialty->SetRequiredExams (exams);
     }
 
@@ -250,24 +235,9 @@ UEAA::Specialty *CreateArtsSpecialty (unsigned id, unsigned maxFreeEnrollees)
 
     {
         std::vector <std::pair <bool, std::vector <unsigned> > > exams;
-        {
-            std::vector <unsigned> exam;
-            exam.push_back (ARTS_INTERNAL_EXAM);
-            exams.push_back (std::pair <bool, std::vector <unsigned> > (true, exam));
-        }
-
-        {
-            std::vector <unsigned> exam;
-            exam.push_back (SOCIETY_EXAM);
-            exams.push_back (std::pair <bool, std::vector <unsigned> > (true, exam));
-        }
-
-        {
-            std::vector <unsigned> exam;
-            exam.push_back (LANGUAGE_EXAM);
-            exams.push_back (std::pair <bool, std::vector <unsigned> > (false, exam));
-        }
-
+        exams.push_back (std::pair <bool, std::vector <unsigned> > (true, {ARTS_INTERNAL_EXAM}));
+        exams.push_back (std::pair <bool, std::vector <unsigned> > (true, {SOCIETY_EXAM}));
+        exams.push_back (std::pair <bool, std::vector <unsigned> > (false, {LANGUAGE_EXAM}));
         specialty->SetRequiredExams (exams);
     }
 
