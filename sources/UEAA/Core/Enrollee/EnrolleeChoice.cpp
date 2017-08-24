@@ -18,4 +18,11 @@ EnrolleeChoice::EnrolleeChoice (unsigned faculty, unsigned specialty, StudyForm 
 {
 
 }
+
+void EnrolleeChoice::SaveToXML (tinyxml2::XMLElement *output, DeHashTable *deHashTable) const
+{
+    output->SetAttribute ("faculty", deHashTable->DeHash (faculty_).c_str ());
+    output->SetAttribute ("specialty", deHashTable->DeHash (specialty_).c_str ());
+    output->SetAttribute ("studyForm", studyForm_);
+}
 }

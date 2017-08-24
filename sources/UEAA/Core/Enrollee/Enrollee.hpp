@@ -45,7 +45,7 @@ public:
     void CalculateCertificateMedianMark ();
 
     bool HasSchoolGoldMedal () const;
-    void SetHasSchoolGoldMedal (bool hasSchoolGoldMedal);
+    void CheckIsHasSchoolGoldMedal ();
 
     unsigned GetRODSubject () const;
     void SetRODSubject (unsigned rodSubject);

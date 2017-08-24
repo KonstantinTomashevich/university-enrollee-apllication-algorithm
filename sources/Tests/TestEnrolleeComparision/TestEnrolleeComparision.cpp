@@ -83,7 +83,12 @@ int main ()
     }
 
     std::cout << "Adding school gold medal to first enrollee." << std::endl;
-    enrollee1->SetHasSchoolGoldMedal (true);
+    enrollee1->SetCertificateMark (MATH_EXAM, 9);
+    enrollee1->SetCertificateMark (PHYSICS_EXAM, 9);
+    enrollee1->SetCertificateMark (RUSSIAN_LANGUAGE_EXAM, 9);
+    enrollee1->SetCertificateMark (BELARUSIAN_LANGUAGE_EXAM, 9);
+    enrollee1->CheckIsHasSchoolGoldMedal ();
+
     comparisionResult = UEAA::IsFirstEnrolleeBetter (specialty, enrollee2, enrollee1);
     std::cout << "Is second enrollee better than first: " << comparisionResult << std::endl;
     if (comparisionResult)
@@ -92,7 +97,6 @@ int main ()
         return 1;
     }
 
-    enrollee1->SetHasSchoolGoldMedal (false);
     enrollee1->SetRODSubject (MATH_EXAM);
     enrollee1->SetRODType (UEAA::ROD_SECOND);
 

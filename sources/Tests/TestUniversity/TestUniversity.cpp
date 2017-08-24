@@ -104,6 +104,7 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
     enrollee->SetCertificateMark (LANGUAGE_EXAM, 5 + rand () % 6);
     enrollee->SetCertificateMark (SOCIETY_EXAM, 5 + rand () % 6);
     enrollee->CalculateCertificateMedianMark ();
+    enrollee->CheckIsHasSchoolGoldMedal ();
 
     enrollee->SetExamResult (LANGUAGE_EXAM, 30 + rand () % 71);
     if (addTech)

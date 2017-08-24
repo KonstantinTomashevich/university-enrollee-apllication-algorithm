@@ -162,9 +162,17 @@ bool Enrollee::HasSchoolGoldMedal () const
     return hasSchoolGoldMedal_;
 }
 
-void Enrollee::SetHasSchoolGoldMedal (bool hasSchoolGoldMedal)
+void Enrollee::CheckIsHasSchoolGoldMedal ()
 {
-    hasSchoolGoldMedal_ = hasSchoolGoldMedal;
+    hasSchoolGoldMedal_ = true;
+    for (auto iterator = certificateMarks_.cbegin (); iterator != certificateMarks_.cend (); iterator++)
+    {
+        if (iterator->second < 9)
+        {
+            hasSchoolGoldMedal_ = false;
+            return;
+        }
+    }
 }
 
 unsigned Enrollee::GetRODSubject () const
@@ -189,7 +197,49 @@ void Enrollee::SetRODType (RODType rodType)
 
 void Enrollee::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const
 {
+    output->SetAttribute ("passport", deHashTable->DeHash (id_).c_str ());
+    output->SetAttribute ("rodSubject", deHashTable->DeHash (rodSubject_).c_str ());
+    output->SetAttribute ("rodType", rodType_);
 
+    tinyxml2::XMLElement *examsResultsElement = document.NewElement ("examsResults");
+    output->InsertEndChild (examsResultsElement);
+
+    for (auto iterator = examsResults_.cbegin (); iterator != examsResults_.cend (); iterator++)
+    {
+        tinyxml2::XMLElement *examElement = document.NewElement ("exam");
+        examsResultsElement->InsertEndChild (examElement);
+
+        examElement->SetAttribute ("subject", deHashTable->DeHash (iterator->first).c_str ());
+        examElement->SetAttribute ("result", iterator->second);
+    }
+
+    tinyxml2::XMLElement *certificateMarksElement = document.NewElement ("certificateMarks");
+    output->InsertEndChild (certificateMarksElement);
+
+    for (auto iterator = certificateMarks_.cbegin (); iterator != certificateMarks_.cend (); iterator++)
+    {
+        tinyxml2::XMLElement *markElement = document.NewElement ("mark");
+        certificateMarksElement->InsertEndChild (markElement);
+
+        markElement->SetAttribute ("subject", deHashTable->DeHash (iterator->first).c_str ());
+        markElement->SetAttribute ("result", iterator->second);
+    }
+
+    tinyxml2::XMLElement *choicesElement = document.NewElement ("choices");
+    output->InsertEndChild (choicesElement);
+
+    for (auto iterator = choices_.cbegin (); iterator != choices_.cend (); iterator++)
+    {
+        const EnrolleeChoice &choice = *iterator;
+        tinyxml2::XMLElement *choiceElement = document.NewElement ("choice");
+
+        choicesElement->InsertEndChild (choiceElement);
+        choice.SaveToXML (choiceElement, deHashTable);
+    }
+
+    tinyxml2::XMLElement *lastUpdateResultElement = document.NewElement ("lastUpdateResult");
+    output->InsertEndChild (lastUpdateResultElement);
+    lastUpdateResult_.SaveToXML (lastUpdateResultElement, deHashTable);
 }
 
 void Enrollee::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
