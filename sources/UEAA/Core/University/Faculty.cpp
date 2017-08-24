@@ -4,7 +4,7 @@
 namespace UEAA
 {
 Faculty::Faculty (unsigned id) :
-    ReferenceCounted (),
+    XMLSerializable (),
     id_ (id),
     specialties_ ()
 {
@@ -105,5 +105,23 @@ std::vector <Enrollee *> Faculty::GetExcessEnrollees ()
         excessEnrolees.insert (excessEnrolees.end (), thisSpecialtyExcess.begin (), thisSpecialtyExcess.end ());
     }
     return excessEnrolees;
+}
+
+void Faculty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable)
+{
+    output->SetAttribute ("name", deHashTable->DeHash (id_).c_str ());
+    for (auto iterator = specialties_.cbegin (); iterator != specialties_.cend (); iterator++)
+    {
+        Specialty *specialty = iterator->second;
+        tinyxml2::XMLElement *specialtyElement = document.NewElement ("specialty");
+
+        output->InsertEndChild (specialtyElement);
+        specialty->SaveToXML (document, specialtyElement, deHashTable);
+    }
+}
+
+void Faculty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
+{
+
 }
 }

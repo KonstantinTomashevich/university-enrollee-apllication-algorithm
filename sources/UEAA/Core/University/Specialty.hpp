@@ -3,12 +3,12 @@
 #include <string>
 
 #include <UEAA/Core/Enrollee/StudyForm.hpp>
-#include <UEAA/Utils/ReferenceCounted.hpp>
+#include <UEAA/Utils/XMLSerializable.hpp>
 
 namespace UEAA
 {
 class Enrollee;
-class Specialty : public ReferenceCounted
+class Specialty : public XMLSerializable
 {
 public:
     explicit Specialty (unsigned id);
@@ -40,6 +40,9 @@ public:
     bool RemoveAcceptedRODSubject (unsigned subject);
     bool IsRODSubjectAccepted (unsigned subject) const;
     const std::vector <unsigned> &GetAcceptedRODSubjects () const;
+
+    virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable);
+    virtual void LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable);
 
 private:
     /// Returns false if there is no excess enrollees.

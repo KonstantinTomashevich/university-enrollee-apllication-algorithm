@@ -5,7 +5,7 @@
 namespace UEAA
 {
 University::University () :
-    ReferenceCounted (),
+    XMLSerializable (),
     faculties_ (),
     enrollees_ ()
 {
@@ -241,5 +241,38 @@ void University::AddExcessToProcessingList (std::vector <Enrollee *> &processing
             processing.push_back (enrollee);
         }
     }
+}
+
+void University::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable)
+{
+    output->SetName ("university");
+    tinyxml2::XMLElement *enrolleesElement = document.NewElement ("enrollees");
+    output->InsertEndChild (enrolleesElement);
+
+    for (auto iterator = enrollees_.cbegin (); iterator != enrollees_.cend (); iterator++)
+    {
+        Enrollee *enrollee = iterator->second;
+        tinyxml2::XMLElement *enrolleeElement = document.NewElement ("enrollee");
+
+        enrolleesElement->InsertEndChild (enrolleeElement);
+        enrollee->SaveToXML (document, enrolleeElement, deHashTable);
+    }
+
+    tinyxml2::XMLElement *facultiesElement = document.NewElement ("faculties");
+    output->InsertEndChild (facultiesElement);
+
+    for (auto iterator = faculties_.cbegin (); iterator != faculties_.cend (); iterator++)
+    {
+        Faculty *faculty = iterator->second;
+        tinyxml2::XMLElement *facultyElement = document.NewElement ("faculty");
+
+        facultiesElement->InsertEndChild (facultyElement);
+        faculty->SaveToXML (document, facultyElement, deHashTable);
+    }
+}
+
+void University::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
+{
+
 }
 }

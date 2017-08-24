@@ -2,14 +2,14 @@
 #include <map>
 #include <string>
 
-#include <UEAA/Utils/ReferenceCounted.hpp>
+#include <UEAA/Utils/XMLSerializable.hpp>
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Core/University/Faculty.hpp>
 #include <UEAA/Core/Enrollee/Enrollee.hpp>
 
 namespace UEAA
 {
-class University : public ReferenceCounted
+class University : public XMLSerializable
 {
 public:
     University ();
@@ -36,6 +36,9 @@ public:
     void ClearEnroleesApplicationInfo ();
     /// Returns array of excess enrolees.
     std::vector <Enrollee *> ProcessEnrolleesApplication ();
+
+    virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable);
+    virtual void LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable);
 
 private:
     void ProcessEnroleesChoices (std::vector <Enrollee *> &processing, std::vector <Enrollee *> &excess) const;

@@ -2,13 +2,13 @@
 #include <map>
 #include <string>
 
-#include <UEAA/Utils/ReferenceCounted.hpp>
+#include <UEAA/Utils/XMLSerializable.hpp>
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Core/University/Specialty.hpp>
 
 namespace UEAA
 {
-class Faculty : public ReferenceCounted
+class Faculty : public XMLSerializable
 {
 public:
     explicit Faculty (unsigned id);
@@ -24,6 +24,9 @@ public:
     void RemoveAllSpecialties ();
     void ClearAllSpecialtiesEnrollees ();
     std::vector <Enrollee *> GetExcessEnrollees ();
+
+    virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable);
+    virtual void LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable);
 
 private:
     unsigned id_;

@@ -9,7 +9,7 @@
 namespace UEAA
 {
 Specialty::Specialty (unsigned id) :
-    ReferenceCounted (),
+    XMLSerializable (),
     id_ (id),
 
     requiredExams_ (),
@@ -212,5 +212,56 @@ bool Specialty::IsRODSubjectAccepted (unsigned subject) const
 const std::vector <unsigned> &Specialty::GetAcceptedRODSubjects () const
 {
     return acceptedRODSubjects_;
+}
+
+void Specialty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable)
+{
+    output->SetAttribute ("name", deHashTable->DeHash (id_).c_str ());
+    output->SetAttribute ("maxEnrolleesInFreeForm", maxEnrolleesInFreeForm_);
+    output->SetAttribute ("maxEnrolleesInPaidForm", maxEnrolleesInPaidForm_);
+    output->SetAttribute ("isPedagogical", isPedagogical_);
+
+    tinyxml2::XMLElement *requiredExamsElement = document.NewElement ("requiredExams");
+    output->InsertEndChild (requiredExamsElement);
+
+    for (auto iterator = requiredExams_.cbegin (); iterator != requiredExams_.cend (); iterator++)
+    {
+        tinyxml2::XMLElement *examElement = document.NewElement ("exam");
+        requiredExamsElement->InsertEndChild (examElement);
+        examElement->SetAttribute ("usedInPerExamComparision", iterator->first);
+
+        const std::vector <unsigned> &subjects = iterator->second;
+        for (auto subjectIterator = subjects.cbegin (); subjectIterator != subjects.cend (); subjectIterator++)
+        {
+            tinyxml2::XMLElement *subjectElement = document.NewElement ("subject");
+            examElement->InsertEndChild (subjectElement);
+            subjectElement->SetAttribute ("name", deHashTable->DeHash (*subjectIterator).c_str ());
+        }
+    }
+
+    tinyxml2::XMLElement *marksInCertificatePriorityElement = document.NewElement ("marksInCertificatePriority");
+    output->InsertEndChild (marksInCertificatePriorityElement);
+
+    for (auto iterator = marksInCertificatePriority_.cbegin (); iterator != marksInCertificatePriority_.cend (); iterator++)
+    {
+        tinyxml2::XMLElement *subjectElement = document.NewElement ("subject");
+        marksInCertificatePriorityElement->InsertEndChild (subjectElement);
+        subjectElement->SetAttribute ("name", deHashTable->DeHash (*iterator).c_str ());
+    }
+
+    tinyxml2::XMLElement *acceptedRODSubjectsElement = document.NewElement ("acceptedRODSubjects");
+    output->InsertEndChild (acceptedRODSubjectsElement);
+
+    for (auto iterator = acceptedRODSubjects_.cbegin (); iterator != acceptedRODSubjects_.cend (); iterator++)
+    {
+        tinyxml2::XMLElement *subjectElement = document.NewElement ("subject");
+        acceptedRODSubjectsElement->InsertEndChild (subjectElement);
+        subjectElement->SetAttribute ("name", deHashTable->DeHash (*iterator).c_str ());
+    }
+}
+
+void Specialty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
+{
+
 }
 }

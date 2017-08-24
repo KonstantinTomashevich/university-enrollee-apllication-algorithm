@@ -7,7 +7,7 @@
 namespace UEAA
 {
 Enrollee::Enrollee (unsigned id) :
-    ReferenceCounted (),
+    XMLSerializable (),
     id_ (id),
 
     examsResults_ (),
@@ -185,5 +185,15 @@ RODType Enrollee::GetRODType () const
 void Enrollee::SetRODType (RODType rodType)
 {
     rodType_ = rodType;
+}
+
+void Enrollee::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable)
+{
+
+}
+
+void Enrollee::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
+{
+
 }
 }

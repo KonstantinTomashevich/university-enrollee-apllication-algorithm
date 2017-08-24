@@ -4,7 +4,7 @@
 
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Utils/DeHashTable.hpp>
-#include <UEAA/Utils/XMLIO.hpp>
+#include <Dependencies/TinyXML2/tinyxml2.h>
 
 int main ()
 {
@@ -34,7 +34,15 @@ int main ()
         university->AddEnrollee (GenerateEnrollee (true, true, deHashTable));
     }
 
-    return UEAA::XMLIO::SaveToFile ("test.xml", university, deHashTable) ? 0 : 1;
+    tinyxml2::XMLDocument document;
+    tinyxml2::XMLElement *universityElement = document.NewElement ("university");
+    document.InsertEndChild (universityElement);
+    university->SaveToXML (document, universityElement, deHashTable);
+
+    tinyxml2::XMLPrinter printer;
+    document.Print (&printer);
+    std::cout << printer.CStr () << std::endl;
+    return 0;
 }
 
 void InitHashes (UEAA::DeHashTable *deHashTable)
