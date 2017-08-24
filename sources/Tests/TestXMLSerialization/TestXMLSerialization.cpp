@@ -1,4 +1,4 @@
-#include "TestXMLIO.hpp"
+#include "TestXMLSerialization.hpp"
 #include <iostream>
 #include <time.h>
 
