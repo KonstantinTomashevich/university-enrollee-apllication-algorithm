@@ -220,7 +220,7 @@ const std::vector <unsigned> &Specialty::GetAcceptedRODSubjects () const
     return acceptedRODSubjects_;
 }
 
-void Specialty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable)
+void Specialty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const
 {
     output->SetAttribute ("name", deHashTable->DeHash (id_).c_str ());
     output->SetAttribute ("maxEnrolleesInFreeForm", maxEnrolleesInFreeForm_);

@@ -53,7 +53,7 @@ public:
     RODType GetRODType () const;
     void SetRODType (RODType rodType);
 
-    virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable);
+    virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const;
     virtual void LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable);
 
 private:

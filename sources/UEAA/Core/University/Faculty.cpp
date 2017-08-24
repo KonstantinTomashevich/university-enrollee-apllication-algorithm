@@ -113,7 +113,7 @@ std::vector <Enrollee *> Faculty::GetExcessEnrollees ()
     return excessEnrolees;
 }
 
-void Faculty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable)
+void Faculty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const
 {
     output->SetAttribute ("name", deHashTable->DeHash (id_).c_str ());
     for (auto iterator = specialties_.cbegin (); iterator != specialties_.cend (); iterator++)

@@ -243,7 +243,7 @@ void University::AddExcessToProcessingList (std::vector <Enrollee *> &processing
     }
 }
 
-void University::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable)
+void University::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const
 {
     output->SetName ("university");
     tinyxml2::XMLElement *enrolleesElement = document.NewElement ("enrollees");

@@ -11,7 +11,7 @@ public:
     XMLSerializable ();
     virtual ~XMLSerializable ();
 
-    virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) = 0;
+    virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const = 0;
     virtual void LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable) = 0;
 };
 }

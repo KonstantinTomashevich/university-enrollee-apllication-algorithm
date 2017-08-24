@@ -187,7 +187,7 @@ void Enrollee::SetRODType (RODType rodType)
     rodType_ = rodType;
 }
 
-void Enrollee::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable)
+void Enrollee::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const
 {
 
 }
