@@ -264,6 +264,30 @@ void Specialty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement
         acceptedRODSubjectsElement->InsertEndChild (subjectElement);
         subjectElement->SetAttribute ("name", deHashTable->DeHash (*iterator).c_str ());
     }
+
+    tinyxml2::XMLElement *enrolleesInFreeFormElement = document.NewElement ("enrolleesInFreeForm");
+    output->InsertEndChild (enrolleesInFreeFormElement);
+
+    for (auto iterator = enrolleesInFreeForm_.cbegin (); iterator != enrolleesInFreeForm_.cend (); iterator++)
+    {
+        Enrollee *enrollee = *iterator;
+        tinyxml2::XMLElement *enrolleeElement = document.NewElement ("enrollee");
+
+        enrolleesInFreeFormElement->InsertEndChild (enrolleeElement);
+        enrolleeElement->SetAttribute ("passport", deHashTable->DeHash (enrollee->GetId ()).c_str ());
+    }
+
+    tinyxml2::XMLElement *enrolleesInPaidFormElement = document.NewElement ("enrolleesInPaidForm");
+    output->InsertEndChild (enrolleesInPaidFormElement);
+
+    for (auto iterator = enrolleesInPaidForm_.cbegin (); iterator != enrolleesInPaidForm_.cend (); iterator++)
+    {
+        Enrollee *enrollee = *iterator;
+        tinyxml2::XMLElement *enrolleeElement = document.NewElement ("enrollee");
+
+        enrolleesInPaidFormElement->InsertEndChild (enrolleeElement);
+        enrolleeElement->SetAttribute ("passport", deHashTable->DeHash (enrollee->GetId ()).c_str ());
+    }
 }
 
 void Specialty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
