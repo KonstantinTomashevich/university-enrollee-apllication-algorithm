@@ -94,27 +94,27 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
 
     if (addTech)
     {
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                 TECH_FACULTY, TechFaculty::APPLIED_COMPUTER_SCIENCE, UEAA::STUDY_FORM_FREE));
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                 TECH_FACULTY, TechFaculty::COMPUTER_SCIENCE, UEAA::STUDY_FORM_FREE));
 
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                 TECH_FACULTY, TechFaculty::APPLIED_COMPUTER_SCIENCE, UEAA::STUDY_FORM_PAID));
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                 TECH_FACULTY, TechFaculty::COMPUTER_SCIENCE, UEAA::STUDY_FORM_PAID));
     }
 
     if (addArts)
     {
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                 ARTS_FACULTY, ArtsFaculty::PAINTING, UEAA::STUDY_FORM_FREE));
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                 ARTS_FACULTY, ArtsFaculty::THEATRE, UEAA::STUDY_FORM_FREE));
 
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                 ARTS_FACULTY, ArtsFaculty::PAINTING, UEAA::STUDY_FORM_PAID));
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                 ARTS_FACULTY, ArtsFaculty::THEATRE, UEAA::STUDY_FORM_PAID));
     }
     enrolleesGeneratorCounter_++;

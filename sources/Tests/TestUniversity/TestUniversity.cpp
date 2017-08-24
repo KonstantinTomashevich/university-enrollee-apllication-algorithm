@@ -7,7 +7,7 @@ int main ()
 {
     srand (time (0));
     UEAA::SharedPointer <UEAA::University> university (CreateTestUniversity ());
-    if (!university.GetTrackingObject ())
+    if (university.GetTrackingObject () == nullptr)
     {
         std::cout << "Can't initialize university!" << std::endl;
         return 1;
@@ -58,11 +58,11 @@ int main ()
         enrollee->RefreshChoiceIndex ();
         while (enrollee->HasMoreChoices ())
         {
-            UEAA::EnrolleeChoice choice = enrollee->GetCurrentChoice ();
-            UEAA::Faculty *faculty = university->GetFaculty (choice.faculty_);
+            UEAA::EnrolleeChoice *choice = enrollee->GetCurrentChoice ();
+            UEAA::Faculty *faculty = university->GetFaculty (choice->GetFaculty ());
             if (faculty)
             {
-                UEAA::Specialty *specialty = faculty->GetSpecialty (choice.specialty_);
+                UEAA::Specialty *specialty = faculty->GetSpecialty (choice->GetSpecialty ());
                 if (specialty)
                 {
                     const std::vector <UEAA::Enrollee *> anotherEnrollees = specialty->GetEnrolleesInFreeForm ();
@@ -121,17 +121,17 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
 
     if (addTech)
     {
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                                        TECH_FACULTY, TechFaculty::APPLIED_COMPUTER_SCIENCE, UEAA::STUDY_FORM_FREE));
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                                        TECH_FACULTY, TechFaculty::COMPUTER_SCIENCE, UEAA::STUDY_FORM_FREE));
     }
 
     if (addArts)
     {
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                                        ARTS_FACULTY, ArtsFaculty::PAINTING, UEAA::STUDY_FORM_FREE));
-        enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
                                        ARTS_FACULTY, ArtsFaculty::THEATRE, UEAA::STUDY_FORM_FREE));
     }
     enrolleesGeneratorCounter_++;

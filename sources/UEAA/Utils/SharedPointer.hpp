@@ -67,7 +67,7 @@ private:
 
     void SubtractReference ()
     {
-        if (trackingObject_)
+        if (trackingObject_ != nullptr)
         {
             trackingObject_->SubtractReference ();
             if (trackingObject_->GetReferencesCount () == 0)

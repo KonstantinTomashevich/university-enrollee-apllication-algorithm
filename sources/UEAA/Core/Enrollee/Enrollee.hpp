@@ -1,12 +1,13 @@
 #pragma once
 #include <map>
-#include <vector>
+#include <list>
 #include <string>
 
 #include <UEAA/Core/Enrollee/StudyForm.hpp>
 #include <UEAA/Core/Enrollee/EnrolleeChoice.hpp>
 #include <UEAA/Core/Enrollee/RODType.hpp>
 #include <UEAA/Utils/XMLSerializable.hpp>
+#include <UEAA/Utils/SharedPointer.hpp>
 
 namespace UEAA
 {
@@ -26,17 +27,17 @@ public:
     void RefreshChoiceIndex ();
 
     unsigned GetChoicesCount () const;
-    const std::vector <EnrolleeChoice> &GetChoices () const;
+    const std::list <SharedPointer <EnrolleeChoice> > &GetChoices () const;
 
-    EnrolleeChoice GetCurrentChoice () const;
-    EnrolleeChoice GetChoiceByIndex (unsigned index) const;
+    EnrolleeChoice *GetCurrentChoice () const;
+    EnrolleeChoice *GetChoiceByIndex (unsigned index) const;
 
-    void AddChoiceToBack (const EnrolleeChoice &choice);
+    void AddChoiceToBack (EnrolleeChoice *choice);
     void RemoveChoiceByIndex (unsigned index);
     void SwapChoicesAtIndexes (unsigned firstIndex, unsigned secondIndex);
 
-    EnrolleeChoice GetLastUpdateResult () const;
-    void SetLastUpdateResult (const EnrolleeChoice &lastUpdateResult);
+    EnrolleeChoice *GetLastUpdateResult () const;
+    void SetLastUpdateResult (EnrolleeChoice *lastUpdateResult);
 
     unsigned char GetCertificateMark (unsigned subjectNameHash) const;
     void SetCertificateMark (unsigned subjectNameHash, unsigned char mark);
@@ -61,8 +62,8 @@ private:
     /// Exams results map. Key is exam subject name hash. Results will be in range (0, 100].
     std::map <unsigned, unsigned char> examsResults_;
     unsigned currentChoiceIndex_;
-    std::vector <EnrolleeChoice> choices_;
-    EnrolleeChoice lastUpdateResult_;
+    std::list <SharedPointer <EnrolleeChoice> > choices_;
+    SharedPointer <EnrolleeChoice> lastUpdateResult_;
 
     /// School education certificate marks. Key is school subject name hash. Marks will be in range (0, 10].
     std::map <unsigned, unsigned char> certificateMarks_;

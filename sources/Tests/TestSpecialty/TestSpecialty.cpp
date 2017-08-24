@@ -100,8 +100,9 @@ int main ()
     {
         const UEAA::Enrollee *excessEnrollee = *iterator;
         const std::vector <UEAA::Enrollee *> anotherEnrollees =
-                (excessEnrollee->GetCurrentChoice ().studyForm_ == UEAA::STUDY_FORM_FREE) ?
+                (excessEnrollee->GetCurrentChoice ()->GetStudyForm () == UEAA::STUDY_FORM_FREE) ?
                     specialty->GetEnrolleesInFreeForm () : specialty->GetEnrolleesInPaidForm ();
+
         for (auto anotherEnrolleesIterator = anotherEnrollees.cbegin ();
              anotherEnrolleesIterator != anotherEnrollees.cend (); anotherEnrolleesIterator++)
         {
@@ -153,7 +154,7 @@ UEAA::Enrollee *GenerateEnrollee (UEAA::StudyForm studyForm)
     enrollee->SetExamResult (PHYSICS_EXAM, 30 + rand () % 71);
     enrollee->SetExamResult (LANGUAGE_EXAM, 30 + rand () % 71);
 
-    enrollee->AddChoiceToBack (UEAA::EnrolleeChoice (0, SPECIALTY_ID, studyForm));
+    enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (0, SPECIALTY_ID, studyForm));
     return enrollee;
 }
 

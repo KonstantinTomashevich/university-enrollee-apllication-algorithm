@@ -20,8 +20,8 @@ const unsigned LANGUAGE_EXAM = UEAA::CStringToHash ("Language");
 int main ()
 {
     UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee (UEAA::CalculateEnrolleeHash ("XX", "0000000")));
-    std::cout << "Setting exams results: " << MATH_RESULT << " " <<
-                 PHYSICS_RESULT << " " << LANGUAGE_RESULT << std::endl;
+    std::cout << "Setting exams results: " << MATH_RESULT * 1 << " " <<
+                 PHYSICS_RESULT * 1 << " " << LANGUAGE_RESULT * 1 << std::endl;
 
     enrollee->SetExamResult (MATH_EXAM, MATH_RESULT);
     enrollee->SetExamResult (PHYSICS_EXAM, PHYSICS_RESULT);
@@ -52,8 +52,8 @@ int main ()
 
     for (unsigned faculty = 0; faculty <= 3; faculty++)
     {
-        UEAA::EnrolleeChoice choice (faculty, 1, UEAA::STUDY_FORM_FREE);
-        std::cout << "Added faculty choice: " << choice.faculty_ << std::endl;
+        UEAA::EnrolleeChoice *choice = new UEAA::EnrolleeChoice (faculty, 1, UEAA::STUDY_FORM_FREE);
+        std::cout << "Added faculty choice: " << choice->GetFaculty () << std::endl;
         enrollee->AddChoiceToBack (choice);
     }
 
@@ -76,9 +76,9 @@ int main ()
     std::cout << "Choices 0 and 2 swapped." << std::endl;
     for (unsigned faculty = 3; faculty >= 1; faculty--)
     {
-        UEAA::EnrolleeChoice choice = enrollee->GetCurrentChoice ();
-        std::cout << "Choice (faculty): " << choice.faculty_ << std::endl;
-        if (choice.faculty_ != faculty)
+        UEAA::EnrolleeChoice *choice = enrollee->GetCurrentChoice ();
+        std::cout << "Choice (faculty): " << choice->GetFaculty () << std::endl;
+        if (choice->GetFaculty () != faculty)
         {
             std::cout << "Incorrect choice faculty!"<< std::endl;
             return 1;
@@ -95,8 +95,9 @@ int main ()
 
     enrollee->RefreshChoiceIndex ();
     std::cout << "Choice index refreshed." << std::endl;
-    std::cout << "Current choice: (faculty): " << enrollee->GetCurrentChoice ().faculty_ << std::endl;
-    if (enrollee->GetCurrentChoice ().faculty_ != enrollee->GetChoiceByIndex (0).faculty_)
+    std::cout << "Current choice: (faculty): " << enrollee->GetCurrentChoice ()->GetFaculty () << std::endl;
+
+    if (enrollee->GetCurrentChoice ()->GetFaculty () != enrollee->GetChoiceByIndex (0)->GetFaculty ())
     {
         std::cout << "Incorrect choice after refresh!" << std::endl;
         return 1;

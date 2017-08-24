@@ -75,8 +75,8 @@ const std::vector <Enrollee *> &Specialty::GetEnrolleesInPaidForm () const
 
 bool Specialty::AddEnrollee (Enrollee *enrollee)
 {
-    EnrolleeChoice choice = enrollee->GetCurrentChoice ();
-    if (choice.specialty_ != id_)
+    EnrolleeChoice *choice = enrollee->GetCurrentChoice ();
+    if (choice->GetSpecialty () != id_)
     {
         return false;
     }
@@ -86,7 +86,7 @@ bool Specialty::AddEnrollee (Enrollee *enrollee)
         return false;
     }
 
-    AddEnrolleeToOrder (enrollee, (choice.studyForm_ == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_);
+    AddEnrolleeToOrder (enrollee, (choice->GetStudyForm () == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_);
     return true;
 }
 

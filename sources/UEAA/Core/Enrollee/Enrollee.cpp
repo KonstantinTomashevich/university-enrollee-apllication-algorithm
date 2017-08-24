@@ -13,7 +13,7 @@ Enrollee::Enrollee (unsigned id) :
     examsResults_ (),
     currentChoiceIndex_ (0),
     choices_ (0),
-    lastUpdateResult_ (),
+    lastUpdateResult_ (nullptr),
 
     certificateMarks_ (),
     certificateMedianMark_ (),
@@ -77,58 +77,66 @@ unsigned Enrollee::GetChoicesCount () const
     return choices_.size ();
 }
 
-const std::vector<EnrolleeChoice> &Enrollee::GetChoices () const
+const std::list <SharedPointer <EnrolleeChoice> > &Enrollee::GetChoices () const
 {
     return choices_;
 }
 
-EnrolleeChoice Enrollee::GetCurrentChoice () const
+EnrolleeChoice *Enrollee::GetCurrentChoice () const
 {
-    if (HasMoreChoices ())
-    {
-        return choices_.at (currentChoiceIndex_);
-    }
-    else
-    {
-        return EMPTY_ENROLLEE_CHOICE;
-    }
+    return GetChoiceByIndex (currentChoiceIndex_);
 }
 
-EnrolleeChoice Enrollee::GetChoiceByIndex (unsigned index) const
+EnrolleeChoice *Enrollee::GetChoiceByIndex (unsigned index) const
 {
     if (index < choices_.size ())
     {
-        return choices_.at (index);
+        auto iterator = choices_.begin ();
+        for (; index > 0; iterator++, index--) {}
+        return *iterator;
     }
     else
     {
-        return EMPTY_ENROLLEE_CHOICE;
+        return nullptr;
     }
 }
 
-void Enrollee::AddChoiceToBack (const EnrolleeChoice &choice)
+void Enrollee::AddChoiceToBack (EnrolleeChoice *choice)
 {
-    choices_.push_back (choice);
+    choices_.push_back (SharedPointer <EnrolleeChoice> (choice));
 }
 
 void Enrollee::RemoveChoiceByIndex (unsigned index)
 {
-    choices_.erase (choices_.begin () + index);
+    if (index < choices_.size ())
+    {
+        auto iterator = choices_.begin ();
+        for (; index > 0; iterator++, index--) {}
+        choices_.erase (iterator);
+    }
 }
 
 void Enrollee::SwapChoicesAtIndexes (unsigned firstIndex, unsigned secondIndex)
 {
-    std::iter_swap (choices_.begin () + firstIndex, choices_.begin () + secondIndex);
+    auto firstIterator = choices_.begin ();
+    for (; firstIndex > 0; firstIterator++, firstIndex--) {}
+
+    auto secondIterator = choices_.begin ();
+    for (; secondIndex > 0; secondIterator++, secondIndex--) {}
+
+    SharedPointer <EnrolleeChoice> temp (firstIterator->GetTrackingObject ());
+    firstIterator->SetTrackingObject (secondIterator->GetTrackingObject ());
+    secondIterator->SetTrackingObject (temp.GetTrackingObject ());
 }
 
-EnrolleeChoice Enrollee::GetLastUpdateResult () const
+EnrolleeChoice *Enrollee::GetLastUpdateResult () const
 {
     return lastUpdateResult_;
 }
 
-void Enrollee::SetLastUpdateResult (const EnrolleeChoice &lastUpdateResult)
+void Enrollee::SetLastUpdateResult (EnrolleeChoice *lastUpdateResult)
 {
-    lastUpdateResult_ = lastUpdateResult;
+    lastUpdateResult_.SetTrackingObject (lastUpdateResult);
 }
 
 unsigned char Enrollee::GetCertificateMark (unsigned subjectNameHash) const
@@ -230,16 +238,16 @@ void Enrollee::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement 
 
     for (auto iterator = choices_.cbegin (); iterator != choices_.cend (); iterator++)
     {
-        const EnrolleeChoice &choice = *iterator;
+        EnrolleeChoice *choice = *iterator;
         tinyxml2::XMLElement *choiceElement = document.NewElement ("choice");
 
         choicesElement->InsertEndChild (choiceElement);
-        choice.SaveToXML (choiceElement, deHashTable);
+        choice->SaveToXML (document, choiceElement, deHashTable);
     }
 
     tinyxml2::XMLElement *lastUpdateResultElement = document.NewElement ("lastUpdateResult");
     output->InsertEndChild (lastUpdateResultElement);
-    lastUpdateResult_.SaveToXML (lastUpdateResultElement, deHashTable);
+    lastUpdateResult_->SaveToXML (document, lastUpdateResultElement, deHashTable);
 }
 
 void Enrollee::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
