@@ -3,8 +3,9 @@
 
 namespace UEAA
 {
-Faculty::Faculty (unsigned id) :
+Faculty::Faculty (University *parent, unsigned id) :
     XMLSerializable (),
+    parent_ (parent),
     id_ (id),
     specialties_ ()
 {
@@ -19,6 +20,11 @@ Faculty::~Faculty ()
 unsigned Faculty::GetId () const
 {
     return id_;
+}
+
+University *Faculty::GetParent () const
+{
+    return parent_;
 }
 
 bool Faculty::AddSpecialty (Specialty *specialty)

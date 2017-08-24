@@ -7,14 +7,18 @@
 
 namespace UEAA
 {
+class Faculty;
 class Enrollee;
+
 class Specialty : public XMLSerializable
 {
 public:
-    explicit Specialty (unsigned id);
+    Specialty (Faculty *parent, unsigned id);
     virtual ~Specialty ();
 
     unsigned GetId () const;
+    Faculty *GetParent () const;
+
     const std::vector <std::pair <bool, std::vector <unsigned> > > &GetRequiredExams () const;
     void SetRequiredExams (const std::vector <std::pair <bool, std::vector <unsigned> > > &requiredExams);
 
@@ -49,6 +53,7 @@ private:
     bool GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const;
     void AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *> &queue);
 
+    Faculty *parent_;
     unsigned id_;
     /// List of required exams names hashes. Should be sorted by priority!
     /// Also if bool in pair is false, exam will be skipped if enrollees have same scores.

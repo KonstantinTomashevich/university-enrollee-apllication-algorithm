@@ -8,8 +8,9 @@
 
 namespace UEAA
 {
-Specialty::Specialty (unsigned id) :
+Specialty::Specialty (Faculty *parent, unsigned id) :
     XMLSerializable (),
+    parent_ (parent),
     id_ (id),
 
     requiredExams_ (),
@@ -35,6 +36,11 @@ Specialty::~Specialty ()
 unsigned Specialty::GetId () const
 {
     return id_;
+}
+
+Faculty *Specialty::GetParent () const
+{
+    return parent_;
 }
 
 const std::vector <std::pair <bool, std::vector <unsigned> > > &Specialty::GetRequiredExams () const

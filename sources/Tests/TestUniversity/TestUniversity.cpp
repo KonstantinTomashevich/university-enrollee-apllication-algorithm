@@ -140,7 +140,7 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
 UEAA::University *CreateTestUniversity ()
 {
     UEAA::University *university = new UEAA::University ();
-    UEAA::SharedPointer <UEAA::Faculty> techFaculty (CreateTechFaculty ());
+    UEAA::SharedPointer <UEAA::Faculty> techFaculty (CreateTechFaculty (university));
     if (!university->AddFaculty (techFaculty))
     {
         std::cout << "Can't add tech faculty!" << std::endl;
@@ -148,7 +148,7 @@ UEAA::University *CreateTestUniversity ()
         return 0;
     }
 
-    UEAA::SharedPointer <UEAA::Faculty> artsFaculty (CreateArtsFaculty ());
+    UEAA::SharedPointer <UEAA::Faculty> artsFaculty (CreateArtsFaculty (university));
     if (!university->AddFaculty (artsFaculty))
     {
         std::cout << "Can't add arts faculty!" << std::endl;
@@ -158,11 +158,11 @@ UEAA::University *CreateTestUniversity ()
     return university;
 }
 
-UEAA::Faculty *CreateTechFaculty ()
+UEAA::Faculty *CreateTechFaculty (UEAA::University *university)
 {
-    UEAA::Faculty *techFaculty = new UEAA::Faculty (TECH_FACULTY);
+    UEAA::Faculty *techFaculty = new UEAA::Faculty (university, TECH_FACULTY);
     UEAA::SharedPointer <UEAA::Specialty> acsSpecialty (
-                CreateTechSpecialty (TechFaculty::APPLIED_COMPUTER_SCIENCE, TechFaculty::ACS_MAX_ENROLLEES_IN_FREE_FORM));
+                CreateTechSpecialty (techFaculty, TechFaculty::APPLIED_COMPUTER_SCIENCE, TechFaculty::ACS_MAX_ENROLLEES_IN_FREE_FORM));
     if (!techFaculty->AddSpecialty (acsSpecialty))
     {
         std::cout << "Can't add ACS specialty!" << std::endl;
@@ -171,7 +171,7 @@ UEAA::Faculty *CreateTechFaculty ()
     }
 
     UEAA::SharedPointer <UEAA::Specialty> csSpecialty (
-                CreateTechSpecialty (TechFaculty::COMPUTER_SCIENCE, TechFaculty::CS_MAX_ENROLLEES_IN_FREE_FORM));
+                CreateTechSpecialty (techFaculty, TechFaculty::COMPUTER_SCIENCE, TechFaculty::CS_MAX_ENROLLEES_IN_FREE_FORM));
     if (!techFaculty->AddSpecialty (csSpecialty))
     {
         std::cout << "Can't add CS specialty!" << std::endl;
@@ -181,9 +181,9 @@ UEAA::Faculty *CreateTechFaculty ()
     return techFaculty;
 }
 
-UEAA::Specialty *CreateTechSpecialty (unsigned id, unsigned maxFreeEnrollees)
+UEAA::Specialty *CreateTechSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees)
 {
-    UEAA::Specialty *specialty = new UEAA::Specialty (id);
+    UEAA::Specialty *specialty = new UEAA::Specialty (faculty, id);
     specialty->SetMaxEnrolleesInFreeForm (maxFreeEnrollees);
     specialty->SetMaxEnrolleesInPaidForm (0);
 
@@ -204,11 +204,11 @@ UEAA::Specialty *CreateTechSpecialty (unsigned id, unsigned maxFreeEnrollees)
     return specialty;
 }
 
-UEAA::Faculty *CreateArtsFaculty ()
+UEAA::Faculty *CreateArtsFaculty (UEAA::University *university)
 {
-    UEAA::Faculty *artsFaculty = new UEAA::Faculty (ARTS_FACULTY);
+    UEAA::Faculty *artsFaculty = new UEAA::Faculty (university, ARTS_FACULTY);
     UEAA::SharedPointer <UEAA::Specialty> paintingSpecialty (
-                CreateArtsSpecialty (ArtsFaculty::PAINTING, ArtsFaculty::PAINTING_MAX_ENROLLEES_IN_FREE_FORM));
+                CreateArtsSpecialty (artsFaculty, ArtsFaculty::PAINTING, ArtsFaculty::PAINTING_MAX_ENROLLEES_IN_FREE_FORM));
     if (!artsFaculty->AddSpecialty (paintingSpecialty))
     {
         std::cout << "Can't add Painting specialty!" << std::endl;
@@ -217,7 +217,7 @@ UEAA::Faculty *CreateArtsFaculty ()
     }
 
     UEAA::SharedPointer <UEAA::Specialty> theatreSpecialty (
-                CreateArtsSpecialty (ArtsFaculty::THEATRE, ArtsFaculty::THEATRE_MAX_ENROLLEES_IN_FREE_FORM));
+                CreateArtsSpecialty (artsFaculty, ArtsFaculty::THEATRE, ArtsFaculty::THEATRE_MAX_ENROLLEES_IN_FREE_FORM));
     if (!artsFaculty->AddSpecialty (theatreSpecialty))
     {
         std::cout << "Can't add Theatre specialty!" << std::endl;
@@ -227,9 +227,9 @@ UEAA::Faculty *CreateArtsFaculty ()
     return artsFaculty;
 }
 
-UEAA::Specialty *CreateArtsSpecialty (unsigned id, unsigned maxFreeEnrollees)
+UEAA::Specialty *CreateArtsSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees)
 {
-    UEAA::Specialty *specialty = new UEAA::Specialty (id);
+    UEAA::Specialty *specialty = new UEAA::Specialty (faculty, id);
     specialty->SetMaxEnrolleesInFreeForm (maxFreeEnrollees);
     specialty->SetMaxEnrolleesInPaidForm (0);
 

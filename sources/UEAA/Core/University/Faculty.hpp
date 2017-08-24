@@ -8,13 +8,16 @@
 
 namespace UEAA
 {
+class University;
 class Faculty : public XMLSerializable
 {
 public:
-    explicit Faculty (unsigned id);
+    Faculty (University *parent, unsigned id);
     virtual ~Faculty ();
 
     unsigned GetId () const;
+    University *GetParent () const;
+
     bool AddSpecialty (Specialty *specialty);
     Specialty *GetSpecialty (unsigned id) const;
     bool RemoveSpecialty (unsigned id);
@@ -29,6 +32,7 @@ public:
     virtual void LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable);
 
 private:
+    University *parent_;
     unsigned id_;
     std::map <unsigned, SharedPointer <Specialty> > specialties_;
 };

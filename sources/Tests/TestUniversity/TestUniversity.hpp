@@ -44,8 +44,8 @@ static unsigned enrolleesGeneratorCounter_ = 0;
 UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable *deHashTable);
 
 UEAA::University *CreateTestUniversity ();
-UEAA::Faculty *CreateTechFaculty ();
-UEAA::Specialty *CreateTechSpecialty (unsigned id, unsigned maxFreeEnrollees);
-UEAA::Faculty *CreateArtsFaculty ();
-UEAA::Specialty *CreateArtsSpecialty (unsigned id, unsigned maxFreeEnrollees);
+UEAA::Faculty *CreateTechFaculty (UEAA::University *university);
+UEAA::Specialty *CreateTechSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees);
+UEAA::Faculty *CreateArtsFaculty (UEAA::University *university);
+UEAA::Specialty *CreateArtsSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees);
 void PrintEnrollee (const UEAA::Enrollee *enrollee, UEAA::DeHashTable *deHashTable);
