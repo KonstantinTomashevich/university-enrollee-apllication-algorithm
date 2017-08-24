@@ -1,7 +1,6 @@
 #pragma once
 #include <UEAA/BuildConfiguration.hpp>
 
-#ifdef UEAA_XML_IO
 #include <UEAA/Core/University/University.hpp>
 #include <UEAA/Utils/DeHashTable.hpp>
 
@@ -24,4 +23,3 @@ void SaveSpecialtyToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *
 void SaveEnrolleeToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, Enrollee *enrollee, DeHashTable *deHashTable);
 }
 }
-#endif

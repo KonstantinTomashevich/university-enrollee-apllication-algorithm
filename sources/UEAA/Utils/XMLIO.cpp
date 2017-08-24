@@ -1,7 +1,6 @@
 #include <UEAA/BuildConfiguration.hpp>
 #include "XMLIO.hpp"
 
-#ifdef UEAA_XML_IO
 #include <Dependencies/TinyXML2/tinyxml2.h>
 #include <iostream>
 
@@ -129,4 +128,3 @@ void SaveEnrolleeToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *o
 }
 }
 }
-#endif
