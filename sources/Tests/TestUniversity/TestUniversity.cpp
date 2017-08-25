@@ -65,7 +65,7 @@ int main ()
                 UEAA::Specialty *specialty = faculty->GetSpecialty (choice->GetSpecialty ());
                 if (specialty)
                 {
-                    const std::vector <UEAA::Enrollee *> anotherEnrollees = specialty->GetEnrolleesInFreeForm ();
+                    const std::vector <UEAA::Enrollee *> &anotherEnrollees = specialty->GetEnrolleesInFreeForm ();
                     for (auto anotherEnrolleeIterator = anotherEnrollees.cbegin ();
                          anotherEnrolleeIterator != anotherEnrollees.cend (); anotherEnrolleeIterator++)
                     {

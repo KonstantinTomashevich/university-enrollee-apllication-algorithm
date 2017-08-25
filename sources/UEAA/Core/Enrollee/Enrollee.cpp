@@ -245,9 +245,12 @@ void Enrollee::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement 
         choice->SaveToXML (document, choiceElement, deHashTable);
     }
 
-    tinyxml2::XMLElement *lastUpdateResultElement = document.NewElement ("lastUpdateResult");
-    output->InsertEndChild (lastUpdateResultElement);
-    lastUpdateResult_->SaveToXML (document, lastUpdateResultElement, deHashTable);
+    if (lastUpdateResult_.GetTrackingObject () != nullptr)
+    {
+        tinyxml2::XMLElement *lastUpdateResultElement = document.NewElement ("lastUpdateResult");
+        output->InsertEndChild (lastUpdateResultElement);
+        lastUpdateResult_->SaveToXML (document, lastUpdateResultElement, deHashTable);
+    }
 }
 
 void Enrollee::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
