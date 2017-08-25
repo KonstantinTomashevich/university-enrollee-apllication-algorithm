@@ -275,4 +275,51 @@ void University::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTa
 {
 
 }
+
+bool University::operator == (const University &rhs) const
+{
+    if (faculties_.size () == rhs.faculties_.size ())
+    {
+        auto firstIterator = faculties_.cbegin ();
+        auto secondIterator = rhs.faculties_.cbegin ();
+
+        for (; firstIterator != faculties_.cend () && secondIterator != rhs.faculties_.cend ();
+               firstIterator++, secondIterator++)
+        {
+            if (*firstIterator->second.GetTrackingObject () != *secondIterator->second.GetTrackingObject ())
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    if (enrollees_.size () == rhs.enrollees_.size ())
+    {
+        auto firstIterator = enrollees_.cbegin ();
+        auto secondIterator = rhs.enrollees_.cbegin ();
+
+        for (; firstIterator != enrollees_.cend () && secondIterator != rhs.enrollees_.cend ();
+               firstIterator++, secondIterator++)
+        {
+            if (*firstIterator->second.GetTrackingObject () != *secondIterator->second.GetTrackingObject ())
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        return false;
+    }
+    return true;
+}
+
+bool University::operator != (const University &rhs) const
+{
+    return !(rhs == *this);
+}
 }

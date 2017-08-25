@@ -294,4 +294,62 @@ void Specialty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTab
 {
 
 }
+
+bool Specialty::operator == (const Specialty &rhs) const
+{
+    if (id_ != rhs.id_ ||
+        requiredExams_ != rhs.requiredExams_ ||
+        marksInCertificatePriority_ != rhs.marksInCertificatePriority_ ||
+        maxEnrolleesInFreeForm_ != rhs.maxEnrolleesInFreeForm_ ||
+        maxEnrolleesInPaidForm_ != rhs.maxEnrolleesInPaidForm_ ||
+        isPedagogical_ != rhs.isPedagogical_ ||
+        acceptedRODSubjects_ != rhs.acceptedRODSubjects_)
+    {
+        return false;
+    }
+
+    if (enrolleesInFreeForm_.size () == rhs.enrolleesInFreeForm_.size ())
+    {
+        auto firstIterator = enrolleesInFreeForm_.cbegin ();
+        auto secondIterator = rhs.enrolleesInFreeForm_.cbegin ();
+
+        for (; firstIterator != enrolleesInFreeForm_.cend () && secondIterator != rhs.enrolleesInFreeForm_.cend ();
+               firstIterator++, secondIterator++)
+        {
+            if (*firstIterator != *secondIterator)
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    if (enrolleesInPaidForm_.size () == rhs.enrolleesInPaidForm_.size ())
+    {
+        auto firstIterator = enrolleesInPaidForm_.cbegin ();
+        auto secondIterator = rhs.enrolleesInPaidForm_.cbegin ();
+
+        for (; firstIterator != enrolleesInPaidForm_.cend () && secondIterator != rhs.enrolleesInPaidForm_.cend ();
+               firstIterator++, secondIterator++)
+        {
+            if (*firstIterator != *secondIterator)
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        return false;
+    }
+    return true;
+}
+
+bool Specialty::operator != (const Specialty &rhs) const
+{
+    return !(rhs == *this);
+}
 }

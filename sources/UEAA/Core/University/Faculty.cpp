@@ -130,4 +130,37 @@ void Faculty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable
 {
 
 }
+
+bool Faculty::operator == (const Faculty &rhs) const
+{
+    if (id_ != rhs.id_)
+    {
+        return false;
+    }
+
+    if (specialties_.size () == rhs.specialties_.size ())
+    {
+        auto firstIterator = specialties_.cbegin ();
+        auto secondIterator = rhs.specialties_.cbegin ();
+
+        for (; firstIterator != specialties_.cend () && secondIterator != rhs.specialties_.cend ();
+               firstIterator++, secondIterator++)
+        {
+            if (*firstIterator->second.GetTrackingObject () != *secondIterator->second.GetTrackingObject ())
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        return false;
+    }
+    return true;
+}
+
+bool Faculty::operator != (const Faculty &rhs) const
+{
+    return !(rhs == *this);
+}
 }

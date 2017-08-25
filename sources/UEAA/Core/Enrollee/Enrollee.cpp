@@ -257,4 +257,52 @@ void Enrollee::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTabl
 {
 
 }
+
+bool Enrollee::operator == (const Enrollee &rhs) const
+{
+    if (id_ != rhs.id_ ||
+        examsResults_ != rhs.examsResults_ ||
+        currentChoiceIndex_ != rhs.currentChoiceIndex_ ||
+        certificateMarks_ != rhs.certificateMarks_ ||
+        certificateMedianMark_ != rhs.certificateMedianMark_ ||
+        hasSchoolGoldMedal_ != rhs.hasSchoolGoldMedal_ ||
+        rodSubject_ != rhs.rodSubject_ ||
+        rodType_ != rhs.rodType_)
+    {
+        return false;
+    }
+
+    if (choices_.size () == rhs.choices_.size ())
+    {
+        auto firstIterator = choices_.cbegin ();
+        auto secondIterator = rhs.choices_.cbegin ();
+
+        for (; firstIterator != choices_.cend () && secondIterator != rhs.choices_.cend ();
+               firstIterator++, secondIterator++)
+        {
+            if (*firstIterator->GetTrackingObject () != *secondIterator->GetTrackingObject ())
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    if (lastUpdateResult_.GetTrackingObject () != nullptr && rhs.lastUpdateResult_.GetTrackingObject () != nullptr)
+    {
+        return *lastUpdateResult_.GetTrackingObject () == *lastUpdateResult_.GetTrackingObject ();
+    }
+    else
+    {
+        return lastUpdateResult_.GetTrackingObject () == rhs.lastUpdateResult_.GetTrackingObject ();
+    }
+}
+
+bool Enrollee::operator != (const Enrollee &rhs) const
+{
+    return !(rhs == *this);
+}
 }

@@ -65,4 +65,16 @@ void EnrolleeChoice::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHa
 {
 
 }
+
+bool EnrolleeChoice::operator == (const EnrolleeChoice &rhs) const
+{
+    return faculty_ == rhs.faculty_ &&
+           specialty_ == rhs.specialty_ &&
+           studyForm_ == rhs.studyForm_;
+}
+
+bool EnrolleeChoice::operator != (const EnrolleeChoice &rhs) const
+{
+    return !(rhs == *this);
+}
 }

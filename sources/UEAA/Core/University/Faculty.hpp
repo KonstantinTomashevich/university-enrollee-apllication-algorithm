@@ -31,6 +31,9 @@ public:
     virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const;
     virtual void LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable);
 
+    bool operator == (const Faculty &rhs) const;
+    bool operator != (const Faculty &rhs) const;
+
 private:
     University *parent_;
     unsigned id_;
