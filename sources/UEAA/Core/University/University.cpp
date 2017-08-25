@@ -180,14 +180,12 @@ std::vector <Enrollee *> University::ProcessEnrolleesApplication ()
         processing.push_back (iterator->second.GetTrackingObject ());
     }
 
-    ProcessEnroleesChoices (processing, excessEnrolees);
-
-    /*while (!processing.empty ())
+    while (!processing.empty ())
     {
         ProcessEnroleesChoices (processing, excessEnrolees);
         processing.clear ();
         AddExcessToProcessingList (processing);
-    }*/
+    }
     return excessEnrolees;
 }
 
