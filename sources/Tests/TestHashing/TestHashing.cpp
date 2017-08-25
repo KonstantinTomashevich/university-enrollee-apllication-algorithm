@@ -14,7 +14,7 @@ int main ()
     UEAA::SharedPointer <UEAA::DeHashTable> deHashTable (new UEAA::DeHashTable ());
 
     std::cout << "Testing random numbers hashes collisions." << std::endl;
-    for (int index = 0; index < ATTEMPTS_COUNT_FOR_EACH_CHECK; index++)
+    for (unsigned index = 0; index < ATTEMPTS_COUNT_FOR_EACH_CHECK; index++)
     {
         std::string string = std::to_string (rand () % MAX_RANDOM_NUMBER);
         unsigned hash = UEAA::CStringToHash (string.c_str (), 0);
@@ -30,7 +30,7 @@ int main ()
 
     std::cout << "Testing DeHash." << std::endl;
     deHashTable->Clear ();
-    for (int index = 0; index < ATTEMPTS_COUNT_FOR_EACH_CHECK; index++)
+    for (unsigned index = 0; index < ATTEMPTS_COUNT_FOR_EACH_CHECK; index++)
     {
         std::string string = std::to_string (rand () % MAX_RANDOM_NUMBER);
         unsigned hash = UEAA::CStringToHash (string.c_str (), deHashTable);
@@ -48,7 +48,7 @@ int main ()
     int lastPassportNumber = 0;
     std::string passportSeries = "XY";
 
-    for (int index = 0; index < ATTEMPTS_COUNT_FOR_EACH_CHECK; index++)
+    for (unsigned index = 0; index < ATTEMPTS_COUNT_FOR_EACH_CHECK; index++)
     {
         std::string passportNumber = std::to_string (lastPassportNumber);
         while (passportNumber.size () < 7)
