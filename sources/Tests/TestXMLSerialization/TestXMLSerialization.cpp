@@ -1,9 +1,6 @@
 #include "TestXMLSerialization.hpp"
 #include <iostream>
-#include <time.h>
-
-#include <UEAA/Utils/SharedPointer.hpp>
-#include <UEAA/Utils/DeHashTable.hpp>
+#include <ctime>
 #include <Dependencies/TinyXML2/tinyxml2.h>
 
 int main ()

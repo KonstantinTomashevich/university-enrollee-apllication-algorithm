@@ -1,7 +1,7 @@
 #include "TestUniversity.hpp"
 #include <iostream>
 #include <cmath>
-#include <time.h>
+#include <ctime>
 
 int main ()
 {

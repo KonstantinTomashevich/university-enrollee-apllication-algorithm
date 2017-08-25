@@ -3,7 +3,7 @@
 #include <UEAA/Utils/CStringToHash.hpp>
 #include <UEAA/Utils/DeHashTable.hpp>
 #include <iostream>
-#include <time.h>
+#include <ctime>
 
 const unsigned ATTEMPTS_COUNT_FOR_EACH_CHECK = 1000;
 const unsigned MAX_RANDOM_NUMBER = 100;

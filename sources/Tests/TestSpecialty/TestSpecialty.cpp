@@ -6,7 +6,7 @@
 #include <UEAA/Utils/CStringToHash.hpp>
 #include <iostream>
 #include <cmath>
-#include <time.h>
+#include <ctime>
 
 const unsigned MATH_EXAM = UEAA::CStringToHash ("Math");
 const unsigned PHYSICS_EXAM = UEAA::CStringToHash ("Physics");
