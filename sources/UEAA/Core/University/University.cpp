@@ -177,7 +177,9 @@ std::vector <Enrollee *> University::ProcessEnrolleesApplication ()
 
     for (auto iterator = enrollees_.begin (); iterator != enrollees_.end (); iterator++)
     {
-        processing.push_back (iterator->second.GetTrackingObject ());
+        Enrollee *enrollee = iterator->second;
+        enrollee->RefreshChoiceIndex ();
+        processing.push_back (enrollee);
     }
 
     while (!processing.empty ())
