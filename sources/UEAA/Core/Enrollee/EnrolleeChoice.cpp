@@ -1,5 +1,6 @@
 #include <UEAA/BuildConfiguration.hpp>
 #include "EnrolleeChoice.hpp"
+#include <UEAA/Utils/CStringToHash.hpp>
 
 namespace UEAA
 {
@@ -63,7 +64,9 @@ void EnrolleeChoice::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLEl
 
 void EnrolleeChoice::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
 {
-
+    faculty_ = CStringToHash (input->Attribute ("faculty"), deHashTable);
+    specialty_ = CStringToHash (input->Attribute ("specialty"), deHashTable);
+    studyForm_ = static_cast <StudyForm> (atoi (input->Attribute ("studyForm")));
 }
 
 bool EnrolleeChoice::operator == (const EnrolleeChoice &rhs) const
