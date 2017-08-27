@@ -2,7 +2,11 @@
 #include "Enrollee.hpp"
 #include <algorithm>
 #include <cmath>
+
 #include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
+#include <UEAA/Utils/CStringToHash.hpp>
+
+#include <iostream>
 
 namespace UEAA
 {
@@ -255,14 +259,74 @@ void Enrollee::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement 
 
 void Enrollee::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
 {
+    Clear ();
+    rodSubject_ = CStringToHash (input->Attribute ("rodSubject"), deHashTable);
+    rodType_ = static_cast <RODType> (atoi (input->Attribute ("rodType")));
 
+    tinyxml2::XMLElement *examsResultsElement = input->FirstChildElement ("examsResults");
+    if (examsResultsElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = examsResultsElement->FirstChildElement ("exam");
+                element != nullptr; element = element->NextSiblingElement ("exam"))
+        {
+            unsigned subject = CStringToHash (element->Attribute ("subject"), deHashTable);
+            unsigned char result = atoi (element->Attribute ("result"));
+            examsResults_ [subject] = result;
+        }
+    }
+
+    tinyxml2::XMLElement *certificateMarksElement = input->FirstChildElement ("certificateMarks");
+    if (certificateMarksElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = certificateMarksElement->FirstChildElement ("mark");
+             element != nullptr; element = element->NextSiblingElement ("mark"))
+        {
+            unsigned subject = CStringToHash (element->Attribute ("subject"), deHashTable);
+            unsigned char result = atoi (element->Attribute ("result"));
+            certificateMarks_ [subject] = result;
+        }
+    }
+    
+    CalculateCertificateMedianMark ();
+    CheckIsHasSchoolGoldMedal ();
+
+    tinyxml2::XMLElement *choicesElement = input->FirstChildElement ("choices");
+    if (choicesElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = choicesElement->FirstChildElement ("choice");
+             element != nullptr; element = element->NextSiblingElement ("choice"))
+        {
+            SharedPointer <EnrolleeChoice> choice (new EnrolleeChoice ());
+            choice->LoadFromXML (element, deHashTable);
+            AddChoiceToBack (choice);
+        }
+    }
+
+    tinyxml2::XMLElement *lastUpdateResultElement = input->FirstChildElement ("lastUpdateResult");
+    if (lastUpdateResultElement != nullptr)
+    {
+        lastUpdateResult_.SetTrackingObject (new EnrolleeChoice ());
+        lastUpdateResult_->LoadFromXML (lastUpdateResultElement, deHashTable);
+    }
+}
+
+void Enrollee::Clear ()
+{
+    examsResults_.clear ();
+    currentChoiceIndex_ = 0;
+    choices_.clear ();
+    lastUpdateResult_.SetTrackingObject (nullptr);
+    certificateMarks_.clear ();
+    certificateMedianMark_ = 0.0f;
+    hasSchoolGoldMedal_ = false;
+    rodSubject_ = 0;
+    rodType_ = ROD_NONE;
 }
 
 bool Enrollee::operator == (const Enrollee &rhs) const
 {
     if (id_ != rhs.id_ ||
         examsResults_ != rhs.examsResults_ ||
-        currentChoiceIndex_ != rhs.currentChoiceIndex_ ||
         certificateMarks_ != rhs.certificateMarks_ ||
         certificateMedianMark_ != rhs.certificateMedianMark_ ||
         hasSchoolGoldMedal_ != rhs.hasSchoolGoldMedal_ ||
