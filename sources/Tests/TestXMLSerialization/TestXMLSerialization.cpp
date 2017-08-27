@@ -236,6 +236,7 @@ UEAA::Specialty *CreateArtsSpecialty (UEAA::Faculty *faculty, unsigned id, unsig
     specialty->SetMaxEnrolleesInFreeForm (maxFreeEnrollees);
     specialty->SetMaxEnrolleesInPaidForm (maxPaidEnrollees);
     specialty->AddAcceptedRODSubject (SOCIETY_EXAM);
+    specialty->SetIsPedagogical (true);
 
     {
         std::vector <std::pair <bool, std::vector <unsigned> > > exams;
