@@ -16,31 +16,42 @@ int main ()
         return 1;
     }
 
-    for (int index = 0; index < TECH_ENROLLEES; index++)
+    for (unsigned index = 0; index < TECH_ENROLLEES; index++)
     {
         university->AddEnrollee (GenerateEnrollee (true, false, deHashTable));
     }
 
-    for (int index = 0; index < ARTS_ENROLLEES; index++)
+    for (unsigned index = 0; index < ARTS_ENROLLEES; index++)
     {
         university->AddEnrollee (GenerateEnrollee (false, true, deHashTable));
     }
 
-    for (int index = 0; index < TECH_AND_ARTS_ENROLLEES; index++)
+    for (unsigned index = 0; index < TECH_AND_ARTS_ENROLLEES; index++)
     {
         university->AddEnrollee (GenerateEnrollee (true, true, deHashTable));
     }
 
-    university->ProcessEnrolleesApplication ();
-    tinyxml2::XMLDocument document;
-    tinyxml2::XMLElement *universityElement = document.NewElement ("university");
-    document.InsertEndChild (universityElement);
-    university->SaveToXML (document, universityElement, deHashTable);
-
     tinyxml2::XMLPrinter printer;
-    document.Print (&printer);
-    std::cout << printer.CStr () << std::endl;
-    return 0;
+    {
+        university->ProcessEnrolleesApplication ();
+        tinyxml2::XMLDocument document;
+        tinyxml2::XMLElement *universityElement = document.NewElement ("university");
+
+        document.InsertEndChild (universityElement);
+        university->SaveToXML (document, universityElement, deHashTable);
+        document.Print (&printer);
+    }
+
+    UEAA::SharedPointer <UEAA::University> anotherUniversity (new UEAA::University ());
+    {
+        tinyxml2::XMLDocument document;
+        document.Parse (printer.CStr (), printer.CStrSize ());
+        anotherUniversity->LoadFromXML (document.FirstChildElement ("university"), deHashTable);
+    }
+
+    bool isUniversitiesEquals = *university.GetTrackingObject () == *anotherUniversity.GetTrackingObject ();
+    std::cout << "Is universities equals: " << isUniversitiesEquals << std::endl;
+    return isUniversitiesEquals ? 0 : 1;
 }
 
 void InitHashes (UEAA::DeHashTable *deHashTable)
