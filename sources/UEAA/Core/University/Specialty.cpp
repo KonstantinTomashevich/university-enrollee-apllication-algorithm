@@ -2,9 +2,11 @@
 #include "Specialty.hpp"
 #include <UEAA/Core/Enrollee/Enrollee.hpp>
 #include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
-#include <algorithm>
 
-#include <iostream>
+#include <UEAA/Core/University/Faculty.hpp>
+#include <UEAA/Core/University/University.hpp>
+#include <UEAA/Utils/CStringToHash.hpp>
+#include <algorithm>
 
 namespace UEAA
 {
@@ -292,7 +294,85 @@ void Specialty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement
 
 void Specialty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
 {
+    Clear ();
+    tinyxml2::XMLUtil::ToUnsigned (input->Attribute ("maxEnrolleesInFreeForm"), &maxEnrolleesInFreeForm_);
+    tinyxml2::XMLUtil::ToUnsigned (input->Attribute ("maxEnrolleesInPaidForm"), &maxEnrolleesInPaidForm_);
+    tinyxml2::XMLUtil::ToBool (input->Attribute ("isPedagogical"), &isPedagogical_);
 
+    tinyxml2::XMLElement *requiredExamsElement = input->FirstChildElement ("requiredExams");
+    if (requiredExamsElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = requiredExamsElement->FirstChildElement ("exam");
+                element != nullptr; element = element->NextSiblingElement ("exam"))
+        {
+            bool usedInPerExamComparision = false;
+            tinyxml2::XMLUtil::ToBool (element->Attribute ("usedInPerExamComparision"), &usedInPerExamComparision);
+            std::vector <unsigned> subjects;
+
+            for (tinyxml2::XMLElement *subjectElement = element->FirstChildElement ("subject");
+                 subjectElement != nullptr; subjectElement = subjectElement->NextSiblingElement ("subject"))
+            {
+                subjects.push_back (CStringToHash (subjectElement->Attribute ("name"), deHashTable));
+            }
+            
+            requiredExams_.push_back (std::pair <bool, std::vector <unsigned> > (usedInPerExamComparision, subjects));
+        }
+    }
+
+    tinyxml2::XMLElement *marksInCertificatePriorityElement = input->FirstChildElement ("marksInCertificatePriority");
+    if (marksInCertificatePriorityElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = marksInCertificatePriorityElement->FirstChildElement ("subject");
+             element != nullptr; element = element->NextSiblingElement ("subject"))
+        {
+            marksInCertificatePriority_.push_back (CStringToHash (element->Attribute ("name"), deHashTable));
+        }
+    }
+
+    tinyxml2::XMLElement *acceptedRODSubjectsElement = input->FirstChildElement ("acceptedRODSubjects");
+    if (acceptedRODSubjectsElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = acceptedRODSubjectsElement->FirstChildElement ("subject");
+             element != nullptr; element = element->NextSiblingElement ("subject"))
+        {
+            acceptedRODSubjects_.push_back (CStringToHash (element->Attribute ("name"), deHashTable));
+        }
+    }
+
+    tinyxml2::XMLElement *enrolleesInFreeFormElement = input->FirstChildElement ("enrolleesInFreeForm");
+    if (enrolleesInFreeFormElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = enrolleesInFreeFormElement->FirstChildElement ("enrollee");
+             element != nullptr; element = element->NextSiblingElement ("enrollee"))
+        {
+            std::string passport = element->Attribute ("passport");
+            enrolleesInFreeForm_.push_back (parent_->GetParent ()->GetEnrollee (passport.substr (0, 2), passport.substr (2, 7)));
+        }
+    }
+
+    tinyxml2::XMLElement *enrolleesInPaidFormElement = input->FirstChildElement ("enrolleesInPaidForm");
+    if (enrolleesInPaidFormElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = enrolleesInPaidFormElement->FirstChildElement ("enrollee");
+             element != nullptr; element = element->NextSiblingElement ("enrollee"))
+        {
+            std::string passport = element->Attribute ("passport");
+            enrolleesInPaidForm_.push_back (parent_->GetParent ()->GetEnrollee (passport.substr (0, 2), passport.substr (2, 7)));
+        }
+    }
+}
+
+void Specialty::Clear ()
+{
+    requiredExams_.clear ();
+    marksInCertificatePriority_.clear ();
+    enrolleesInFreeForm_.clear ();
+    enrolleesInPaidForm_.clear ();
+
+    maxEnrolleesInFreeForm_ = 0;
+    maxEnrolleesInPaidForm_ = 0;
+    isPedagogical_ = false;
+    acceptedRODSubjects_.clear ();
 }
 
 bool Specialty::operator == (const Specialty &rhs) const
@@ -316,7 +396,7 @@ bool Specialty::operator == (const Specialty &rhs) const
         for (; firstIterator != enrolleesInFreeForm_.cend () && secondIterator != rhs.enrolleesInFreeForm_.cend ();
                firstIterator++, secondIterator++)
         {
-            if (*firstIterator != *secondIterator)
+            if (**firstIterator != **secondIterator)
             {
                 return false;
             }
@@ -335,7 +415,7 @@ bool Specialty::operator == (const Specialty &rhs) const
         for (; firstIterator != enrolleesInPaidForm_.cend () && secondIterator != rhs.enrolleesInPaidForm_.cend ();
                firstIterator++, secondIterator++)
         {
-            if (*firstIterator != *secondIterator)
+            if (**firstIterator != **secondIterator)
             {
                 return false;
             }

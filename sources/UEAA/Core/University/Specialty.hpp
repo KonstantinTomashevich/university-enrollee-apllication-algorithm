@@ -47,9 +47,9 @@ public:
 
     virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const;
     virtual void LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable);
+    void Clear ();
 
     bool operator == (const Specialty &rhs) const;
-
     bool operator != (const Specialty &rhs) const;
 
 private:
