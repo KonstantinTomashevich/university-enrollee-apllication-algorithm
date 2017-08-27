@@ -1,6 +1,7 @@
 #include <UEAA/BuildConfiguration.hpp>
 #include "University.hpp"
 #include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
+#include <UEAA/Utils/CStringToHash.hpp>
 
 namespace UEAA
 {
@@ -223,8 +224,8 @@ void University::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTa
 {
     RemoveAllEnrollees ();
     RemoveAllFaculties ();
+    
     tinyxml2::XMLElement *enrolleesElement = input->FirstChildElement ("enrollees");
-
     if (enrolleesElement != nullptr)
     {
         for (tinyxml2::XMLElement *element = enrolleesElement->FirstChildElement ("enrollee");
@@ -237,16 +238,28 @@ void University::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTa
             AddEnrollee (enrollee);
         }
     }
+
+    tinyxml2::XMLElement *facultiesElement = input->FirstChildElement ("faculties");
+    if (facultiesElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = facultiesElement->FirstChildElement ("faculty");
+             element != nullptr; element = element->NextSiblingElement ("faculty"))
+        {
+            SharedPointer <Faculty> faculty (new Faculty (this, CStringToHash (element->Attribute ("name"), deHashTable)));
+            faculty->LoadFromXML (element, deHashTable);
+            AddFaculty (faculty);
+        }
+    }
 }
 
 bool University::operator == (const University &rhs) const
 {
-    if (faculties_.size () == rhs.faculties_.size ())
+    if (enrollees_.size () == rhs.enrollees_.size ())
     {
-        auto firstIterator = faculties_.cbegin ();
-        auto secondIterator = rhs.faculties_.cbegin ();
+        auto firstIterator = enrollees_.cbegin ();
+        auto secondIterator = rhs.enrollees_.cbegin ();
 
-        for (; firstIterator != faculties_.cend () && secondIterator != rhs.faculties_.cend ();
+        for (; firstIterator != enrollees_.cend () && secondIterator != rhs.enrollees_.cend ();
                firstIterator++, secondIterator++)
         {
             if (*firstIterator->second.GetTrackingObject () != *secondIterator->second.GetTrackingObject ())
@@ -260,12 +273,12 @@ bool University::operator == (const University &rhs) const
         return false;
     }
 
-    if (enrollees_.size () == rhs.enrollees_.size ())
+    if (faculties_.size () == rhs.faculties_.size ())
     {
-        auto firstIterator = enrollees_.cbegin ();
-        auto secondIterator = rhs.enrollees_.cbegin ();
+        auto firstIterator = faculties_.cbegin ();
+        auto secondIterator = rhs.faculties_.cbegin ();
 
-        for (; firstIterator != enrollees_.cend () && secondIterator != rhs.enrollees_.cend ();
+        for (; firstIterator != faculties_.cend () && secondIterator != rhs.faculties_.cend ();
                firstIterator++, secondIterator++)
         {
             if (*firstIterator->second.GetTrackingObject () != *secondIterator->second.GetTrackingObject ())
