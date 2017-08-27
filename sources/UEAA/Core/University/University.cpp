@@ -189,6 +189,101 @@ std::vector <Enrollee *> University::ProcessEnrolleesApplication ()
     return excessEnrolees;
 }
 
+void University::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const
+{
+    output->SetName ("university");
+    tinyxml2::XMLElement *enrolleesElement = document.NewElement ("enrollees");
+    output->InsertEndChild (enrolleesElement);
+
+    for (auto iterator = enrollees_.cbegin (); iterator != enrollees_.cend (); iterator++)
+    {
+        Enrollee *enrollee = iterator->second;
+        tinyxml2::XMLElement *enrolleeElement = document.NewElement ("enrollee");
+
+        enrolleesElement->InsertEndChild (enrolleeElement);
+        enrollee->SaveToXML (document, enrolleeElement, deHashTable);
+    }
+
+    tinyxml2::XMLElement *facultiesElement = document.NewElement ("faculties");
+    output->InsertEndChild (facultiesElement);
+
+    for (auto iterator = faculties_.cbegin (); iterator != faculties_.cend (); iterator++)
+    {
+        Faculty *faculty = iterator->second;
+        tinyxml2::XMLElement *facultyElement = document.NewElement ("faculty");
+
+        facultiesElement->InsertEndChild (facultyElement);
+        faculty->SaveToXML (document, facultyElement, deHashTable);
+    }
+}
+
+void University::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
+{
+    RemoveAllEnrollees ();
+    RemoveAllFaculties ();
+    tinyxml2::XMLElement *enrolleesElement = input->FirstChildElement ("enrollees");
+
+    if (enrolleesElement != nullptr)
+    {
+        for (tinyxml2::XMLElement *element = enrolleesElement->FirstChildElement ("enrollee");
+             element != nullptr; element = element->NextSiblingElement ("enrollee"))
+        {
+            std::string passport = element->Attribute ("passport");
+            SharedPointer <Enrollee> enrollee (new Enrollee (
+                    CalculateEnrolleeHash (passport.substr (0, 2), passport.substr (2, 7), deHashTable)));
+            enrollee->LoadFromXML (element, deHashTable);
+            AddEnrollee (enrollee);
+        }
+    }
+}
+
+bool University::operator == (const University &rhs) const
+{
+    if (faculties_.size () == rhs.faculties_.size ())
+    {
+        auto firstIterator = faculties_.cbegin ();
+        auto secondIterator = rhs.faculties_.cbegin ();
+
+        for (; firstIterator != faculties_.cend () && secondIterator != rhs.faculties_.cend ();
+               firstIterator++, secondIterator++)
+        {
+            if (*firstIterator->second.GetTrackingObject () != *secondIterator->second.GetTrackingObject ())
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    if (enrollees_.size () == rhs.enrollees_.size ())
+    {
+        auto firstIterator = enrollees_.cbegin ();
+        auto secondIterator = rhs.enrollees_.cbegin ();
+
+        for (; firstIterator != enrollees_.cend () && secondIterator != rhs.enrollees_.cend ();
+               firstIterator++, secondIterator++)
+        {
+            if (*firstIterator->second.GetTrackingObject () != *secondIterator->second.GetTrackingObject ())
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        return false;
+    }
+    return true;
+}
+
+bool University::operator != (const University &rhs) const
+{
+    return !(rhs == *this);
+}
+
 void University::ProcessEnroleesChoices (std::vector <Enrollee *> &processing, std::vector <Enrollee *> &excess) const
 {
     for (auto iterator = processing.begin (); iterator != processing.end (); iterator++)
@@ -241,85 +336,5 @@ void University::AddExcessToProcessingList (std::vector <Enrollee *> &processing
             processing.push_back (enrollee);
         }
     }
-}
-
-void University::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const
-{
-    output->SetName ("university");
-    tinyxml2::XMLElement *enrolleesElement = document.NewElement ("enrollees");
-    output->InsertEndChild (enrolleesElement);
-
-    for (auto iterator = enrollees_.cbegin (); iterator != enrollees_.cend (); iterator++)
-    {
-        Enrollee *enrollee = iterator->second;
-        tinyxml2::XMLElement *enrolleeElement = document.NewElement ("enrollee");
-
-        enrolleesElement->InsertEndChild (enrolleeElement);
-        enrollee->SaveToXML (document, enrolleeElement, deHashTable);
-    }
-
-    tinyxml2::XMLElement *facultiesElement = document.NewElement ("faculties");
-    output->InsertEndChild (facultiesElement);
-
-    for (auto iterator = faculties_.cbegin (); iterator != faculties_.cend (); iterator++)
-    {
-        Faculty *faculty = iterator->second;
-        tinyxml2::XMLElement *facultyElement = document.NewElement ("faculty");
-
-        facultiesElement->InsertEndChild (facultyElement);
-        faculty->SaveToXML (document, facultyElement, deHashTable);
-    }
-}
-
-void University::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
-{
-
-}
-
-bool University::operator == (const University &rhs) const
-{
-    if (faculties_.size () == rhs.faculties_.size ())
-    {
-        auto firstIterator = faculties_.cbegin ();
-        auto secondIterator = rhs.faculties_.cbegin ();
-
-        for (; firstIterator != faculties_.cend () && secondIterator != rhs.faculties_.cend ();
-               firstIterator++, secondIterator++)
-        {
-            if (*firstIterator->second.GetTrackingObject () != *secondIterator->second.GetTrackingObject ())
-            {
-                return false;
-            }
-        }
-    }
-    else
-    {
-        return false;
-    }
-
-    if (enrollees_.size () == rhs.enrollees_.size ())
-    {
-        auto firstIterator = enrollees_.cbegin ();
-        auto secondIterator = rhs.enrollees_.cbegin ();
-
-        for (; firstIterator != enrollees_.cend () && secondIterator != rhs.enrollees_.cend ();
-               firstIterator++, secondIterator++)
-        {
-            if (*firstIterator->second.GetTrackingObject () != *secondIterator->second.GetTrackingObject ())
-            {
-                return false;
-            }
-        }
-    }
-    else
-    {
-        return false;
-    }
-    return true;
-}
-
-bool University::operator != (const University &rhs) const
-{
-    return !(rhs == *this);
 }
 }
