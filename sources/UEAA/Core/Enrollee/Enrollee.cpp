@@ -6,8 +6,6 @@
 #include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
 #include <UEAA/Utils/CStringToHash.hpp>
 
-#include <iostream>
-
 namespace UEAA
 {
 Enrollee::Enrollee (unsigned id) :
@@ -270,8 +268,9 @@ void Enrollee::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTabl
                 element != nullptr; element = element->NextSiblingElement ("exam"))
         {
             unsigned subject = CStringToHash (element->Attribute ("subject"), deHashTable);
-            unsigned char result = atoi (element->Attribute ("result"));
-            examsResults_ [subject] = result;
+            unsigned result = 0;
+            tinyxml2::XMLUtil::ToUnsigned (element->Attribute ("result"), &result);
+            examsResults_ [subject] = static_cast <unsigned char> (result);
         }
     }
 
@@ -282,8 +281,9 @@ void Enrollee::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTabl
              element != nullptr; element = element->NextSiblingElement ("mark"))
         {
             unsigned subject = CStringToHash (element->Attribute ("subject"), deHashTable);
-            unsigned char result = atoi (element->Attribute ("result"));
-            certificateMarks_ [subject] = result;
+            unsigned result = 0;
+            tinyxml2::XMLUtil::ToUnsigned (element->Attribute ("result"), &result);
+            certificateMarks_ [subject] = static_cast <unsigned char> (result);
         }
     }
     
@@ -315,9 +315,11 @@ void Enrollee::Clear ()
     examsResults_.clear ();
     currentChoiceIndex_ = 0;
     choices_.clear ();
+
     lastUpdateResult_.SetTrackingObject (nullptr);
     certificateMarks_.clear ();
     certificateMedianMark_ = 0.0f;
+
     hasSchoolGoldMedal_ = false;
     rodSubject_ = 0;
     rodType_ = ROD_NONE;
