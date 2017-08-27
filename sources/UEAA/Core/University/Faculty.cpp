@@ -1,5 +1,6 @@
 #include <UEAA/BuildConfiguration.hpp>
 #include "Faculty.hpp"
+#include <UEAA/Utils/CStringToHash.hpp>
 
 namespace UEAA
 {
@@ -128,7 +129,14 @@ void Faculty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *
 
 void Faculty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
 {
-
+    RemoveAllSpecialties ();
+    for (tinyxml2::XMLElement *element = input->FirstChildElement ("specialty");
+         element != nullptr; element = element->NextSiblingElement ("specialty"))
+    {
+        SharedPointer <Specialty> specialty (new Specialty (this, CStringToHash (element->Attribute ("name"), deHashTable)));
+        specialty->LoadFromXML (element, deHashTable);
+        AddSpecialty (specialty);
+    }
 }
 
 bool Faculty::operator == (const Faculty &rhs) const
