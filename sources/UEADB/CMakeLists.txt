@@ -1,0 +1,5 @@
+file (GLOB_RECURSE Headers *.hpp)
+file (GLOB_RECURSE Objects *.cpp)
+add_executable (UEADB ${Headers} ${Objects})
+target_link_libraries (UEADB UEAA)
+set_target_properties (UEADB PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
