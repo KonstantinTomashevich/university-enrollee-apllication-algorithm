@@ -26,7 +26,7 @@ unsigned Application::Execute (int argumentsCount, char **arguments)
     {
         for (unsigned index = 1; index < argumentsCount; index++)
         {
-            argumentsVector.push_back (std::string (arguments [index]));
+            argumentsVector.emplace_back (std::string (arguments [index]));
         }
     }
     return Execute (argumentsVector);
@@ -34,10 +34,8 @@ unsigned Application::Execute (int argumentsCount, char **arguments)
 
 unsigned Application::Execute (const std::vector <std::string> &arguments)
 {
-    for (auto iterator = arguments.cbegin (); iterator != arguments.cend (); iterator++)
-    {
-        std::cout << *iterator << std::endl;
-    }
+    CommandsList commandsList = ReadCommands (arguments);
+    PrintCommands (commandsList);
     return 0;
 }
 
@@ -93,5 +91,66 @@ std::vector <std::string> Application::ParseArgumentsString (const wchar_t *argu
         argumentsVector.push_back (read);
     }
     return argumentsVector;
+}
+
+CommandsList Application::ReadCommands (const std::vector <std::string> &cmdArguments)
+{
+    CommandsList commandsList;
+    std::string currentCommand;
+    std::vector <std::string> currentArguments;
+
+    for (auto iterator = cmdArguments.begin (); iterator != cmdArguments.end (); ++iterator)
+    {
+        if (*iterator == ",")
+        {
+            if (!currentCommand.empty ())
+            {
+                commandsList.emplace_back (CommandInfo (currentCommand, currentArguments));
+                currentCommand = "";
+                currentArguments.clear ();
+            }
+        }
+        else if (currentCommand.empty ())
+        {
+            currentCommand = *iterator;
+        }
+        else
+        {
+            currentArguments.emplace_back (*iterator);
+        }
+    }
+
+    if (!currentCommand.empty ())
+    {
+        commandsList.emplace_back (CommandInfo (currentCommand, currentArguments));
+    }
+    return commandsList;
+}
+
+void Application::PrintCommands (const CommandsList &commandsList)
+{
+    std::cout << "Parsed commands:" << std::endl;
+    for (auto iterator = commandsList.cbegin (); iterator != commandsList.cend (); iterator++)
+    {
+        CommandInfo command = *iterator;
+        std::cout << "    " << command.first << " (";
+        bool isFirst = true;
+
+        for (auto argIterator = command.second.begin (); argIterator != command.second.end (); argIterator++)
+        {
+            if (!isFirst)
+            {
+                std::cout << ", ";
+            }
+            else
+            {
+                isFirst = false;
+            }
+
+            std::cout << "\"" << *argIterator << "\"";
+        }
+        std::cout << ");" << std::endl;
+    }
+    std::cout << std::endl;
 }
 }
