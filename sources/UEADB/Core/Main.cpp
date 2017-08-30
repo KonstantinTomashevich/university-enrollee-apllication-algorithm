@@ -14,21 +14,18 @@
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    UEAA::SharedPointer <UEADB::Application> application (new UEADB::Application ());
-    return application->Execute (GetCommandLineW ());
+    return UEADB::Application::Execute (GetCommandLineW ());
 }
 
 #elif defined(_WIN32)
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-    UEAA::SharedPointer <UEADB::Application> application (new UEADB::Application ());
-    return application->Execute (GetCommandLineW ());
+    return UEADB::Application::Execute (GetCommandLineW ());
 }
 
 #else
 int main(int argc, char** argv)
 {
-    UEAA::SharedPointer <UEADB::Application> application (new UEADB::Application ());
-    return application->Execute (argc, argv);
+    return UEADB::Application::Execute (argc, argv);
 }
 #endif

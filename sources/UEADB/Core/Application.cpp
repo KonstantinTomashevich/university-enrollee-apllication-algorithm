@@ -3,16 +3,6 @@
 
 namespace UEADB
 {
-Application::Application ()
-{
-
-}
-
-Application::~Application ()
-{
-
-}
-
 unsigned Application::Execute (const wchar_t *arguments)
 {
     return Execute (ParseArgumentsString (arguments));
