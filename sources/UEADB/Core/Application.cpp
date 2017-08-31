@@ -162,11 +162,13 @@ std::map <unsigned, CommandExecutor> SetupCommandExecutors ()
 unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsigned, CommandExecutor> &commandExecutors)
 {
     std::cout << "Executing commands..." << std::endl;
+    SharedPointersMap sharedContext;
+    
     for (auto iterator = commandsList.cbegin (); iterator != commandsList.cend (); ++iterator)
     {
         const CommandInfo &command = *iterator;
         PrintCommand (command);
-        unsigned result = ExecuteCommand (command, commandExecutors);
+        unsigned result = ExecuteCommand (command, sharedContext, commandExecutors);
         if (result != 0)
         {
             return result;
@@ -175,13 +177,14 @@ unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsi
     return 0;
 }
 
-unsigned ExecuteCommand (const CommandInfo &command, const std::map <unsigned, CommandExecutor> &commandExecutors)
+unsigned ExecuteCommand (const CommandInfo &command, const SharedPointersMap &sharedContext,
+                         const std::map <unsigned, CommandExecutor> &commandExecutors)
 {
     unsigned commandNameHash = UEAA::CStringToHash (command.first.c_str ());
     try
     {
         CommandExecutor executor = commandExecutors.at (commandNameHash);
-        return (*executor) (command.second);
+        return (*executor) (command.second, sharedContext);
     }
     catch (std::out_of_range &exception)
     {

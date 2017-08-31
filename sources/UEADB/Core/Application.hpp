@@ -1,4 +1,7 @@
 #pragma once
+#include <UEAA/Utils/SharedPointer.hpp>
+#include <UEAA/Utils/ReferenceCounted.hpp>
+
 #include <cstdlib>
 #include <string>
 #include <vector>
@@ -8,7 +11,8 @@ namespace UEADB
 {
 typedef std::pair <std::string, std::vector <std::string> > CommandInfo;
 typedef std::vector <CommandInfo> CommandsList;
-typedef unsigned (*CommandExecutor) (const std::vector <std::string> &);
+typedef std::map <unsigned, UEAA::SharedPointer <UEAA::ReferenceCounted> > SharedPointersMap;
+typedef unsigned (*CommandExecutor) (const std::vector <std::string> &, const SharedPointersMap &);
 
 namespace Application
 {
@@ -28,6 +32,7 @@ void PrintCommand (const CommandInfo &command);
 
 std::map <unsigned, CommandExecutor> SetupCommandExecutors ();
 unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsigned, CommandExecutor> &commandExecutors);
-unsigned ExecuteCommand (const CommandInfo &command, const std::map <unsigned, CommandExecutor> &commandExecutors);
+unsigned ExecuteCommand (const CommandInfo &command, const SharedPointersMap &sharedPointersMap,
+                         const std::map <unsigned, CommandExecutor> &commandExecutors);
 }
 }
