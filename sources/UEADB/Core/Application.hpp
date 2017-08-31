@@ -1,26 +1,13 @@
 #pragma once
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Utils/ReferenceCounted.hpp>
-
+#include <UEADB/Core/TypeDefs.hpp>
 #include <cstdlib>
-#include <string>
-#include <vector>
-#include <map>
 
 namespace UEADB
 {
-typedef std::pair <std::string, std::vector <std::string> > CommandInfo;
-typedef std::vector <CommandInfo> CommandsList;
-typedef std::map <unsigned, UEAA::SharedPointer <UEAA::ReferenceCounted> > SharedPointersMap;
-typedef unsigned (*CommandExecutor) (const std::vector <std::string> &, const SharedPointersMap &);
-
 namespace Application
 {
-namespace Errors
-{
-const unsigned COMMAND_EXECUTOR_NOT_EXISTS = 1;
-}
-
 unsigned Execute (const wchar_t *arguments);
 unsigned Execute (int argumentsCount, char **arguments);
 unsigned Execute (const std::vector <std::string> &arguments);

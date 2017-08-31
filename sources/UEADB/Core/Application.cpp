@@ -1,5 +1,6 @@
 #include "Application.hpp"
 #include <UEAA/Utils/CStringToHash.hpp>
+#include <UEADB/Core/ErrorCodes.hpp>
 #include <iostream>
 
 namespace UEADB
@@ -163,7 +164,7 @@ unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsi
 {
     std::cout << "Executing commands..." << std::endl;
     SharedPointersMap sharedContext;
-    
+
     for (auto iterator = commandsList.cbegin (); iterator != commandsList.cend (); ++iterator)
     {
         const CommandInfo &command = *iterator;
@@ -189,7 +190,7 @@ unsigned ExecuteCommand (const CommandInfo &command, const SharedPointersMap &sh
     catch (std::out_of_range &exception)
     {
         std::cout << "    Executor for command " << commandNameHash << " not exists. Execution cancelled." << std::endl;
-        return Errors::COMMAND_EXECUTOR_NOT_EXISTS;
+        return ErrorCodes::COMMAND_EXECUTOR_NOT_EXISTS;
     }
 }
 }
