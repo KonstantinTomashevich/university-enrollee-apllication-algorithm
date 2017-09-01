@@ -1,7 +1,9 @@
 #include "Application.hpp"
 #include <UEAA/Utils/CStringToHash.hpp>
 #include <UEADB/Core/ErrorCodes.hpp>
-#include <UEADB/Core/SetupCommandsExecutors.hpp>
+#include <UEADB/Core/CommandsUtils.hpp>
+
+#include <cstring>
 #include <iostream>
 
 namespace UEADB
@@ -29,10 +31,31 @@ unsigned Execute (int argumentsCount, char **arguments)
 
 unsigned Execute (const std::vector <std::string> &arguments)
 {
-    CommandsList commandsList = ReadCommands (arguments);
-    PrintCommands (commandsList);
-    std::map <unsigned, CommandExecutor> commandExecutors = SetupCommandExecutors ();
-    return ExecuteCommands (commandsList, commandExecutors);
+    if (arguments.size () == 0)
+    {
+        PrintCommandsList ();
+        return 0;
+    }
+    else if (arguments.at (0) == "Help")
+    {
+        if (arguments.size () == 1)
+        {
+            PrintCommandsList ();
+            return 0;
+        }
+        else
+        {
+            PrintCommandHelp (arguments.at (1).c_str ());
+            return 0;
+        }
+    }
+    else
+    {
+        CommandsList commandsList = ReadCommands (arguments);
+        PrintCommands (commandsList);
+        std::map <unsigned, CommandExecutor> commandExecutors = SetupCommandExecutors ();
+        return ExecuteCommands (commandsList, commandExecutors);
+    }
 }
 
 std::vector <std::string> ParseArgumentsString (const wchar_t *arguments)
