@@ -172,15 +172,22 @@ bool CheckSchoolCertificateMarks (const Specialty *specialty, const Enrollee *fi
 
 bool CanEnrolleeChoiceSpecialty (const Specialty *specialty, const Enrollee *enrollee)
 {
-    const std::vector <std::pair <bool, std::vector <unsigned> > > &exams = specialty->GetRequiredExams ();
-    for (auto iterator = exams.cbegin (); iterator != exams.cend (); iterator++)
+    if (enrollee->GetRODType () != ROD_NONE && specialty->IsRODSubjectAccepted (enrollee->GetRODSubject ()))
     {
-        if (GetEnrolleeBestResultFromExams (enrollee, iterator->second) == 0)
-        {
-            return false;
-        }
+        return true;
     }
-    return true;
+    else
+    {
+        const std::vector <std::pair <bool, std::vector <unsigned> > > &exams = specialty->GetRequiredExams ();
+        for (auto iterator = exams.cbegin (); iterator != exams.cend (); iterator++)
+        {
+            if (GetEnrolleeBestResultFromExams (enrollee, iterator->second) == 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 unsigned CalculateEnrolleeScore (const Specialty *specialty, const Enrollee *enrollee)
