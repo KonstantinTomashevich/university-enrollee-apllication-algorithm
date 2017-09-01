@@ -5,66 +5,135 @@
 
 namespace UEAA
 {
+namespace IsFirstEnrolleeBetterSteps
+{
+/// Returns true if comparision finished at this step.
+bool CheckIsBothCanChoiceSpecialty (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput);
+bool CheckRODs (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput);
+bool CheckSchoolGoldMedals (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput);
+bool CheckScores (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput);
+bool CheckPrimaryExams (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput);
+bool CheckSchoolCertificateMarks (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput);
+}
+
 bool IsFirstEnrolleeBetter (const Specialty *specialty, const Enrollee *first, const Enrollee *second)
 {
-    // TODO: Maybe split this function to smaller pieces?
-    if (!CanEnrolleeChoiceSpecialty (specialty, first))
+    // TODO: Not all BSU checks implemented.
+    bool result = false;
+    if (IsFirstEnrolleeBetterSteps::CheckIsBothCanChoiceSpecialty (specialty, first, second, result) ||
+        IsFirstEnrolleeBetterSteps::CheckRODs (specialty, first, second, result) ||
+        IsFirstEnrolleeBetterSteps::CheckSchoolGoldMedals (specialty, first, second, result) ||
+        IsFirstEnrolleeBetterSteps::CheckScores (specialty, first, second, result) ||
+        IsFirstEnrolleeBetterSteps::CheckPrimaryExams (specialty, first, second, result) ||
+        IsFirstEnrolleeBetterSteps::CheckSchoolCertificateMarks (specialty, first, second, result))
+    {
+        return result;
+    }
+    else
     {
         return false;
     }
-    else if (!CanEnrolleeChoiceSpecialty (specialty, second))
+}
+
+namespace IsFirstEnrolleeBetterSteps
+{
+bool CheckIsBothCanChoiceSpecialty (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput)
+{
+    if (!CanEnrolleeChoiceSpecialty (specialty, first))
     {
+        resultOutput = false;
         return true;
     }
+    else if (!CanEnrolleeChoiceSpecialty (specialty, second))
+    {
+        resultOutput = true;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
+bool CheckRODs (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput)
+{
     if (first->GetRODType () != ROD_NONE && second->GetRODType () != ROD_NONE)
     {
         if (specialty->IsRODSubjectAccepted (first->GetRODSubject ()) &&
-                specialty->IsRODSubjectAccepted (second->GetRODSubject ()))
+            specialty->IsRODSubjectAccepted (second->GetRODSubject ()))
         {
-            return IsFirstDiplomaBetter (first->GetRODType (), second->GetRODType ());
+            resultOutput = IsFirstDiplomaBetter (first->GetRODType (), second->GetRODType ());
+            return true;
         }
         else if (specialty->IsRODSubjectAccepted (first->GetRODSubject ()))
         {
+            resultOutput = true;
             return true;
         }
         else if (specialty->IsRODSubjectAccepted (second->GetRODSubject ()) )
         {
-            return false;
+            resultOutput = false;
+            return true;
         }
     }
 
     else if (first->GetRODType () != ROD_NONE && specialty->IsRODSubjectAccepted (first->GetRODSubject ()))
     {
+        resultOutput = true;
         return true;
     }
 
     else if (second->GetRODType () != ROD_NONE && specialty->IsRODSubjectAccepted (second->GetRODSubject ()))
     {
-        return false;
+        resultOutput = false;
+        return true;
     }
 
+    else
+    {
+        return false;
+    }
+}
 
+bool CheckSchoolGoldMedals (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput)
+{
     if (specialty->IsPedagogical ())
     {
         if (first->HasSchoolGoldMedal () && !second->HasSchoolGoldMedal ())
         {
+            resultOutput = true;
             return true;
         }
         else if (!first->HasSchoolGoldMedal () && second->HasSchoolGoldMedal ())
         {
-            return false;
+            resultOutput = false;
+            return true;
         }
     }
+    else
+    {
+        return false;
+    }
+}
 
+bool CheckScores (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput)
+{
     unsigned firstScore = CalculateEnrolleeScore (specialty, first);
     unsigned secondScore = CalculateEnrolleeScore (specialty, second);
 
     if (firstScore != secondScore)
     {
-        return firstScore > secondScore;
+        resultOutput = firstScore > secondScore;
+        return true;
     }
+    else
+    {
+        return false;
+    }
+}
 
+bool CheckPrimaryExams (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput)
+{
     const std::vector <std::pair <bool, std::vector <unsigned> > > &exams = specialty->GetRequiredExams ();
     for (auto iterator = exams.cbegin (); iterator != exams.cend (); iterator++)
     {
@@ -75,11 +144,16 @@ bool IsFirstEnrolleeBetter (const Specialty *specialty, const Enrollee *first, c
 
             if (firstEnrolleeResult != secondEnrolleeResult)
             {
-                return firstEnrolleeResult > secondEnrolleeResult;
+                resultOutput = firstEnrolleeResult > secondEnrolleeResult;
+                return true;
             }
         }
     }
+    return false;
+}
 
+bool CheckSchoolCertificateMarks (const Specialty *specialty, const Enrollee *first, const Enrollee *second, bool &resultOutput)
+{
     const std::vector <unsigned> &marksPriority = specialty->GetMarksInCertificatePriority ();
     for (auto iterator = marksPriority.cbegin (); iterator != marksPriority.cend (); iterator++)
     {
@@ -88,12 +162,12 @@ bool IsFirstEnrolleeBetter (const Specialty *specialty, const Enrollee *first, c
 
         if (firstMark != secondMark)
         {
-            return firstMark > secondMark;
+            resultOutput = firstMark > secondMark;
+            return true;
         }
     }
-
-    // TODO: Not all BSU checks implemented.
     return false;
+}
 }
 
 bool CanEnrolleeChoiceSpecialty (const Specialty *specialty, const Enrollee *enrollee)
@@ -121,7 +195,7 @@ unsigned CalculateEnrolleeScore (const Specialty *specialty, const Enrollee *enr
     return score;
 }
 
-unsigned GetEnrolleeBestResultFromExams (const Enrollee *enrollee, const std::vector <unsigned> &exams)
+unsigned char GetEnrolleeBestResultFromExams (const Enrollee *enrollee, const std::vector <unsigned> &exams)
 {
     unsigned char best = 0;
     for (auto iterator = exams.cbegin (); iterator != exams.cend (); iterator++)
