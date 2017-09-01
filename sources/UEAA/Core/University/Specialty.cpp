@@ -102,7 +102,7 @@ std::list <Enrollee *> Specialty::RemoveExcessEnrollees ()
     {
         int index = maxEnrolleesInFreeForm_;
         auto iterator = enrolleesInFreeForm_.begin ();
-        for (; index > 0; iterator++, index--);
+        for (; index > 0; iterator++, index--) {}
         enrolleesInFreeForm_.erase (iterator, enrolleesInFreeForm_.end ());
     }
 
@@ -110,7 +110,7 @@ std::list <Enrollee *> Specialty::RemoveExcessEnrollees ()
     {
         int index = maxEnrolleesInPaidForm_;
         auto iterator = enrolleesInPaidForm_.begin ();
-        for (; index > 0; iterator++, index--);
+        for (; index > 0; iterator++, index--) {}
         enrolleesInPaidForm_.erase (iterator, enrolleesInPaidForm_.end ());
     }
     return excessEnrollees;
@@ -152,7 +152,7 @@ bool Specialty::GetExcessEnrollees (std::list <Enrollee *> &output, StudyForm st
     {
         int index = maxEnrollees;
         auto iterator = enrollees.cbegin ();
-        for (; index > 0; iterator++, index--);
+        for (; index > 0; iterator++, index--) {}
 
         for (; iterator != enrollees.cend (); iterator++)
         {
