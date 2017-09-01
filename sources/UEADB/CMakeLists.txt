@@ -1,3 +1,14 @@
+file (GLOB CommandExecutors CommandsExecutors/*.hpp)
+set (SCE_INCLUDES "")
+set (SCE_CODE "")
+
+foreach (CommandExecutor ${CommandExecutors})
+    get_filename_component (fileName ${CommandExecutor} NAME_WE)
+    set (SCE_INCLUDES "${SCE_INCLUDES}\n#include <UEADB/CommandsExecutors/${fileName}.hpp>")
+    set (SCE_CODE "${SCE_CODE}\n    commandExecutors.emplace (UEAA::CStringToHash (\"${fileName}\"), UEADB::${fileName}::${fileName});")
+endforeach ()
+configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/Core/SetupCommandsExecutors.cpp.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/Core/SetupCommandsExecutors.cpp")
+
 file (GLOB_RECURSE Headers *.hpp)
 file (GLOB_RECURSE Objects *.cpp)
 add_executable (UEADB ${Headers} ${Objects})

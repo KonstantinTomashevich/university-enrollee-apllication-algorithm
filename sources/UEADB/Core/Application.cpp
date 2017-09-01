@@ -1,6 +1,7 @@
 #include "Application.hpp"
 #include <UEAA/Utils/CStringToHash.hpp>
 #include <UEADB/Core/ErrorCodes.hpp>
+#include <UEADB/Core/SetupCommandsExecutors.hpp>
 #include <iostream>
 
 namespace UEADB
@@ -152,12 +153,6 @@ void PrintCommand (const CommandInfo &command)
         std::cout << "\"" << *argIterator << "\"";
     }
     std::cout << ");" << std::endl;
-}
-
-std::map <unsigned, CommandExecutor> SetupCommandExecutors ()
-{
-    std::map <unsigned, CommandExecutor> commandExecutors;
-    return commandExecutors;
 }
 
 unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsigned, CommandExecutor> &commandExecutors)

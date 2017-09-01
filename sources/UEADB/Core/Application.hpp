@@ -17,7 +17,6 @@ CommandsList ReadCommands (const std::vector <std::string> &cmdArguments);
 void PrintCommands (const CommandsList &commandsList);
 void PrintCommand (const CommandInfo &command);
 
-std::map <unsigned, CommandExecutor> SetupCommandExecutors ();
 unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsigned, CommandExecutor> &commandExecutors);
 unsigned ExecuteCommand (const CommandInfo &command, const SharedPointersMap &sharedPointersMap,
                          const std::map <unsigned, CommandExecutor> &commandExecutors);
