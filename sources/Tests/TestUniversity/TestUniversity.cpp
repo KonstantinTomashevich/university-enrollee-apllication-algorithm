@@ -49,7 +49,7 @@ int main ()
     }
 
     std::cout << "Processing enrollees application...";
-    std::vector <UEAA::Enrollee *> excessEnrollees = university->ProcessEnrolleesApplication ();
+    std::list <UEAA::Enrollee *> excessEnrollees = university->ProcessEnrolleesApplication ();
     std::cout << " Done!" << std::endl;
 
     for (auto iterator = excessEnrollees.begin (); iterator != excessEnrollees.end (); iterator++)
@@ -65,7 +65,7 @@ int main ()
                 UEAA::Specialty *specialty = faculty->GetSpecialty (choice->GetSpecialty ());
                 if (specialty)
                 {
-                    const std::vector <UEAA::Enrollee *> &anotherEnrollees = specialty->GetEnrolleesInFreeForm ();
+                    const std::list <UEAA::Enrollee *> &anotherEnrollees = specialty->GetEnrolleesInFreeForm ();
                     for (auto anotherEnrolleeIterator = anotherEnrollees.cbegin ();
                          anotherEnrolleeIterator != anotherEnrollees.cend (); anotherEnrolleeIterator++)
                     {

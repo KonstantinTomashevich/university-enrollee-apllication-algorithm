@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <list>
 #include <string>
 
 #include <UEAA/Core/Enrollee/StudyForm.hpp>
@@ -25,10 +26,10 @@ public:
     const std::vector <unsigned> &GetMarksInCertificatePriority () const;
     void SetMarksInCertificatePriority (const std::vector <unsigned> &marksInCertificatePriority);
 
-    const std::vector <Enrollee *> &GetEnrolleesInFreeForm () const;
-    const std::vector <Enrollee *> &GetEnrolleesInPaidForm () const;
+    const std::list <Enrollee *> & GetEnrolleesInFreeForm () const;
+    const std::list <Enrollee *> & GetEnrolleesInPaidForm () const;
     bool AddEnrollee (Enrollee *enrollee);
-    std::vector <Enrollee *> RemoveExcessEnrollees ();
+    std::list <Enrollee *> RemoveExcessEnrollees ();
     void ClearEnrollees ();
 
     unsigned GetMaxEnrolleesInFreeForm () const;
@@ -54,8 +55,8 @@ public:
 
 private:
     /// Returns false if there is no excess enrollees.
-    bool GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const;
-    void AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *> &queue);
+    bool GetExcessEnrollees (std::list <Enrollee *> &output, StudyForm studyForm) const;
+    void AddEnrolleeToOrder (Enrollee *enrollee, std::list <Enrollee *> &queue);
 
     Faculty *parent_;
     unsigned id_;
@@ -69,8 +70,8 @@ private:
     /// Priority for marks in certificate, used for comparing enrollees, which have same exams results.
     std::vector <unsigned> marksInCertificatePriority_;
 
-    std::vector <Enrollee *> enrolleesInFreeForm_;
-    std::vector <Enrollee *> enrolleesInPaidForm_;
+    std::list <Enrollee *> enrolleesInFreeForm_;
+    std::list <Enrollee *> enrolleesInPaidForm_;
 
     unsigned maxEnrolleesInFreeForm_;
     unsigned maxEnrolleesInPaidForm_;

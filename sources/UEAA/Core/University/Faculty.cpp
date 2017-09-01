@@ -102,13 +102,13 @@ void Faculty::ClearAllSpecialtiesEnrollees ()
     }
 }
 
-std::vector <Enrollee *> Faculty::GetExcessEnrollees ()
+std::list <Enrollee *> Faculty::GetExcessEnrollees ()
 {
-    std::vector <Enrollee *> excessEnrolees;
+    std::list <Enrollee *> excessEnrolees;
     for (auto iterator = specialties_.begin (); iterator != specialties_.end (); iterator++)
     {
         Specialty *specialty = iterator->second;
-        std::vector <Enrollee *> thisSpecialtyExcess = specialty->RemoveExcessEnrollees ();
+        std::list <Enrollee *> thisSpecialtyExcess = specialty->RemoveExcessEnrollees ();
         excessEnrolees.insert (excessEnrolees.end (), thisSpecialtyExcess.begin (), thisSpecialtyExcess.end ());
     }
     return excessEnrolees;

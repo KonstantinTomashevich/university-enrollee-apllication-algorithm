@@ -65,12 +65,12 @@ void Specialty::SetMarksInCertificatePriority (const std::vector <unsigned> &mar
     marksInCertificatePriority_ = marksInCertificatePriority;
 }
 
-const std::vector <Enrollee *> &Specialty::GetEnrolleesInFreeForm () const
+const std::list <Enrollee *> & Specialty::GetEnrolleesInFreeForm () const
 {
     return enrolleesInFreeForm_;
 }
 
-const std::vector <Enrollee *> &Specialty::GetEnrolleesInPaidForm () const
+const std::list <Enrollee *> & Specialty::GetEnrolleesInPaidForm () const
 {
     return enrolleesInPaidForm_;
 }
@@ -92,22 +92,26 @@ bool Specialty::AddEnrollee (Enrollee *enrollee)
     return true;
 }
 
-std::vector <Enrollee *> Specialty::RemoveExcessEnrollees ()
+std::list <Enrollee *> Specialty::RemoveExcessEnrollees ()
 {
-    std::vector <Enrollee *> excessEnrollees;
+    std::list <Enrollee *> excessEnrollees;
     bool freeChanged = GetExcessEnrollees (excessEnrollees, STUDY_FORM_FREE);
     bool paidChanged = GetExcessEnrollees (excessEnrollees, STUDY_FORM_PAID);
 
     if (freeChanged)
     {
-        enrolleesInFreeForm_.erase (enrolleesInFreeForm_.begin () + maxEnrolleesInFreeForm_, enrolleesInFreeForm_.end ());
-        enrolleesInFreeForm_.shrink_to_fit ();
+        int index = maxEnrolleesInFreeForm_;
+        auto iterator = enrolleesInFreeForm_.begin ();
+        for (; index > 0; iterator++, index--);
+        enrolleesInFreeForm_.erase (iterator, enrolleesInFreeForm_.end ());
     }
 
     if (paidChanged)
     {
-        enrolleesInPaidForm_.erase (enrolleesInPaidForm_.begin () + maxEnrolleesInPaidForm_, enrolleesInPaidForm_.end ());
-        enrolleesInPaidForm_.shrink_to_fit ();
+        int index = maxEnrolleesInPaidForm_;
+        auto iterator = enrolleesInPaidForm_.begin ();
+        for (; index > 0; iterator++, index--);
+        enrolleesInPaidForm_.erase (iterator, enrolleesInPaidForm_.end ());
     }
     return excessEnrollees;
 }
@@ -138,16 +142,19 @@ void Specialty::SetMaxEnrolleesInPaidForm (unsigned maxEnrolleesInPaidForm)
     maxEnrolleesInPaidForm_ = maxEnrolleesInPaidForm;
 }
 
-bool Specialty::GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm studyForm) const
+bool Specialty::GetExcessEnrollees (std::list <Enrollee *> &output, StudyForm studyForm) const
 {
-    const std::vector <Enrollee *> &enrollees = (studyForm == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_;
+    const std::list <Enrollee *> &enrollees = (studyForm == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_;
     unsigned maxEnrollees = (studyForm == STUDY_FORM_FREE) ? maxEnrolleesInFreeForm_ : maxEnrolleesInPaidForm_;
     bool changed = false;
 
     if (enrollees.size () > maxEnrollees)
     {
-        for (auto iterator = enrollees.cbegin () + maxEnrollees;
-             iterator != enrollees.cend (); iterator++)
+        int index = maxEnrollees;
+        auto iterator = enrollees.cbegin ();
+        for (; index > 0; iterator++, index--);
+
+        for (; iterator != enrollees.cend (); iterator++)
         {
             output.push_back (*iterator);
             changed = true;
@@ -156,7 +163,7 @@ bool Specialty::GetExcessEnrollees (std::vector <Enrollee *> &output, StudyForm 
     return changed;
 }
 
-void Specialty::AddEnrolleeToOrder (Enrollee *enrollee, std::vector <Enrollee *> &queue)
+void Specialty::AddEnrolleeToOrder (Enrollee *enrollee, std::list <Enrollee *> &queue)
 {
     if (queue.size () == 0)
     {

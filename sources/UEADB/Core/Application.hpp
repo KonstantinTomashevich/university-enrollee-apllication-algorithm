@@ -1,8 +1,8 @@
 #pragma once
+#include <cstdlib>
 #include <UEAA/Utils/SharedPointer.hpp>
 #include <UEAA/Utils/ReferenceCounted.hpp>
 #include <UEADB/Core/TypeDefs.hpp>
-#include <cstdlib>
 
 namespace UEADB
 {

@@ -170,17 +170,17 @@ void University::ClearEnroleesApplicationInfo ()
     }
 }
 
-std::vector <Enrollee *> University::ProcessEnrolleesApplication ()
+std::list <Enrollee *> University::ProcessEnrolleesApplication ()
 {
     ClearEnroleesApplicationInfo ();
-    std::vector <Enrollee *> processing;
-    std::vector <Enrollee *> excessEnrolees;
+    std::list <Enrollee *> processing;
+    std::list <Enrollee *> excessEnrolees;
 
     for (auto iterator = enrollees_.begin (); iterator != enrollees_.end (); iterator++)
     {
         Enrollee *enrollee = iterator->second;
         enrollee->RefreshChoiceIndex ();
-        processing.push_back (enrollee);
+        processing.emplace_back (enrollee);
     }
 
     while (!processing.empty ())
@@ -299,7 +299,7 @@ bool University::operator != (const University &rhs) const
     return !(rhs == *this);
 }
 
-void University::ProcessEnroleesChoices (std::vector <Enrollee *> &processing, std::vector <Enrollee *> &excess) const
+void University::ProcessEnroleesChoices (std::list <Enrollee *> &processing, std::list <Enrollee *> &excess) const
 {
     for (auto iterator = processing.begin (); iterator != processing.end (); iterator++)
     {
@@ -331,18 +331,19 @@ void University::ProcessEnroleesChoices (std::vector <Enrollee *> &processing, s
 
         if (!enrollee->HasMoreChoices ())
         {
-            excess.push_back (enrollee);
+            excess.emplace_back (enrollee);
             enrollee->SetLastUpdateResult (nullptr);
         }
     }
 }
 
-void University::AddExcessToProcessingList (std::vector <Enrollee *> &processing) const
+void University::AddExcessToProcessingList (std::list <Enrollee *> &processing) const
 {
     for (auto iterator = faculties_.begin (); iterator != faculties_.end (); iterator++)
     {
         Faculty *faculty = iterator->second;
-        std::vector <Enrollee *> excessInFaculty = faculty->GetExcessEnrollees ();
+        std::list <Enrollee *> excessInFaculty = faculty->GetExcessEnrollees ();
+
         for (auto excessInFacultyIterator = excessInFaculty.begin ();
              excessInFacultyIterator != excessInFaculty.end (); excessInFacultyIterator++)
         {

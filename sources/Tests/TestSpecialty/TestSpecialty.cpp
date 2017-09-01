@@ -21,7 +21,7 @@ const unsigned MAX_IN_PAID_FORM = 5;
 void InitSpecialty (UEAA::Specialty *specialty);
 UEAA::Enrollee *GenerateEnrollee (UEAA::StudyForm studyForm);
 void PrintEnrollee (const UEAA::Enrollee *enrollee);
-void PrintEnrolleesVector (const std::vector <UEAA::Enrollee *> &enrollees);
+void PrintEnrolleesList (const std::list <UEAA::Enrollee *> &enrollees);
 
 int main ()
 {
@@ -74,7 +74,7 @@ int main ()
     }
 
     std::cout << "Removing excess enrollees..." << std::endl;
-    std::vector <UEAA::Enrollee *> excessEnrollees = specialty->RemoveExcessEnrollees ();
+    std::list <UEAA::Enrollee *> excessEnrollees = specialty->RemoveExcessEnrollees ();
     std::cout << "In free form: " << specialty->GetEnrolleesInFreeForm ().size () << std::endl;
     std::cout << "In paid form: " << specialty->GetEnrolleesInPaidForm ().size () << std::endl;
 
@@ -91,15 +91,15 @@ int main ()
     }
 
     std::cout << "ENROLLEES IN FREE FORM:" << std::endl;
-    PrintEnrolleesVector (specialty->GetEnrolleesInFreeForm ());
+    PrintEnrolleesList (specialty->GetEnrolleesInFreeForm ());
 
     std::cout << "ENROLLEES IN PAID FORM:" << std::endl;
-    PrintEnrolleesVector (specialty->GetEnrolleesInPaidForm ());
+    PrintEnrolleesList (specialty->GetEnrolleesInPaidForm ());
 
     for (auto iterator = excessEnrollees.cbegin (); iterator != excessEnrollees.cend (); iterator++)
     {
         const UEAA::Enrollee *excessEnrollee = *iterator;
-        const std::vector <UEAA::Enrollee *> anotherEnrollees =
+        const std::list <UEAA::Enrollee *> anotherEnrollees =
                 (excessEnrollee->GetCurrentChoice ()->GetStudyForm () == UEAA::STUDY_FORM_FREE) ?
                     specialty->GetEnrolleesInFreeForm () : specialty->GetEnrolleesInPaidForm ();
 
@@ -168,7 +168,7 @@ void PrintEnrollee (const UEAA::Enrollee *enrollee)
                  std::endl;
 }
 
-void PrintEnrolleesVector (const std::vector <UEAA::Enrollee *> &enrollees)
+void PrintEnrolleesList (const std::list <UEAA::Enrollee *> &enrollees)
 {
     for (auto iterator = enrollees.cbegin (); iterator != enrollees.cend (); iterator++)
     {

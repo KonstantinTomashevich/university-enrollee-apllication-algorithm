@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
+#include <list>
 
 #include <UEAA/Utils/XMLSerializable.hpp>
 #include <UEAA/Utils/SharedPointer.hpp>
@@ -35,7 +36,7 @@ public:
 
     void ClearEnroleesApplicationInfo ();
     /// Returns array of excess enrolees.
-    std::vector <Enrollee *> ProcessEnrolleesApplication ();
+    std::list <Enrollee *> ProcessEnrolleesApplication ();
 
     virtual void SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const;
     virtual void LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable);
@@ -44,8 +45,8 @@ public:
     bool operator != (const University &rhs) const;
 
 private:
-    void ProcessEnroleesChoices (std::vector <Enrollee *> &processing, std::vector <Enrollee *> &excess) const;
-    void AddExcessToProcessingList (std::vector <Enrollee *> &processing) const;
+    void ProcessEnroleesChoices (std::list <Enrollee *> &processing, std::list <Enrollee *> &excess) const;
+    void AddExcessToProcessingList (std::list <Enrollee *> &processing) const;
 
     std::map <unsigned, SharedPointer <Faculty> > faculties_;
     std::map <unsigned, SharedPointer <Enrollee> > enrollees_;
