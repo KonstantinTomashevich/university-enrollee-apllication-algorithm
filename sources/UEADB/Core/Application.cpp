@@ -196,7 +196,7 @@ unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsi
     return 0;
 }
 
-unsigned ExecuteCommand (const CommandInfo &command, const SharedPointersMap &sharedContext,
+unsigned ExecuteCommand (const CommandInfo &command, SharedPointersMap &sharedContext,
                          const std::map <unsigned, CommandExecutor> &commandExecutors)
 {
     unsigned commandNameHash = UEAA::CStringToHash (command.first.c_str ());

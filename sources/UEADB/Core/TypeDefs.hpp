@@ -10,5 +10,5 @@ namespace UEADB
 typedef std::pair <std::string, std::vector <std::string>> CommandInfo;
 typedef std::vector <CommandInfo> CommandsList;
 typedef std::map <unsigned, UEAA::SharedPointer <UEAA::ReferenceCounted> > SharedPointersMap;
-typedef unsigned (*CommandExecutor) (const std::vector <std::string> &, const SharedPointersMap &);
+typedef unsigned (*CommandExecutor) (const std::vector <std::string> &, SharedPointersMap &);
 }
