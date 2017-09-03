@@ -46,7 +46,7 @@ public:
 
 private:
     void ProcessEnroleesChoices (std::list <Enrollee *> &processing, std::list <Enrollee *> &excess) const;
-    void AddExcessToProcessingList (std::list <Enrollee *> &processing) const;
+    void AddFacultiesExcessToProcessingList (std::list <Enrollee *> &processing) const;
 
     std::map <unsigned, SharedPointer <Faculty> > faculties_;
     std::map <unsigned, SharedPointer <Enrollee> > enrollees_;

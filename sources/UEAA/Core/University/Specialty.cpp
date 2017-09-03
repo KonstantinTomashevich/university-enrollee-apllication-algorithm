@@ -95,24 +95,8 @@ bool Specialty::AddEnrollee (Enrollee *enrollee)
 std::list <Enrollee *> Specialty::RemoveExcessEnrollees ()
 {
     std::list <Enrollee *> excessEnrollees;
-    bool freeChanged = GetExcessEnrollees (excessEnrollees, STUDY_FORM_FREE);
-    bool paidChanged = GetExcessEnrollees (excessEnrollees, STUDY_FORM_PAID);
-
-    if (freeChanged)
-    {
-        int index = maxEnrolleesInFreeForm_;
-        auto iterator = enrolleesInFreeForm_.begin ();
-        for (; index > 0; iterator++, index--) {}
-        enrolleesInFreeForm_.erase (iterator, enrolleesInFreeForm_.end ());
-    }
-
-    if (paidChanged)
-    {
-        int index = maxEnrolleesInPaidForm_;
-        auto iterator = enrolleesInPaidForm_.begin ();
-        for (; index > 0; iterator++, index--) {}
-        enrolleesInPaidForm_.erase (iterator, enrolleesInPaidForm_.end ());
-    }
+    RemoveExcessEnrolleesOfStudyForm (excessEnrollees, STUDY_FORM_FREE);
+    RemoveExcessEnrolleesOfStudyForm (excessEnrollees, STUDY_FORM_PAID);
     return excessEnrollees;
 }
 
@@ -142,25 +126,18 @@ void Specialty::SetMaxEnrolleesInPaidForm (unsigned maxEnrolleesInPaidForm)
     maxEnrolleesInPaidForm_ = maxEnrolleesInPaidForm;
 }
 
-bool Specialty::GetExcessEnrollees (std::list <Enrollee *> &output, StudyForm studyForm) const
+void Specialty::RemoveExcessEnrolleesOfStudyForm (std::list <Enrollee *> &output, StudyForm studyForm)
 {
-    const std::list <Enrollee *> &enrollees = (studyForm == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_;
+    std::list <Enrollee *> &enrollees = (studyForm == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_;
     unsigned maxEnrollees = (studyForm == STUDY_FORM_FREE) ? maxEnrolleesInFreeForm_ : maxEnrolleesInPaidForm_;
-    bool changed = false;
 
-    if (enrollees.size () > maxEnrollees)
+    while (enrollees.size () > maxEnrollees)
     {
-        int index = maxEnrollees;
-        auto iterator = enrollees.cbegin ();
-        for (; index > 0; iterator++, index--) {}
-
-        for (; iterator != enrollees.cend (); iterator++)
-        {
-            output.push_back (*iterator);
-            changed = true;
-        }
+        auto lastIterator = enrollees.cend ();
+        lastIterator--;
+        output.emplace_back (*lastIterator);
+        enrollees.pop_back ();
     }
-    return changed;
 }
 
 void Specialty::AddEnrolleeToOrder (Enrollee *enrollee, std::list <Enrollee *> &queue)

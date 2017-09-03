@@ -178,16 +178,13 @@ std::list <Enrollee *> University::ProcessEnrolleesApplication ()
 
     for (auto iterator = enrollees_.begin (); iterator != enrollees_.end (); iterator++)
     {
-        Enrollee *enrollee = iterator->second;
-        enrollee->RefreshChoiceIndex ();
-        processing.emplace_back (enrollee);
+        processing.emplace_back (iterator->second);
     }
 
     while (!processing.empty ())
     {
         ProcessEnroleesChoices (processing, excessEnrolees);
-        processing.clear ();
-        AddExcessToProcessingList (processing);
+        AddFacultiesExcessToProcessingList (processing);
     }
     return excessEnrolees;
 }
@@ -301,10 +298,12 @@ bool University::operator != (const University &rhs) const
 
 void University::ProcessEnroleesChoices (std::list <Enrollee *> &processing, std::list <Enrollee *> &excess) const
 {
-    for (auto iterator = processing.begin (); iterator != processing.end (); iterator++)
+    while (!processing.empty ())
     {
-        Enrollee *enrollee = *iterator;
+        Enrollee *enrollee = *processing.begin ();
+        processing.pop_front ();
         bool isAdded = false;
+        
         while (enrollee->HasMoreChoices () && !isAdded)
         {
             EnrolleeChoice *choice = enrollee->GetCurrentChoice ();
@@ -337,7 +336,7 @@ void University::ProcessEnroleesChoices (std::list <Enrollee *> &processing, std
     }
 }
 
-void University::AddExcessToProcessingList (std::list <Enrollee *> &processing) const
+void University::AddFacultiesExcessToProcessingList (std::list <Enrollee *> &processing) const
 {
     for (auto iterator = faculties_.begin (); iterator != faculties_.end (); iterator++)
     {
@@ -349,7 +348,7 @@ void University::AddExcessToProcessingList (std::list <Enrollee *> &processing) 
         {
             Enrollee *enrollee = *excessInFacultyIterator;
             enrollee->IncreaseChoiceIndex ();
-            processing.push_back (enrollee);
+            processing.emplace_back (enrollee);
         }
     }
 }

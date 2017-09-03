@@ -55,7 +55,7 @@ public:
 
 private:
     /// Returns false if there is no excess enrollees.
-    bool GetExcessEnrollees (std::list <Enrollee *> &output, StudyForm studyForm) const;
+    void RemoveExcessEnrolleesOfStudyForm (std::list <Enrollee *> &output, StudyForm studyForm);
     void AddEnrolleeToOrder (Enrollee *enrollee, std::list <Enrollee *> &queue);
 
     Faculty *parent_;
