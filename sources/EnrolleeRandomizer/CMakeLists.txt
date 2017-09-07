@@ -1,0 +1,5 @@
+file (GLOB_RECURSE Headers *.hpp)
+file (GLOB_RECURSE Objects *.cpp)
+add_executable (EnrolleeRandomizer ${Headers} ${Objects})
+target_link_libraries (EnrolleeRandomizer UEAA)
+set_target_properties (EnrolleeRandomizer PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
