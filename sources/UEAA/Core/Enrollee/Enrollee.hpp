@@ -2,6 +2,7 @@
 #include <map>
 #include <list>
 #include <string>
+#include <vector>
 
 #include <UEAA/Core/Enrollee/StudyForm.hpp>
 #include <UEAA/Core/Enrollee/EnrolleeChoice.hpp>
@@ -20,6 +21,7 @@ public:
     unsigned GetId () const;
     unsigned char GetExamResult (unsigned examSubjectNameHash) const;
     void SetExamResult (unsigned examSubjectNameHash, unsigned char examResult);
+    std::vector <unsigned> GetPassedExamsSubjects () const;
 
     bool HasMoreChoices () const;
     unsigned GetCurrentChoiceIndex () const;
@@ -41,6 +43,7 @@ public:
 
     unsigned char GetCertificateMark (unsigned subjectNameHash) const;
     void SetCertificateMark (unsigned subjectNameHash, unsigned char mark);
+    std::vector <unsigned> GetCertificateMarksSubjects () const;
 
     float GetCertificateMedianMark () const;
     void CalculateCertificateMedianMark ();

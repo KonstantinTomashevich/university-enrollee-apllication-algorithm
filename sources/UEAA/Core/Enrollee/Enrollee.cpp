@@ -54,6 +54,16 @@ void Enrollee::SetExamResult (unsigned examSubjectNameHash, unsigned char examRe
     examsResults_ [examSubjectNameHash] = examResult;
 }
 
+std::vector <unsigned> Enrollee::GetPassedExamsSubjects () const
+{
+    std::vector <unsigned> subjects;
+    for (auto iterator = examsResults_.begin (); iterator != examsResults_.end (); iterator++)
+    {
+        subjects.push_back (iterator->first);
+    }
+    return subjects;
+}
+
 bool Enrollee::HasMoreChoices () const
 {
     return currentChoiceIndex_ < choices_.size ();
@@ -149,6 +159,16 @@ unsigned char Enrollee::GetCertificateMark (unsigned subjectNameHash) const
 void Enrollee::SetCertificateMark (unsigned subjectNameHash, unsigned char mark)
 {
     certificateMarks_ [subjectNameHash] = mark;
+}
+
+std::vector <unsigned> Enrollee::GetCertificateMarksSubjects () const
+{
+    std::vector <unsigned> subjects;
+    for (auto iterator = certificateMarks_.cbegin (); iterator != certificateMarks_.cend (); iterator++)
+    {
+        subjects.push_back (iterator->first);
+    }
+    return subjects;
 }
 
 float Enrollee::GetCertificateMedianMark () const
