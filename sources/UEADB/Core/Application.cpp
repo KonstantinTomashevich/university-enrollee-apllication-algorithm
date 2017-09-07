@@ -118,6 +118,10 @@ unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsi
         {
             return result;
         }
+        else
+        {
+            std::cout << "    Finished!" << std::endl << std::endl;
+        }
     }
     return 0;
 }
