@@ -54,7 +54,7 @@ void PrintHelp ()
 {
     std::cout << "SaveUniversity brief:" << std::endl <<
         "    Saves university from given XML file." << std::endl <<
-        "    Saveed university will be stored to commands shared context." << std::endl << std::endl <<
+        "    Saved university will be stored to commands shared context." << std::endl << std::endl <<
         "SaveUniversity arguments:" << std::endl <<
         "    1. Path to XML file with <university> core tag." << std::endl;
 }
