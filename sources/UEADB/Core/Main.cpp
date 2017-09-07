@@ -1,8 +1,4 @@
 #include <UEADB/Core/Application.hpp>
-
-#include <UEAA/Utils/SharedPointer.hpp>
-#include <UEADB/Core/Application.hpp>
-
 #ifdef _WIN32
 #include <windows.h>
 #ifdef _MSC_VER
