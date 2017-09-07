@@ -2,7 +2,7 @@
 #include <Dependencies/CrossPlatformMain/CrossPlatformMain.hpp>
 #include <UEAA/Utils/CStringToHash.hpp>
 #include <UEADB/Core/ErrorCodes.hpp>
-#include <UEADB/Core/CommandsUtils.hpp>
+#include <UEADB/Utils/CommandsUtils.hpp>
 
 #include <cstring>
 #include <iostream>

@@ -3,7 +3,7 @@
 #include <UEAA/Core/University/University.hpp>
 
 #include <UEADB/Core/ErrorCodes.hpp>
-#include <UEADB/Core/CommandsUtils.hpp>
+#include <UEADB/Utils/CommandsUtils.hpp>
 #include <UEADB/Core/SharedContextGlobalKeys.hpp>
 #include <UEADB/Utils/ReferenceCountedList.hpp>
 #include <iostream>
