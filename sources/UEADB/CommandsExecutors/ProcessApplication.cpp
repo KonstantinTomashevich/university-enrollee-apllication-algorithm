@@ -30,6 +30,7 @@ unsigned ProcessApplication (const std::vector <std::string> &arguments, SharedP
     }
 
     UEAA::University *university = static_cast <UEAA::University *> (universityPointer.GetTrackingObject ());
+    std::cout << "    Processing enrollees application..." << std::endl;
     std::list <UEAA::Enrollee *> excessEnrolleesList = university->ProcessEnrolleesApplication ();
 
     ReferenceCountedList <UEAA::SharedPointer <UEAA::Enrollee> > *excessEnrollees =
