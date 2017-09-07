@@ -23,7 +23,7 @@ foreach (CommandExecutor ${CommandExecutors})
     set (pchCode "${pchCode}strcmp (commandName, \"${fileName}\") == 0)\n    {\n        ${fileName}::PrintHelp ();\n    }")
 endforeach ()
 set (pclCode "${pclCode};")
-configure_file ("Utils/CommandsUtils.cpp.cmake" "Utils/CommandsUtils.cpp")
+configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/Utils/CommandsUtils.cpp.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/Utils/CommandsUtils.cpp")
 
 file (GLOB_RECURSE Headers *.hpp)
 file (GLOB_RECURSE Objects *.cpp)
