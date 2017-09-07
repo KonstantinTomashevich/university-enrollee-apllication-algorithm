@@ -1,4 +1,5 @@
 #include "Application.hpp"
+#include <Dependencies/CrossPlatformMain/CrossPlatformMain.hpp>
 #include <UEAA/Utils/CStringToHash.hpp>
 #include <UEADB/Core/ErrorCodes.hpp>
 #include <UEADB/Core/CommandsUtils.hpp>
@@ -6,112 +7,37 @@
 #include <cstring>
 #include <iostream>
 
-namespace UEADB
-{
-namespace Application
-{
-unsigned Execute (const wchar_t *arguments)
-{
-    return Execute (ParseArgumentsString (arguments));
-}
-
-unsigned Execute (int argumentsCount, char **arguments)
-{
-    std::vector <std::string> argumentsVector;
-    // Because first arguments is always executable path.
-    if (argumentsCount > 1)
-    {
-        for (unsigned index = 1; index < argumentsCount; index++)
-        {
-            argumentsVector.emplace_back (std::string (arguments[index]));
-        }
-    }
-    return Execute (argumentsVector);
-}
-
-unsigned Execute (const std::vector <std::string> &arguments)
+int CrossPlatformMain (const std::vector <std::string> &arguments)
 {
     if (arguments.size () == 0)
     {
-        PrintCommandsList ();
+        UEADB::PrintCommandsList ();
         return 0;
     }
     else if (arguments.at (0) == "Help")
     {
         if (arguments.size () == 1)
         {
-            PrintCommandsList ();
+            UEADB::PrintCommandsList ();
             return 0;
         }
         else
         {
-            PrintCommandHelp (arguments.at (1).c_str ());
+            UEADB::PrintCommandHelp (arguments.at (1).c_str ());
             return 0;
         }
     }
     else
     {
-        CommandsList commandsList = ReadCommands (arguments);
-        PrintCommands (commandsList);
-        std::map <unsigned, CommandExecutor> commandExecutors = SetupCommandExecutors ();
-        return ExecuteCommands (commandsList, commandExecutors);
+        UEADB::CommandsList commandsList = UEADB::ReadCommands (arguments);
+        UEADB::PrintCommands (commandsList);
+        std::map <unsigned, UEADB::CommandExecutor> commandExecutors = UEADB::SetupCommandExecutors ();
+        return UEADB::ExecuteCommands (commandsList, commandExecutors);
     }
 }
 
-std::vector <std::string> ParseArgumentsString (const wchar_t *arguments)
+namespace UEADB
 {
-    size_t length = wcslen (arguments);
-    char *cArguments = new char[length];
-    wcstombs (cArguments, arguments, length);
-
-    std::vector <std::string> argumentsVector;
-    std::string read = "";
-    bool isQuoteOpened = false;
-    bool executablePathSkipped = false;
-
-    for (unsigned index = 0; index < length; index++)
-    {
-        char symbol = cArguments[index];
-        if (symbol == '\"')
-        {
-            isQuoteOpened = !isQuoteOpened;
-        }
-
-        else if (isspace (symbol))
-        {
-            if (isQuoteOpened)
-            {
-                read += " ";
-            }
-            else if (executablePathSkipped)
-            {
-                if (!read.empty ())
-                {
-                    argumentsVector.push_back (read);
-                }
-                read = "";
-            }
-            else
-            {
-                executablePathSkipped = true;
-                read = "";
-            }
-        }
-
-        else
-        {
-            read += symbol;
-        }
-    }
-
-    delete [] cArguments;
-    if (executablePathSkipped)
-    {
-        argumentsVector.push_back (read);
-    }
-    return argumentsVector;
-}
-
 CommandsList ReadCommands (const std::vector <std::string> &cmdArguments)
 {
     CommandsList commandsList;
@@ -210,6 +136,5 @@ unsigned ExecuteCommand (const CommandInfo &command, SharedPointersMap &sharedCo
         std::cout << "    Executor for command " << commandNameHash << " not exists. Execution cancelled." << std::endl;
         return ErrorCodes::COMMAND_EXECUTOR_NOT_EXISTS;
     }
-}
 }
 }

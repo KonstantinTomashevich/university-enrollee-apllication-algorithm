@@ -9,8 +9,6 @@ ${cuIncludes}
 
 namespace UEADB
 {
-namespace Application
-{
 std::map <unsigned, CommandExecutor> SetupCommandExecutors ()
 {
     std::map <unsigned int, CommandExecutor> commandExecutors;
@@ -44,6 +42,5 @@ UEAA::DeHashTable *GetOrCreateDeHashTable (SharedPointersMap &sharedContext)
         sharedContext.emplace (SharedContextGlobalKeys::DE_HASH_TABLE, sharedPointer);
         return deHashTable;
     }
-}
 }
 }
