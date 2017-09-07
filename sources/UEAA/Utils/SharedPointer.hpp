@@ -5,7 +5,7 @@ template <class T> class SharedPointer
 {
 public:
     SharedPointer () :
-        trackingObject_ (0)
+        trackingObject_ (nullptr)
     {
 
     }
@@ -46,7 +46,7 @@ public:
 
     void Detach ()
     {
-        trackingObject_ = 0;
+        trackingObject_ = nullptr;
     }
 
     operator T * () const
