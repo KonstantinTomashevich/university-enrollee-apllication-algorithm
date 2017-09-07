@@ -1,4 +1,5 @@
 #include "EnrolleeRandomizer.hpp"
+#include <Dependencies/CrossPlatformMain/CrossPlatformMain.hpp>
 #include <UEAA/Utils/DeHashTable.hpp>
 #include <UEAA/Utils/SharedPointer.hpp>
 
@@ -6,32 +7,11 @@
 #include <UEAA/Core/Enrollee/EnrolleeHelpers.hpp>
 #include <iostream>
 
-namespace EnrolleeRandomizer
-{
-unsigned Execute (const wchar_t *arguments)
-{
-    return Execute (ParseArgumentsString (arguments));
-}
-
-unsigned Execute (int argumentsCount, char **arguments)
-{
-    std::vector <std::string> argumentsVector;
-    // Because first arguments is always executable path.
-    if (argumentsCount > 1)
-    {
-        for (unsigned index = 1; index < argumentsCount; index++)
-        {
-            argumentsVector.emplace_back (std::string (arguments[index]));
-        }
-    }
-    return Execute (argumentsVector);
-}
-
-unsigned Execute (const std::vector <std::string> &arguments)
+int CrossPlatformMain (const std::vector <std::string> &arguments)
 {
     if (arguments.size () != 5)
     {
-        PrintHelp ();
+        EnrolleeRandomizer::PrintHelp ();
         return 0;
     }
 
@@ -76,65 +56,13 @@ unsigned Execute (const std::vector <std::string> &arguments)
     for (unsigned index = 0; index < toGenerateCount; index++, enrolleePassportNumber++)
     {
         std::cout << (index + 1) << "/" << toGenerateCount << ": generating GE" << enrolleePassportNumber << "." << std::endl;
-        GenerateNextEnrollee (rootElement, outputDirectory, enrolleePassportNumber, examsDelta, marksDelta, deHashTable);
+        EnrolleeRandomizer::GenerateNextEnrollee (rootElement, outputDirectory, enrolleePassportNumber, examsDelta, marksDelta, deHashTable);
     }
     return 0;
 }
 
-std::vector <std::string> ParseArgumentsString (const wchar_t *arguments)
+namespace EnrolleeRandomizer
 {
-    size_t length = wcslen (arguments);
-    char *cArguments = new char[length];
-    wcstombs (cArguments, arguments, length);
-
-    std::vector <std::string> argumentsVector;
-    std::string read = "";
-    bool isQuoteOpened = false;
-    bool executablePathSkipped = false;
-
-    for (unsigned index = 0; index < length; index++)
-    {
-        char symbol = cArguments[index];
-        if (symbol == '\"')
-        {
-            isQuoteOpened = !isQuoteOpened;
-        }
-
-        else if (isspace (symbol))
-        {
-            if (isQuoteOpened)
-            {
-                read += " ";
-            }
-            else if (executablePathSkipped)
-            {
-                if (!read.empty ())
-                {
-                    argumentsVector.push_back (read);
-                }
-                read = "";
-            }
-            else
-            {
-                executablePathSkipped = true;
-                read = "";
-            }
-        }
-
-        else
-        {
-            read += symbol;
-        }
-    }
-
-    delete [] cArguments;
-    if (executablePathSkipped)
-    {
-        argumentsVector.push_back (read);
-    }
-    return argumentsVector;
-}
-
 void PrintHelp ()
 {
     std::cout << "Enrollee Randomizer expected arguments:" << std::endl <<
