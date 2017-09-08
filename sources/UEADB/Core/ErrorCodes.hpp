@@ -3,10 +3,10 @@ namespace UEADB
 {
 namespace ErrorCodes
 {
-const unsigned COMMAND_EXECUTOR_NOT_EXISTS = 1;
-const unsigned INCORRECT_ARGUMENTS = 2;
-const unsigned INCORRECT_INPUT_FILE_OR_FILES = 3;
-const unsigned INCORRECT_OUTPUT_FILE_OR_FILES = 4;
-const unsigned INCORRECT_CONTEXT = 5;
+const int COMMAND_EXECUTOR_NOT_EXISTS = 1;
+const int INCORRECT_ARGUMENTS = 2;
+const int INCORRECT_INPUT_FILE_OR_FILES = 3;
+const int INCORRECT_OUTPUT_FILE_OR_FILES = 4;
+const int INCORRECT_CONTEXT = 5;
 }
 }

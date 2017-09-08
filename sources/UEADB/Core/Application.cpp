@@ -104,7 +104,7 @@ void PrintCommand (const CommandInfo &command)
     std::cout << ");" << std::endl;
 }
 
-unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsigned, CommandExecutor> &commandExecutors)
+int ExecuteCommands (const CommandsList &commandsList, const std::map <unsigned, CommandExecutor> &commandExecutors)
 {
     std::cout << "Executing commands..." << std::endl;
     SharedPointersMap sharedContext;
@@ -113,7 +113,7 @@ unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsi
     {
         const CommandInfo &command = *iterator;
         PrintCommand (command);
-        unsigned result = ExecuteCommand (command, sharedContext, commandExecutors);
+        int result = ExecuteCommand (command, sharedContext, commandExecutors);
         if (result != 0)
         {
             return result;
@@ -126,8 +126,8 @@ unsigned ExecuteCommands (const CommandsList &commandsList, const std::map <unsi
     return 0;
 }
 
-unsigned ExecuteCommand (const CommandInfo &command, SharedPointersMap &sharedContext,
-                         const std::map <unsigned, CommandExecutor> &commandExecutors)
+int ExecuteCommand (const CommandInfo &command, SharedPointersMap &sharedContext,
+                    const std::map <unsigned, CommandExecutor> &commandExecutors)
 {
     unsigned commandNameHash = UEAA::CStringToHash (command.first.c_str ());
     try
