@@ -20,16 +20,7 @@ unsigned ProcessApplication (const std::vector <std::string> &arguments, SharedP
         return ErrorCodes::INCORRECT_ARGUMENTS;
     }
 
-    UEAA::SharedPointer <UEAA::ReferenceCounted> universityPointer =
-            sharedContext [SharedContextGlobalKeys::UNIVERSITY];
-
-    if (universityPointer.GetTrackingObject () == nullptr)
-    {
-        std::cout << "    Can not find university in shared context!" << std::endl;
-        return ErrorCodes::INCORRECT_CONTEXT;
-    }
-
-    UEAA::University *university = static_cast <UEAA::University *> (universityPointer.GetTrackingObject ());
+    UEAA::University *university = GetOrCreateUniversity (sharedContext);
     std::cout << "    Processing enrollees application..." << std::endl;
     std::list <UEAA::Enrollee *> excessEnrolleesList = university->ProcessEnrolleesApplication ();
 

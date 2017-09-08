@@ -19,16 +19,7 @@ unsigned SaveUniversity (const std::vector <std::string> &arguments, SharedPoint
         return ErrorCodes::INCORRECT_ARGUMENTS;
     }
 
-    UEAA::SharedPointer <UEAA::ReferenceCounted> universityPointer =
-            sharedContext [SharedContextGlobalKeys::UNIVERSITY];
-
-    if (universityPointer.GetTrackingObject () == nullptr)
-    {
-        std::cout << "    Can not find university in shared context!" << std::endl;
-        return ErrorCodes::INCORRECT_CONTEXT;
-    }
-
-    UEAA::University *university = static_cast <UEAA::University *> (universityPointer.GetTrackingObject ());
+    UEAA::University *university = GetOrCreateUniversity (sharedContext);
     tinyxml2::XMLDocument document;
     tinyxml2::XMLElement *rootElement = document.NewElement ("university");
     document.InsertFirstChild (rootElement);

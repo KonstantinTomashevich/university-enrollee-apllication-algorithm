@@ -37,7 +37,7 @@ unsigned LoadUniversity (const std::vector <std::string> &arguments, SharedPoint
     }
 
     std::cout << "    Loading university from XML..." << std::endl;
-    UEAA::University *university = new UEAA::University ();
+    UEAA::University *university = GetOrCreateUniversity (sharedContext);
     UEAA::DeHashTable *deHashTable = GetOrCreateDeHashTable (sharedContext);
     university->LoadFromXML (universityXML, deHashTable);
 

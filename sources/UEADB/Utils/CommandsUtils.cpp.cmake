@@ -43,4 +43,20 @@ UEAA::DeHashTable *GetOrCreateDeHashTable (SharedPointersMap &sharedContext)
         return deHashTable;
     }
 }
+
+UEAA::University *GetOrCreateUniversity (SharedPointersMap &sharedContext)
+{
+    try
+    {
+        UEAA::ReferenceCounted *object = sharedContext.at (SharedContextGlobalKeys::UNIVERSITY).GetTrackingObject ();
+        return static_cast <UEAA::University *> (object);
+    }
+    catch (std::out_of_range &exception)
+    {
+        UEAA::University *university = new UEAA::University ();
+        UEAA::SharedPointer <UEAA::ReferenceCounted> sharedPointer (university);
+        sharedContext.emplace (SharedContextGlobalKeys::UNIVERSITY, sharedPointer);
+        return university;
+    }
+}
 }
