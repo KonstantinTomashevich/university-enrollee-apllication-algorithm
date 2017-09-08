@@ -8,7 +8,7 @@
 namespace EnrolleeRandomizer
 {
 void PrintHelp ();
-void GenerateNextEnrollee (tinyxml2::XMLElement *enrolleeElement, const std::string &outputDirectory,
+bool GenerateNextEnrollee (tinyxml2::XMLElement *enrolleeElement, const std::string &outputDirectory,
                            unsigned passportNumber, unsigned examsDelta, unsigned marksDelta,
                            UEAA::DeHashTable *deHashTable);
 }
