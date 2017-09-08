@@ -13,5 +13,6 @@ before_script:
 - wget https://cmake.org/files/v3.8/cmake-3.8.1-Linux-x86_64.tar.gz -O CMake.tar.gz --no-check-certificate && tar -xvf CMake.tar.gz && export CMake=$PWD/cmake-3.8.1-Linux-x86_64/bin/cmake
 
 script:
-- mkdir build-debug && cd build-debug && ${CMake} .. -DCMAKE_BUILD_TYPE=Debug && make && make test && echo "Debug testing log:" && cat "Testing/Temporary/LastTest.log" && cd ..
-- mkdir build-release && cd build-release && ${CMake} .. -DCMAKE_BUILD_TYPE=Release && make && make test && echo "Release testing log:" && cat "Testing/Temporary/LastTest.log" && cd ..
+- export UEADB="./UEADB"
+- mkdir build-debug && cd build-debug && ${CMake} .. -DCMAKE_BUILD_TYPE=Debug && make && make test && echo "Debug testing log:" && cat "Testing/Temporary/LastTest.log" && cd bin && sh ./scripts/TestUEADB.sh && cd .. && cd ..
+- mkdir build-release && cd build-release && ${CMake} .. -DCMAKE_BUILD_TYPE=Release && make && make test && echo "Release testing log:" && cat "Testing/Temporary/LastTest.log" && cd bin && sh ./scripts/TestUEADB.sh && cd .. && cd ..
