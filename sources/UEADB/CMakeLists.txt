@@ -25,6 +25,7 @@ endforeach ()
 set (pclCode "${pclCode};")
 configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/Utils/CommandsUtils.cpp.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/Utils/CommandsUtils.cpp")
 
+file (COPY "${CMAKE_SOURCE_DIR}/scripts" DESTINATION "${CMAKE_BINARY_DIR}/bin")
 file (GLOB_RECURSE Headers *.hpp)
 file (GLOB_RECURSE Objects *.cpp)
 add_executable (UEADB ${Headers} ${Objects})
