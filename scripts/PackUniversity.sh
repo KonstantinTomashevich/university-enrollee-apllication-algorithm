@@ -16,7 +16,7 @@ fi
 
 for faculty in $(cd Faculties && ls -d */ && cd ..)
 do
-    facultyName=`expr "$faculty" : "^\(.[a-z]*\)"`
+    facultyName=$(expr "$faculty" : "^\(.[a-z]*\)")
     UEADBCommand="${UEADBCommand} , NewFaculty ${facultyName}"
     
     for specialtyXML in Faculties/${facultyName}/*.xml
