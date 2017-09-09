@@ -9,7 +9,7 @@
 
 int CrossPlatformMain (const std::vector <std::string> &arguments)
 {
-    if (arguments.size () != 5)
+    if (arguments.size () != 6)
     {
         EnrolleeRandomizer::PrintHelp ();
         return 0;
@@ -22,8 +22,8 @@ int CrossPlatformMain (const std::vector <std::string> &arguments)
     unsigned marksDelta = 0;
 
     if (!tinyxml2::XMLUtil::ToUnsigned (arguments.at (2).c_str (), &toGenerateCount) ||
-        !tinyxml2::XMLUtil::ToUnsigned (arguments.at (3).c_str (), &examsDelta) ||
-        !tinyxml2::XMLUtil::ToUnsigned (arguments.at (4).c_str (), &marksDelta))
+        !tinyxml2::XMLUtil::ToUnsigned (arguments.at (4).c_str (), &examsDelta) ||
+        !tinyxml2::XMLUtil::ToUnsigned (arguments.at (5).c_str (), &marksDelta))
     {
         std::cout << "Error, can not parse arguments!" << std::endl;
         return 1;
@@ -47,6 +47,7 @@ int CrossPlatformMain (const std::vector <std::string> &arguments)
     }
     templateEnrolleePassport = rootElement->Attribute ("passport");
 
+    std::string enrolleePassportSeries = arguments.at (3);
     unsigned enrolleePassportNumber = 0;
     if (!tinyxml2::XMLUtil::ToUnsigned (templateEnrolleePassport.substr (2, 7).c_str (), &enrolleePassportNumber))
     {
@@ -55,9 +56,10 @@ int CrossPlatformMain (const std::vector <std::string> &arguments)
 
     for (unsigned index = 0; index < toGenerateCount; index++, enrolleePassportNumber++)
     {
-        std::cout << (index + 1) << "/" << toGenerateCount << ": generating GE" << enrolleePassportNumber << "." << std::endl;
-        if (!EnrolleeRandomizer::GenerateNextEnrollee (
-                rootElement, outputDirectory, enrolleePassportNumber, examsDelta, marksDelta, deHashTable))
+        std::cout << (index + 1) << "/" << toGenerateCount << ": generating " << enrolleePassportSeries <<
+            enrolleePassportNumber << "." << std::endl;
+        if (!EnrolleeRandomizer::GenerateNextEnrollee (rootElement, outputDirectory, enrolleePassportSeries,
+                                                       enrolleePassportNumber, examsDelta, marksDelta, deHashTable))
         {
             return 1;
         }
@@ -73,13 +75,14 @@ void PrintHelp ()
                  "    1. Path to template enrollee XML file." << std::endl <<
                  "    2. Folder in which generated enrollees will be saved." << std::endl <<
                  "    3. Enrolees count." << std::endl <<
-                 "    4. Exams randomization delta (new result = template result + random (-delta, +delta)." << std::endl <<
-                 "    5. Marks randomization delta (new mark = template mark + random (-delta, +delta)." << std::endl;
+                 "    4. Enrolees passport series." << std::endl <<
+                 "    5. Exams randomization delta (new result = template result + random (-delta, +delta)." << std::endl <<
+                 "    6. Marks randomization delta (new mark = template mark + random (-delta, +delta)." << std::endl;
 }
 
 bool GenerateNextEnrollee (tinyxml2::XMLElement *enrolleeElement, const std::string &outputDirectory,
-                           unsigned passportNumber, unsigned examsDelta, unsigned marksDelta,
-                           UEAA::DeHashTable *deHashTable)
+                           const std::string &passportSeries, unsigned passportNumber, unsigned examsDelta,
+                           unsigned marksDelta, UEAA::DeHashTable *deHashTable)
 {
     std::string passportNumberString = std::to_string (passportNumber);
     while (passportNumberString.size () < 7)
@@ -88,7 +91,7 @@ bool GenerateNextEnrollee (tinyxml2::XMLElement *enrolleeElement, const std::str
     }
 
     UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee (
-             UEAA::CalculateEnrolleeHash ("GE", passportNumberString.c_str (), deHashTable)));
+             UEAA::CalculateEnrolleeHash (passportSeries, passportNumberString.c_str (), deHashTable)));
     enrollee->LoadFromXML (enrolleeElement, deHashTable);
 
     std::vector <unsigned> examsSubjects = enrollee->GetPassedExamsSubjects ();
@@ -108,7 +111,7 @@ bool GenerateNextEnrollee (tinyxml2::XMLElement *enrolleeElement, const std::str
     document.InsertFirstChild (saveElement);
     enrollee->SaveToXML (document, saveElement, deHashTable);
 
-    tinyxml2::XMLError result = document.SaveFile ((outputDirectory + "/GE" + passportNumberString + ".xml").c_str ());
+    tinyxml2::XMLError result = document.SaveFile ((outputDirectory + "/" + passportSeries + passportNumberString + ".xml").c_str ());
     if (result != tinyxml2::XML_SUCCESS)
     {
         std::cout << "Can't save XML, tinyxml2 error: " << document.ErrorIDToName (result) << "." << std::endl;
