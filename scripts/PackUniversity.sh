@@ -16,10 +16,10 @@ fi
 
 for faculty in $(cd Faculties && ls -d */ && cd ..)
 do
-    facultyName=$(expr "$faculty" : "^\(.[a-z]*\)")
+    facultyName=$(expr "$faculty" : "^\(.[A-z]*\)")
     UEADBCommand="${UEADBCommand} , NewFaculty ${facultyName}"
     
-    for specialtyXML in Faculties/${facultyName}/*.xml
+    for specialtyXML in ./Faculties/${facultyName}/*.xml
     do
         UEADBCommand="${UEADBCommand} , AddSpecialty ${facultyName} ${specialtyXML}"
     done
