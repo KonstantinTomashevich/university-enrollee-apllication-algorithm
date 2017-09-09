@@ -67,3 +67,42 @@ else
     echo "Incorrect result: $?"
     exit 1
 fi
+
+firstTestNewRemoveEnrollee="${UEADB} RemoveEnrollee XX0000000"
+echo "Test: ${firstTestNewRemoveEnrollee}"
+
+${firstTestNewRemoveEnrollee}
+if [ $? = 5 ]
+then
+    echo "Done!"
+else
+    echo "Incorrect result: $?"
+    exit 1
+fi
+
+secondTestNewRemoveEnrollee="${UEADB} AddEnrollee FileIsNotExists.xml"
+echo "Test: ${secondTestNewRemoveEnrollee}"
+
+${secondTestNewRemoveEnrollee}
+if [ $? = 3 ]
+then
+    echo "Done!"
+else
+    echo "Incorrect result: $?"
+    exit 1
+fi
+
+echo "<enrollee passport=\"AB1234567\" rodSubject=\"\" rodType=\"4\"></enrollee>" > CorrectEnrollee.xml
+thirdTestNewRemoveEnrollee="${UEADB} AddEnrollee CorrectEnrollee.xml , RemoveEnrollee AB1234567"
+echo "Test: ${thirdTestNewRemoveEnrollee}"
+
+${thirdTestNewRemoveEnrollee}
+if [ $? = 0 ]
+then
+    echo "Done!"
+    rm CorrectEnrollee.xml
+else
+    echo "Incorrect result: $?"
+    rm CorrectEnrollee.xml
+    exit 1
+fi
