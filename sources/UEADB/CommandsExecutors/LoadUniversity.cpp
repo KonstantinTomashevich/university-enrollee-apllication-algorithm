@@ -40,9 +40,6 @@ unsigned LoadUniversity (const std::vector <std::string> &arguments, SharedPoint
     UEAA::University *university = GetOrCreateUniversity (sharedContext);
     UEAA::DeHashTable *deHashTable = GetOrCreateDeHashTable (sharedContext);
     university->LoadFromXML (universityXML, deHashTable);
-
-    UEAA::SharedPointer <UEAA::ReferenceCounted> sharedPointer (university);
-    sharedContext.emplace (SharedContextGlobalKeys::UNIVERSITY, sharedPointer);
     return 0;
 }
 
