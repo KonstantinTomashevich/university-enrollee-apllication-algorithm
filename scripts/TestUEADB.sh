@@ -68,10 +68,10 @@ else
     exit 1
 fi
 
-firstTestNewRemoveEnrollee="${UEADB} RemoveEnrollee XX0000000"
-echo "Test: ${firstTestNewRemoveEnrollee}"
+firstTestAddRemoveEnrollee="${UEADB} RemoveEnrollee XX0000000"
+echo "Test: ${firstTestAddRemoveEnrollee}"
 
-${firstTestNewRemoveEnrollee}
+${firstTestAddRemoveEnrollee}
 if [ $? = 5 ]
 then
     echo "Done!"
@@ -80,10 +80,10 @@ else
     exit 1
 fi
 
-secondTestNewRemoveEnrollee="${UEADB} AddEnrollee FileIsNotExists.xml"
-echo "Test: ${secondTestNewRemoveEnrollee}"
+secondTestAddRemoveEnrollee="${UEADB} AddEnrollee FileIsNotExists.xml"
+echo "Test: ${secondTestAddRemoveEnrollee}"
 
-${secondTestNewRemoveEnrollee}
+${secondTestAddRemoveEnrollee}
 if [ $? = 3 ]
 then
     echo "Done!"
@@ -93,10 +93,10 @@ else
 fi
 
 echo "<enrollee passport=\"AB1234567\" rodSubject=\"\" rodType=\"4\"></enrollee>" > CorrectEnrollee.xml
-thirdTestNewRemoveEnrollee="${UEADB} AddEnrollee CorrectEnrollee.xml , RemoveEnrollee AB1234567"
-echo "Test: ${thirdTestNewRemoveEnrollee}"
+thirdTestAddRemoveEnrollee="${UEADB} AddEnrollee CorrectEnrollee.xml , RemoveEnrollee AB1234567"
+echo "Test: ${thirdTestAddRemoveEnrollee}"
 
-${thirdTestNewRemoveEnrollee}
+${thirdTestAddRemoveEnrollee}
 if [ $? = 0 ]
 then
     echo "Done!"
@@ -104,5 +104,44 @@ then
 else
     echo "Incorrect result: $?"
     rm CorrectEnrollee.xml
+    exit 1
+fi
+
+firstTestAddRemoveSpecialty="${UEADB} RemoveSpecialty SomeFaculty SomeSpecialty"
+echo "Test: ${firstTestAddRemoveSpecialty}"
+
+${firstTestAddRemoveSpecialty}
+if [ $? = 5 ]
+then
+    echo "Done!"
+else
+    echo "Incorrect result: $?"
+    exit 1
+fi
+
+secondTestAddRemoveSpecialty="${UEADB} NewFaculty SomeFaculty , AddSpecialty SomeFaculty FileIsNotExists.xml"
+echo "Test: ${secondTestAddRemoveSpecialty}"
+
+${secondTestAddRemoveSpecialty}
+if [ $? = 3 ]
+then
+    echo "Done!"
+else
+    echo "Incorrect result: $?"
+    exit 1
+fi
+
+echo "<specialty name=\"SomeSpecialty\" maxEnrolleesInFreeForm=\"50\" maxEnrolleesInPaidForm=\"50\" isPedagogical=\"false\"></specialty>" > CorrectSpecialty.xml
+thirdTestAddRemoveSpecialty="${UEADB} NewFaculty SomeFaculty , AddSpecialty SomeFaculty CorrectSpecialty.xml , RemoveSpecialty SomeFaculty SomeSpecialty"
+echo "Test: ${thirdTestAddRemoveSpecialty}"
+
+${thirdTestAddRemoveSpecialty}
+if [ $? = 0 ]
+then
+    echo "Done!"
+    rm CorrectSpecialty.xml
+else
+    echo "Incorrect result: $?"
+    rm CorrectSpecialty.xml
     exit 1
 fi
