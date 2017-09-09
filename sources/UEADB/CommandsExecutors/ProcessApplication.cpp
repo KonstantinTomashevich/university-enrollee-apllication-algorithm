@@ -41,7 +41,9 @@ void PrintHelp ()
 {
     std::cout << "ProcessApplication brief:" << std::endl <<
         "    Runs ProcessEnrolleesApplication of currently load university" << std::endl <<
-        "    and stores excess enrollees to shared context." << std::endl;
+        "    and stores excess enrollees to shared context." << std::endl << std::endl <<
+        "ProcessApplication arguments:" << std::endl <<
+        "    No arguments.";
 }
 }
 }

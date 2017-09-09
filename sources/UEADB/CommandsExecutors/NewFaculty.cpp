@@ -38,7 +38,7 @@ unsigned NewFaculty (const std::vector <std::string> &arguments, SharedPointersM
 void PrintHelp ()
 {
     std::cout << "NewFaculty brief:" << std::endl <<
-        "    Creates new empty faculty with given name." << std::endl <<
+        "    Creates new empty faculty with given name." << std::endl << std::endl <<
         "NewFaculty arguments:" << std::endl <<
         "    1. New faculty name." << std::endl;
 }

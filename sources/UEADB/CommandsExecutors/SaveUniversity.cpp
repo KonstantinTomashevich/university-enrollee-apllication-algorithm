@@ -44,7 +44,7 @@ unsigned SaveUniversity (const std::vector <std::string> &arguments, SharedPoint
 void PrintHelp ()
 {
     std::cout << "SaveUniversity brief:" << std::endl <<
-        "    Saves university to given XML file." << std::endl <<
+        "    Saves university to given XML file." << std::endl << std::endl <<
         "SaveUniversity arguments:" << std::endl <<
         "    1. Path to save university as XML file." << std::endl;
 }

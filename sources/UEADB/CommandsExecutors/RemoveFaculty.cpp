@@ -37,7 +37,7 @@ unsigned RemoveFaculty (const std::vector <std::string> &arguments, SharedPointe
 void PrintHelp ()
 {
     std::cout << "RemoveFaculty brief:" << std::endl <<
-        "    Removes faculty with given name." << std::endl <<
+        "    Removes faculty with given name." << std::endl << std::endl <<
         "RemoveFaculty arguments:" << std::endl <<
         "    1. Faculty name to remove." << std::endl;
 }
