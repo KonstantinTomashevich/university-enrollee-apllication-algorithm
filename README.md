@@ -21,6 +21,15 @@ Executable, primary used for testing and debugging UEAA and UEADB. Generates enr
 ### UEAA Tests
 UEAA unit tests, located in `Tests` directory.
 
+### Scripts
+Small useful shell scripts.
+
+#### PackUniversity
+Packs unpacked university (see below) using UEADB. `UEADB` environment variable must be specified.
+
+#### TestUEADB
+Tests UEADB commands with some basic combinations. `UEADB` environment variable must be specified.
+
 ### Dependencies
 They are located in `Dependencies` dir.
 
@@ -31,3 +40,36 @@ Cool library for XML parsing.
 
 #### CrossPlatformMain
 Replaces `main` and provides `CrossPlatformMain` function, which is useful for cross platform command line arguments parsing. Used in UEADB and EnrolleeRandomizer.
+
+## How to build
+Build system is quite simple. `CMake` required!
+```bash
+mkdir build && cd build && cmake .. && make && make test
+```
+**Note:** `make test` runs UEAA tests. To test UEADB you should run `TestUEADB.sh` manually.
+
+## About university format
+## Internal structure
+
+## File format
+University XML can be packed or unpacked. Packed means that all university data (with enrollees) is packed into one XML file. It is normal behaviour of `University::SaveToXML`.
+
+Unpacked means that university data was divided to special directories. Unpacked university can be converted to packed using `PackUniversity.sh`.
+
+Unpacked university structure:
+
+<root folder>
+--- `.university.xml` --- *[optional]* University XML, will be loaded before any actions.
+
+--- `Faculties` Folder with faculties.
+
+--- --- `Faculty1` Folder with faculty, folder name = faculty name.
+
+
+--- --- --- `Specialty1` Specialty XML, will be loaded and added to this faculty.
+
+--- `Enrollees` Folder with enrollees, enrollees must be saved in subdirectories (for example, but passport series).
+
+--- --- `AA` Folder with enrollees with `AA` passport series.
+
+--- --- --- `AA1234567.xml` Enrollee XML, will be loaded.
