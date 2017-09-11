@@ -9,25 +9,25 @@ fi
 echo "WARNING! Path must not contain whitespaces!"
 
 UEADBCommand="${UEADB}"
-if [ -e .university.xml ] 
+if [ -e .university.xml ]
 then
     UEADBCommand="${UEADBCommand} LoadUniversity .university.xml"
 fi
+
+for enrolleeXML in ./Enrollees/*/*.xml
+do
+    UEADBCommand="${UEADBCommand} , AddEnrollee ${enrolleeXML}"
+done
 
 for faculty in $(cd Faculties && ls -d */ && cd ..)
 do
     facultyName=$(expr "$faculty" : "^\(.[A-z]*\)")
     UEADBCommand="${UEADBCommand} , NewFaculty ${facultyName}"
-    
+
     for specialtyXML in ./Faculties/${facultyName}/*.xml
     do
         UEADBCommand="${UEADBCommand} , AddSpecialty ${facultyName} ${specialtyXML}"
     done
-done
-
-for enrolleeXML in ./Enrollees/*/*.xml
-do
-    UEADBCommand="${UEADBCommand} , AddEnrollee ${enrolleeXML}"
 done
 
 UEADBCommand="${UEADBCommand} , SaveUniversity PackedUniversity.xml"
