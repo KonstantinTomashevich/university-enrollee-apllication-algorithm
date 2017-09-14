@@ -66,7 +66,7 @@ Unpacked university structure:
 --- --- `Faculty1` Folder with faculty, folder name = faculty name.
 
 
---- --- --- `Specialty1` Specialty XML, will be loaded and added to this faculty.
+--- --- --- `Specialty1.xml` Specialty XML, will be loaded and added to this faculty.
 
 --- `Enrollees` Folder with enrollees, enrollees must be saved in subdirectories (for example, but passport series).
 
