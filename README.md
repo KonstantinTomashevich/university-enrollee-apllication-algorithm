@@ -1,5 +1,5 @@
 # University Enrollee Application Algorithm
-Framework for automatic enrollees application to university, where each enrollee can specify its priority and choice more than 1 specialty.
+Framework for automatic enrollees application to university, where each enrollee can specify its priorities and choice more than one specialty.
 
 ## Project parts
 ### UEAA
