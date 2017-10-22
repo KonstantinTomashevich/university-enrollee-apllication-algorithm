@@ -183,7 +183,7 @@ std::list <Enrollee *> University::ProcessEnrolleesApplication ()
 
     while (!processing.empty ())
     {
-        ProcessEnroleesChoices (processing, excessEnrolees);
+        ProcessEnrolleesChoices (processing, excessEnrolees);
         AddFacultiesExcessToProcessingList (processing);
     }
     return excessEnrolees;
@@ -296,7 +296,7 @@ bool University::operator != (const University &rhs) const
     return !(rhs == *this);
 }
 
-void University::ProcessEnroleesChoices (std::list <Enrollee *> &processing, std::list <Enrollee *> &excess) const
+void University::ProcessEnrolleesChoices (std::list <Enrollee *> &processing, std::list <Enrollee *> &excess) const
 {
     while (!processing.empty ())
     {

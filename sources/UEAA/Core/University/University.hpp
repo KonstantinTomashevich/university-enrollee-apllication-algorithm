@@ -45,7 +45,7 @@ public:
     bool operator != (const University &rhs) const;
 
 private:
-    void ProcessEnroleesChoices (std::list <Enrollee *> &processing, std::list <Enrollee *> &excess) const;
+    void ProcessEnrolleesChoices (std::list <Enrollee *> &processing, std::list <Enrollee *> &excess) const;
     void AddFacultiesExcessToProcessingList (std::list <Enrollee *> &processing) const;
 
     std::map <unsigned, SharedPointer <Faculty> > faculties_;
