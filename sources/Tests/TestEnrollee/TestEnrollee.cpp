@@ -19,7 +19,7 @@ const unsigned LANGUAGE_EXAM = UEAA::CStringToHash ("Language");
 
 int main ()
 {
-    UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee (UEAA::CalculateEnrolleeHash ("XX", "0000000")));
+    UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee (UEAA::CStringToHash ("XX0000000")));
     std::cout << "Setting exams results: " << MATH_RESULT * 1 << " " <<
                  PHYSICS_RESULT * 1 << " " << LANGUAGE_RESULT * 1 << std::endl;
 

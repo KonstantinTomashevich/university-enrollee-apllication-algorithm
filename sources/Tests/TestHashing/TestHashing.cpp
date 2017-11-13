@@ -56,7 +56,7 @@ int main ()
             passportNumber = "0" + passportNumber;
         }
 
-        unsigned hash = UEAA::CalculateEnrolleeHash (passportSeries, passportNumber, deHashTable);
+        unsigned hash = UEAA::CStringToHash ((passportSeries + passportNumber).c_str (), deHashTable);
         if (passportSeries + passportNumber != deHashTable->DeHash (hash))
         {
             std::cout << "\"" << passportSeries + passportNumber << "\" != DeHash (" << hash << ") (which is \"" <<

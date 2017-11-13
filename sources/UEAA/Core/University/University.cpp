@@ -114,9 +114,9 @@ Enrollee *University::GetEnrollee (unsigned id) const
     }
 }
 
-Enrollee *University::GetEnrollee (const std::string &passportSeries, const std::string &passportNumber) const
+Enrollee *University::GetEnrollee (const std::string &passportId) const
 {
-    return GetEnrollee (CalculateEnrolleeHash (passportSeries, passportNumber));
+    return GetEnrollee (CStringToHash (passportId.c_str ()));
 }
 
 unsigned University::GetEnrolleesCount () const
@@ -229,8 +229,7 @@ void University::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTa
              element != nullptr; element = element->NextSiblingElement ("enrollee"))
         {
             std::string passport = element->Attribute ("passport");
-            SharedPointer <Enrollee> enrollee (new Enrollee (
-                    CalculateEnrolleeHash (passport.substr (0, 2), passport.substr (2, 7), deHashTable)));
+            SharedPointer <Enrollee> enrollee (new Enrollee (CStringToHash (passport.c_str (), deHashTable)));
             enrollee->LoadFromXML (element, deHashTable);
             AddEnrollee (enrollee);
         }

@@ -26,7 +26,7 @@ public:
 
     bool AddEnrollee (Enrollee *enrollee);
     Enrollee *GetEnrollee (unsigned id) const;
-    Enrollee *GetEnrollee (const std::string &passportSeries, const std::string &passportNumber) const;
+    Enrollee *GetEnrollee (const std::string &passportId) const;
 
     unsigned GetEnrolleesCount () const;
     Enrollee *GetEnrolleeByIndex (unsigned index) const;

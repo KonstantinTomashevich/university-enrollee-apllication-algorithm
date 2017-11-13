@@ -215,9 +215,4 @@ unsigned char GetEnrolleeBestResultFromExams (const Enrollee *enrollee, const st
     }
     return best;
 }
-
-unsigned CalculateEnrolleeHash (const std::string &passportSeries, const std::string &passportNumber, DeHashTable *deHashTable)
-{
-    return CStringToHash ((passportSeries + passportNumber).c_str (), deHashTable);
-}
 }

@@ -43,11 +43,9 @@ unsigned AddEnrollee (const std::vector <std::string> &arguments, SharedPointers
 
     std::cout << "    Loading enrollee from XML..." << std::endl;
     std::string passport = enrolleeXML->Attribute ("passport");
-
-    UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee (
-            UEAA::CalculateEnrolleeHash (passport.substr (0, 2), passport.substr (2, 7), deHashTable)));
-
+    UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee (UEAA::CStringToHash (passport.c_str (), deHashTable)));
     enrollee->LoadFromXML (enrolleeXML, deHashTable);
+
     if (!university->AddEnrollee (enrollee))
     {
         std::cout << "    Error, enrollee \"" << passport << "\" is already exists!" << std::endl;

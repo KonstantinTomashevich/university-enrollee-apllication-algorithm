@@ -91,7 +91,7 @@ bool GenerateNextEnrollee (tinyxml2::XMLElement *enrolleeElement, const std::str
     }
 
     UEAA::SharedPointer <UEAA::Enrollee> enrollee (new UEAA::Enrollee (
-             UEAA::CalculateEnrolleeHash (passportSeries, passportNumberString.c_str (), deHashTable)));
+             UEAA::CStringToHash ((passportSeries + passportNumberString).c_str (), deHashTable)));
     enrollee->LoadFromXML (enrolleeElement, deHashTable);
 
     std::vector <unsigned> examsSubjects = enrollee->GetPassedExamsSubjects ();

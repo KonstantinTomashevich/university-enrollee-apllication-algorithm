@@ -18,8 +18,8 @@ int main ()
     UEAA::SharedPointer <UEAA::Specialty> specialty (new UEAA::Specialty (0, 1));
     InitSpecialty (specialty);
 
-    UEAA::SharedPointer <UEAA::Enrollee> enrollee1 (new UEAA::Enrollee (UEAA::CalculateEnrolleeHash ("XX", "0000000")));
-    UEAA::SharedPointer <UEAA::Enrollee> enrollee2 (new UEAA::Enrollee (UEAA::CalculateEnrolleeHash ("YY", "1111111")));
+    UEAA::SharedPointer <UEAA::Enrollee> enrollee1 (new UEAA::Enrollee (UEAA::CStringToHash ("XX0000000")));
+    UEAA::SharedPointer <UEAA::Enrollee> enrollee2 (new UEAA::Enrollee (UEAA::CStringToHash ("YY1111111")));
 
     enrollee1->SetCertificateMark (MATH_EXAM, 9);
     enrollee1->SetCertificateMark (PHYSICS_EXAM, 9);

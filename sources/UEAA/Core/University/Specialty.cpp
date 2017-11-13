@@ -330,7 +330,7 @@ void Specialty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTab
              element != nullptr; element = element->NextSiblingElement ("enrollee"))
         {
             std::string passport = element->Attribute ("passport");
-            enrolleesInFreeForm_.push_back (parent_->GetParent ()->GetEnrollee (passport.substr (0, 2), passport.substr (2, 7)));
+            enrolleesInFreeForm_.push_back (parent_->GetParent ()->GetEnrollee (passport));
         }
     }
 
@@ -341,7 +341,7 @@ void Specialty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTab
              element != nullptr; element = element->NextSiblingElement ("enrollee"))
         {
             std::string passport = element->Attribute ("passport");
-            enrolleesInPaidForm_.push_back (parent_->GetParent ()->GetEnrollee (passport.substr (0, 2), passport.substr (2, 7)));
+            enrolleesInPaidForm_.push_back (parent_->GetParent ()->GetEnrollee (passport));
         }
     }
 }

@@ -97,7 +97,7 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
     {
         passportNumber = "0" + passportNumber;
     }
-    UEAA::Enrollee *enrollee = new UEAA::Enrollee (UEAA::CalculateEnrolleeHash ("XX", passportNumber, deHashTable));
+    UEAA::Enrollee *enrollee = new UEAA::Enrollee (UEAA::CStringToHash (("XX" + passportNumber).c_str (), deHashTable));
 
     enrollee->SetCertificateMark (MATH_EXAM, 5 + rand () % 6);
     enrollee->SetCertificateMark (PHYSICS_EXAM, 5 + rand () % 6);

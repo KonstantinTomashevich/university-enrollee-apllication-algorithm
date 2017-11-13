@@ -9,5 +9,4 @@ bool IsFirstEnrolleeBetter (const Specialty *specialty, const Enrollee *first, c
 bool CanEnrolleeChoiceSpecialty (const Specialty *specialty, const Enrollee *enrollee);
 unsigned CalculateEnrolleeScore (const Specialty *specialty, const Enrollee *enrollee);
 unsigned char GetEnrolleeBestResultFromExams (const Enrollee *enrollee, const std::vector <unsigned> &exams);
-unsigned CalculateEnrolleeHash (const std::string &passportSeries, const std::string &passportNumber, DeHashTable *deHashTable = 0);
 }
