@@ -1,0 +1,5 @@
+file (GLOB_RECURSE Headers *.hpp)
+file (GLOB_RECURSE Objects *.cpp)
+add_executable (SQLDBAdapter ${Headers} ${Objects})
+target_link_libraries (SQLDBAdapter UEAA SQLite3pp)
+set_target_properties (SQLDBAdapter PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
