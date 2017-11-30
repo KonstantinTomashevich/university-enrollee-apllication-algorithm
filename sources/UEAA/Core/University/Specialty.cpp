@@ -18,11 +18,8 @@ Specialty::Specialty (Faculty *parent, unsigned id) :
     requiredExams_ (),
     marksInCertificatePriority_ (),
 
-    enrolleesInFreeForm_ (),
-    enrolleesInPaidForm_ (),
-
-    maxEnrolleesInFreeForm_ (0),
-    maxEnrolleesInPaidForm_ (0),
+    enrollees_ (),
+    maxEnrollees_ (0),
 
     isPedagogical_ (false),
     acceptedRODSubjects_ ()
@@ -65,15 +62,6 @@ void Specialty::SetMarksInCertificatePriority (const std::vector <unsigned> &mar
     marksInCertificatePriority_ = marksInCertificatePriority;
 }
 
-const std::list <Enrollee *> & Specialty::GetEnrolleesInFreeForm () const
-{
-    return enrolleesInFreeForm_;
-}
-
-const std::list <Enrollee *> & Specialty::GetEnrolleesInPaidForm () const
-{
-    return enrolleesInPaidForm_;
-}
 
 bool Specialty::AddEnrollee (Enrollee *enrollee)
 {
@@ -88,79 +76,62 @@ bool Specialty::AddEnrollee (Enrollee *enrollee)
         return false;
     }
 
-    AddEnrolleeToOrder (enrollee, (choice->GetStudyForm () == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_);
-    return true;
+    if (enrollees_.size () == 0)
+    {
+        enrollees_.push_back (enrollee);
+        return true;
+    }
+    else
+    {
+        for (auto iterator = enrollees_.begin (); iterator != enrollees_.end (); iterator++)
+        {
+            Enrollee *anotherEnrollee = *iterator;
+            if (IsFirstEnrolleeBetter (this, enrollee, anotherEnrollee))
+            {
+                enrollees_.insert (iterator, enrollee);
+                return true;
+            }
+        }
+
+        enrollees_.emplace_back (enrollee);
+        return true;
+    }
 }
 
 std::list <Enrollee *> Specialty::RemoveExcessEnrollees ()
 {
     std::list <Enrollee *> excessEnrollees;
-    RemoveExcessEnrolleesOfStudyForm (excessEnrollees, STUDY_FORM_FREE);
-    RemoveExcessEnrolleesOfStudyForm (excessEnrollees, STUDY_FORM_PAID);
+
+    while (enrollees_.size () > maxEnrollees_)
+    {
+        auto lastIterator = enrollees_.cend ();
+        lastIterator--;
+
+        excessEnrollees.emplace_back (*lastIterator);
+        enrollees_.pop_back ();
+    }
+
     return excessEnrollees;
 }
 
 void Specialty::ClearEnrollees ()
 {
-    enrolleesInFreeForm_.clear ();
-    enrolleesInPaidForm_.clear ();
+    enrollees_.clear ();
 }
 
-unsigned Specialty::GetMaxEnrolleesInFreeForm () const
+const std::list <Enrollee *> &Specialty::GetEnrollees () const
 {
-    return maxEnrolleesInFreeForm_;
+    return enrollees_;
 }
 
-void Specialty::SetMaxEnrolleesInFreeForm (unsigned maxEnrolleesInFreeForm)
+unsigned int Specialty::GetMaxEnrollees () const
 {
-    maxEnrolleesInFreeForm_ = maxEnrolleesInFreeForm;
+    return maxEnrollees_;
 }
 
-unsigned Specialty::GetMaxEnrolleesInPaidForm () const
+void Specialty::SetMaxEnrollees (unsigned int maxEnrollees)
 {
-    return maxEnrolleesInPaidForm_;
-}
-
-void Specialty::SetMaxEnrolleesInPaidForm (unsigned maxEnrolleesInPaidForm)
-{
-    maxEnrolleesInPaidForm_ = maxEnrolleesInPaidForm;
-}
-
-void Specialty::RemoveExcessEnrolleesOfStudyForm (std::list <Enrollee *> &output, StudyForm studyForm)
-{
-    std::list <Enrollee *> &enrollees = (studyForm == STUDY_FORM_FREE) ? enrolleesInFreeForm_ : enrolleesInPaidForm_;
-    unsigned maxEnrollees = (studyForm == STUDY_FORM_FREE) ? maxEnrolleesInFreeForm_ : maxEnrolleesInPaidForm_;
-
-    while (enrollees.size () > maxEnrollees)
-    {
-        auto lastIterator = enrollees.cend ();
-        lastIterator--;
-        output.emplace_back (*lastIterator);
-        enrollees.pop_back ();
-    }
-}
-
-void Specialty::AddEnrolleeToOrder (Enrollee *enrollee, std::list <Enrollee *> &queue)
-{
-    if (queue.size () == 0)
-    {
-        queue.push_back (enrollee);
-        return;
-    }
-    else
-    {
-        for (auto iterator = queue.begin (); iterator != queue.end (); iterator++)
-        {
-            Enrollee *anotherEnrollee = *iterator;
-            if (IsFirstEnrolleeBetter (this, enrollee, anotherEnrollee))
-            {
-                queue.insert (iterator, enrollee);
-                return;
-            }
-        }
-
-        queue.push_back (enrollee);
-    }
+    maxEnrollees_ = maxEnrollees;
 }
 
 bool Specialty::IsPedagogical () const
@@ -209,8 +180,7 @@ const std::vector <unsigned> &Specialty::GetAcceptedRODSubjects () const
 void Specialty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement *output, DeHashTable *deHashTable) const
 {
     output->SetAttribute ("name", deHashTable->DeHash (id_).c_str ());
-    output->SetAttribute ("maxEnrolleesInFreeForm", maxEnrolleesInFreeForm_);
-    output->SetAttribute ("maxEnrolleesInPaidForm", maxEnrolleesInPaidForm_);
+    output->SetAttribute ("maxEnrollees", maxEnrollees_);
     output->SetAttribute ("isPedagogical", isPedagogical_);
 
     tinyxml2::XMLElement *requiredExamsElement = document.NewElement ("requiredExams");
@@ -251,27 +221,15 @@ void Specialty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement
         subjectElement->SetAttribute ("name", deHashTable->DeHash (*iterator).c_str ());
     }
 
-    tinyxml2::XMLElement *enrolleesInFreeFormElement = document.NewElement ("enrolleesInFreeForm");
-    output->InsertEndChild (enrolleesInFreeFormElement);
+    tinyxml2::XMLElement *enrolleesElement = document.NewElement ("enrollees");
+    output->InsertEndChild (enrolleesElement);
 
-    for (auto iterator = enrolleesInFreeForm_.cbegin (); iterator != enrolleesInFreeForm_.cend (); iterator++)
+    for (auto iterator = enrollees_.cbegin (); iterator != enrollees_.cend (); iterator++)
     {
         Enrollee *enrollee = *iterator;
         tinyxml2::XMLElement *enrolleeElement = document.NewElement ("enrollee");
 
-        enrolleesInFreeFormElement->InsertEndChild (enrolleeElement);
-        enrolleeElement->SetAttribute ("passport", deHashTable->DeHash (enrollee->GetId ()).c_str ());
-    }
-
-    tinyxml2::XMLElement *enrolleesInPaidFormElement = document.NewElement ("enrolleesInPaidForm");
-    output->InsertEndChild (enrolleesInPaidFormElement);
-
-    for (auto iterator = enrolleesInPaidForm_.cbegin (); iterator != enrolleesInPaidForm_.cend (); iterator++)
-    {
-        Enrollee *enrollee = *iterator;
-        tinyxml2::XMLElement *enrolleeElement = document.NewElement ("enrollee");
-
-        enrolleesInPaidFormElement->InsertEndChild (enrolleeElement);
+        enrolleesElement->InsertEndChild (enrolleeElement);
         enrolleeElement->SetAttribute ("passport", deHashTable->DeHash (enrollee->GetId ()).c_str ());
     }
 }
@@ -279,8 +237,7 @@ void Specialty::SaveToXML (tinyxml2::XMLDocument &document, tinyxml2::XMLElement
 void Specialty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTable)
 {
     Clear ();
-    tinyxml2::XMLUtil::ToUnsigned (input->Attribute ("maxEnrolleesInFreeForm"), &maxEnrolleesInFreeForm_);
-    tinyxml2::XMLUtil::ToUnsigned (input->Attribute ("maxEnrolleesInPaidForm"), &maxEnrolleesInPaidForm_);
+    tinyxml2::XMLUtil::ToUnsigned (input->Attribute ("maxEnrollees"), &maxEnrollees_);
     tinyxml2::XMLUtil::ToBool (input->Attribute ("isPedagogical"), &isPedagogical_);
 
     tinyxml2::XMLElement *requiredExamsElement = input->FirstChildElement ("requiredExams");
@@ -323,25 +280,14 @@ void Specialty::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTab
         }
     }
 
-    tinyxml2::XMLElement *enrolleesInFreeFormElement = input->FirstChildElement ("enrolleesInFreeForm");
-    if (enrolleesInFreeFormElement != nullptr)
+    tinyxml2::XMLElement *enrolleesElement = input->FirstChildElement ("enrollees");
+    if (enrolleesElement != nullptr)
     {
-        for (tinyxml2::XMLElement *element = enrolleesInFreeFormElement->FirstChildElement ("enrollee");
+        for (tinyxml2::XMLElement *element = enrolleesElement->FirstChildElement ("enrollee");
              element != nullptr; element = element->NextSiblingElement ("enrollee"))
         {
             std::string passport = element->Attribute ("passport");
-            enrolleesInFreeForm_.push_back (parent_->GetParent ()->GetEnrollee (passport));
-        }
-    }
-
-    tinyxml2::XMLElement *enrolleesInPaidFormElement = input->FirstChildElement ("enrolleesInPaidForm");
-    if (enrolleesInPaidFormElement != nullptr)
-    {
-        for (tinyxml2::XMLElement *element = enrolleesInPaidFormElement->FirstChildElement ("enrollee");
-             element != nullptr; element = element->NextSiblingElement ("enrollee"))
-        {
-            std::string passport = element->Attribute ("passport");
-            enrolleesInPaidForm_.push_back (parent_->GetParent ()->GetEnrollee (passport));
+            enrollees_.push_back (parent_->GetParent ()->GetEnrollee (passport));
         }
     }
 }
@@ -350,11 +296,9 @@ void Specialty::Clear ()
 {
     requiredExams_.clear ();
     marksInCertificatePriority_.clear ();
-    enrolleesInFreeForm_.clear ();
-    enrolleesInPaidForm_.clear ();
+    enrollees_.clear ();
 
-    maxEnrolleesInFreeForm_ = 0;
-    maxEnrolleesInPaidForm_ = 0;
+    maxEnrollees_ = 0;
     isPedagogical_ = false;
     acceptedRODSubjects_.clear ();
 }
@@ -364,39 +308,19 @@ bool Specialty::operator == (const Specialty &rhs) const
     if (id_ != rhs.id_ ||
         requiredExams_ != rhs.requiredExams_ ||
         marksInCertificatePriority_ != rhs.marksInCertificatePriority_ ||
-        maxEnrolleesInFreeForm_ != rhs.maxEnrolleesInFreeForm_ ||
-        maxEnrolleesInPaidForm_ != rhs.maxEnrolleesInPaidForm_ ||
+        maxEnrollees_ != rhs.maxEnrollees_ ||
         isPedagogical_ != rhs.isPedagogical_ ||
         acceptedRODSubjects_ != rhs.acceptedRODSubjects_)
     {
         return false;
     }
 
-    if (enrolleesInFreeForm_.size () == rhs.enrolleesInFreeForm_.size ())
+    if (enrollees_.size () == rhs.enrollees_.size ())
     {
-        auto firstIterator = enrolleesInFreeForm_.cbegin ();
-        auto secondIterator = rhs.enrolleesInFreeForm_.cbegin ();
+        auto firstIterator = enrollees_.cbegin ();
+        auto secondIterator = rhs.enrollees_.cbegin ();
 
-        for (; firstIterator != enrolleesInFreeForm_.cend () && secondIterator != rhs.enrolleesInFreeForm_.cend ();
-               firstIterator++, secondIterator++)
-        {
-            if (**firstIterator != **secondIterator)
-            {
-                return false;
-            }
-        }
-    }
-    else
-    {
-        return false;
-    }
-
-    if (enrolleesInPaidForm_.size () == rhs.enrolleesInPaidForm_.size ())
-    {
-        auto firstIterator = enrolleesInPaidForm_.cbegin ();
-        auto secondIterator = rhs.enrolleesInPaidForm_.cbegin ();
-
-        for (; firstIterator != enrolleesInPaidForm_.cend () && secondIterator != rhs.enrolleesInPaidForm_.cend ();
+        for (; firstIterator != enrollees_.cend () && secondIterator != rhs.enrollees_.cend ();
                firstIterator++, secondIterator++)
         {
             if (**firstIterator != **secondIterator)
