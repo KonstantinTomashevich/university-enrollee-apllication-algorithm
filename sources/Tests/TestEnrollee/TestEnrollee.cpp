@@ -52,7 +52,7 @@ int main ()
 
     for (unsigned faculty = 0; faculty <= 3; faculty++)
     {
-        UEAA::EnrolleeChoice *choice = new UEAA::EnrolleeChoice (faculty, 1, UEAA::STUDY_FORM_FREE);
+        UEAA::EnrolleeChoice *choice = new UEAA::EnrolleeChoice (faculty, 1);
         std::cout << "Added faculty choice: " << choice->GetFaculty () << std::endl;
         enrollee->AddChoiceToBack (choice);
     }
