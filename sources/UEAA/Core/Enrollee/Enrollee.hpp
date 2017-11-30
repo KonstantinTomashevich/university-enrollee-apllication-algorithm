@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-#include <UEAA/Core/Enrollee/StudyForm.hpp>
 #include <UEAA/Core/Enrollee/EnrolleeChoice.hpp>
 #include <UEAA/Core/Enrollee/RODType.hpp>
 #include <UEAA/Utils/XMLSerializable.hpp>

@@ -2,8 +2,6 @@
 #include <vector>
 #include <list>
 #include <string>
-
-#include <UEAA/Core/Enrollee/StudyForm.hpp>
 #include <UEAA/Utils/XMLSerializable.hpp>
 
 namespace UEAA
@@ -26,17 +24,13 @@ public:
     const std::vector <unsigned> &GetMarksInCertificatePriority () const;
     void SetMarksInCertificatePriority (const std::vector <unsigned> &marksInCertificatePriority);
 
-    const std::list <Enrollee *> & GetEnrolleesInFreeForm () const;
-    const std::list <Enrollee *> & GetEnrolleesInPaidForm () const;
     bool AddEnrollee (Enrollee *enrollee);
     std::list <Enrollee *> RemoveExcessEnrollees ();
     void ClearEnrollees ();
 
-    unsigned GetMaxEnrolleesInFreeForm () const;
-    void SetMaxEnrolleesInFreeForm (unsigned maxEnrolleesInFreeForm);
-
-    unsigned GetMaxEnrolleesInPaidForm () const;
-    void SetMaxEnrolleesInPaidForm (unsigned maxEnrolleesInPaidForm);
+    const std::list <Enrollee *> &GetEnrollees () const;
+    unsigned int GetMaxEnrollees () const;
+    void SetMaxEnrollees (unsigned int maxEnrollees);
 
     bool IsPedagogical () const;
     void SetIsPedagogical (bool isPedagogical);
@@ -54,10 +48,6 @@ public:
     bool operator != (const Specialty &rhs) const;
 
 private:
-    /// Returns false if there is no excess enrollees.
-    void RemoveExcessEnrolleesOfStudyForm (std::list <Enrollee *> &output, StudyForm studyForm);
-    void AddEnrolleeToOrder (Enrollee *enrollee, std::list <Enrollee *> &queue);
-
     Faculty *parent_;
     unsigned id_;
     /// List of required exams names hashes. Should be sorted by priority!
@@ -70,11 +60,8 @@ private:
     /// Priority for marks in certificate, used for comparing enrollees, which have same exams results.
     std::vector <unsigned> marksInCertificatePriority_;
 
-    std::list <Enrollee *> enrolleesInFreeForm_;
-    std::list <Enrollee *> enrolleesInPaidForm_;
-
-    unsigned maxEnrolleesInFreeForm_;
-    unsigned maxEnrolleesInPaidForm_;
+    std::list <Enrollee *> enrollees_;
+    unsigned maxEnrollees_;
 
     /// Enrollees with gold medal have priority in pedagogical specialties queues.
     bool isPedagogical_;

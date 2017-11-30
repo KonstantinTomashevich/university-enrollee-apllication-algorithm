@@ -63,12 +63,18 @@ void InitHashes (UEAA::DeHashTable *deHashTable)
     ARTS_INTERNAL_EXAM = UEAA::CStringToHash ("Arts Internal", deHashTable);
 
     TECH_FACULTY = UEAA::CStringToHash ("Tech Faculty", deHashTable);
-    TechFaculty::APPLIED_COMPUTER_SCIENCE = UEAA::CStringToHash ("Applied Computer Science", deHashTable);
-    TechFaculty::COMPUTER_SCIENCE = UEAA::CStringToHash ("Computer Science", deHashTable);
+    TechFaculty::APPLIED_COMPUTER_SCIENCE_FREE = UEAA::CStringToHash ("Applied Computer Science (Free)", deHashTable);
+    TechFaculty::COMPUTER_SCIENCE_FREE = UEAA::CStringToHash ("Computer Science (Free)", deHashTable);
+
+    TechFaculty::APPLIED_COMPUTER_SCIENCE_PAID = UEAA::CStringToHash ("Applied Computer Science (Paid)", deHashTable);
+    TechFaculty::COMPUTER_SCIENCE_PAID = UEAA::CStringToHash ("Computer Science (Paid)", deHashTable);
 
     ARTS_FACULTY = UEAA::CStringToHash ("Arts Faculty", deHashTable);
-    ArtsFaculty::PAINTING = UEAA::CStringToHash ("Painting", deHashTable);
-    ArtsFaculty::THEATRE = UEAA::CStringToHash ("Theatre", deHashTable);
+    ArtsFaculty::PAINTING_FREE = UEAA::CStringToHash ("Painting (Free)", deHashTable);
+    ArtsFaculty::THEATRE_FREE = UEAA::CStringToHash ("Theatre (Free)", deHashTable);
+
+    ArtsFaculty::PAINTING_PAID = UEAA::CStringToHash ("Painting (Paid)", deHashTable);
+    ArtsFaculty::THEATRE_PAID = UEAA::CStringToHash ("Theatre (Paid)", deHashTable);
 }
 
 UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable *deHashTable)
@@ -102,28 +108,20 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
 
     if (addTech)
     {
-        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
-                TECH_FACULTY, TechFaculty::APPLIED_COMPUTER_SCIENCE, UEAA::STUDY_FORM_FREE));
-        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
-                TECH_FACULTY, TechFaculty::COMPUTER_SCIENCE, UEAA::STUDY_FORM_FREE));
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (TECH_FACULTY, TechFaculty::APPLIED_COMPUTER_SCIENCE_FREE));
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (TECH_FACULTY, TechFaculty::COMPUTER_SCIENCE_FREE));
 
-        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
-                TECH_FACULTY, TechFaculty::APPLIED_COMPUTER_SCIENCE, UEAA::STUDY_FORM_PAID));
-        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
-                TECH_FACULTY, TechFaculty::COMPUTER_SCIENCE, UEAA::STUDY_FORM_PAID));
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (TECH_FACULTY, TechFaculty::APPLIED_COMPUTER_SCIENCE_PAID));
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (TECH_FACULTY, TechFaculty::COMPUTER_SCIENCE_PAID));
     }
 
     if (addArts)
     {
-        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
-                ARTS_FACULTY, ArtsFaculty::PAINTING, UEAA::STUDY_FORM_FREE));
-        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
-                ARTS_FACULTY, ArtsFaculty::THEATRE, UEAA::STUDY_FORM_FREE));
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (ARTS_FACULTY, ArtsFaculty::PAINTING_FREE));
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (ARTS_FACULTY, ArtsFaculty::THEATRE_FREE));
 
-        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
-                ARTS_FACULTY, ArtsFaculty::PAINTING, UEAA::STUDY_FORM_PAID));
-        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (
-                ARTS_FACULTY, ArtsFaculty::THEATRE, UEAA::STUDY_FORM_PAID));
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (ARTS_FACULTY, ArtsFaculty::PAINTING_PAID));
+        enrollee->AddChoiceToBack (new UEAA::EnrolleeChoice (ARTS_FACULTY, ArtsFaculty::THEATRE_PAID));
     }
     enrolleesGeneratorCounter_++;
     return enrollee;
@@ -153,35 +151,48 @@ UEAA::University *CreateTestUniversity ()
 UEAA::Faculty *CreateTechFaculty (UEAA::University *university)
 {
     UEAA::Faculty *techFaculty = new UEAA::Faculty (university, TECH_FACULTY);
-    UEAA::SharedPointer <UEAA::Specialty> acsSpecialty (
-            CreateTechSpecialty (techFaculty, TechFaculty::APPLIED_COMPUTER_SCIENCE,
-                                 TechFaculty::ACS_MAX_ENROLLEES_IN_FREE_FORM,
-                                 TechFaculty::ACS_MAX_ENROLLEES_IN_PAID_FORM));
-    if (!techFaculty->AddSpecialty (acsSpecialty))
+    UEAA::SharedPointer <UEAA::Specialty> acsFreeSpecialty (
+            CreateTechSpecialty (techFaculty, TechFaculty::APPLIED_COMPUTER_SCIENCE_FREE, TechFaculty::ACS_MAX_ENROLLEES_IN_FREE));
+    if (!techFaculty->AddSpecialty (acsFreeSpecialty))
     {
-        std::cout << "Can't add ACS specialty!" << std::endl;
+        std::cout << "Can't add ACS free specialty!" << std::endl;
         delete techFaculty;
-        return 0;
+        return nullptr;
     }
 
-    UEAA::SharedPointer <UEAA::Specialty> csSpecialty (
-            CreateTechSpecialty (techFaculty, TechFaculty::COMPUTER_SCIENCE,
-                                 TechFaculty::CS_MAX_ENROLLEES_IN_FREE_FORM,
-                                 TechFaculty::CS_MAX_ENROLLEES_IN_PAID_FORM));
-    if (!techFaculty->AddSpecialty (csSpecialty))
+    UEAA::SharedPointer <UEAA::Specialty> acsPaidSpecialty (
+            CreateTechSpecialty (techFaculty, TechFaculty::APPLIED_COMPUTER_SCIENCE_PAID, TechFaculty::ACS_MAX_ENROLLEES_IN_PAID));
+    if (!techFaculty->AddSpecialty (acsPaidSpecialty))
     {
-        std::cout << "Can't add CS specialty!" << std::endl;
+        std::cout << "Can't add ACS paid specialty!" << std::endl;
         delete techFaculty;
-        return 0;
+        return nullptr;
+    }
+
+    UEAA::SharedPointer <UEAA::Specialty> csFreeSpecialty (
+            CreateTechSpecialty (techFaculty, TechFaculty::COMPUTER_SCIENCE_FREE, TechFaculty::CS_MAX_ENROLLEES_IN_FREE));
+    if (!techFaculty->AddSpecialty (csFreeSpecialty))
+    {
+        std::cout << "Can't add CS free specialty!" << std::endl;
+        delete techFaculty;
+        return nullptr;
+    }
+
+    UEAA::SharedPointer <UEAA::Specialty> csPaidSpecialty (
+            CreateTechSpecialty (techFaculty, TechFaculty::COMPUTER_SCIENCE_PAID, TechFaculty::CS_MAX_ENROLLEES_IN_PAID));
+    if (!techFaculty->AddSpecialty (csPaidSpecialty))
+    {
+        std::cout << "Can't add CS paid specialty!" << std::endl;
+        delete techFaculty;
+        return nullptr;
     }
     return techFaculty;
 }
 
-UEAA::Specialty *CreateTechSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees, unsigned maxPaidEnrollees)
+UEAA::Specialty *CreateTechSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxEnrollees)
 {
     UEAA::Specialty *specialty = new UEAA::Specialty (faculty, id);
-    specialty->SetMaxEnrolleesInFreeForm (maxFreeEnrollees);
-    specialty->SetMaxEnrolleesInPaidForm (maxPaidEnrollees);
+    specialty->SetMaxEnrollees (maxEnrollees);
     specialty->AddAcceptedRODSubject (MATH_EXAM);
 
     {
@@ -204,37 +215,52 @@ UEAA::Specialty *CreateTechSpecialty (UEAA::Faculty *faculty, unsigned id, unsig
 UEAA::Faculty *CreateArtsFaculty (UEAA::University *university)
 {
     UEAA::Faculty *artsFaculty = new UEAA::Faculty (university, ARTS_FACULTY);
-    UEAA::SharedPointer <UEAA::Specialty> paintingSpecialty (
-            CreateArtsSpecialty (artsFaculty, ArtsFaculty::PAINTING,
-                                 ArtsFaculty::PAINTING_MAX_ENROLLEES_IN_FREE_FORM,
-                                 ArtsFaculty::PAINTING_MAX_ENROLLEES_IN_PAID_FORM));
+    UEAA::SharedPointer <UEAA::Specialty> paintingFreeSpecialty (
+            CreateArtsSpecialty (artsFaculty, ArtsFaculty::PAINTING_FREE, ArtsFaculty::PAINTING_MAX_ENROLLEES_IN_FREE));
 
-    if (!artsFaculty->AddSpecialty (paintingSpecialty))
+    if (!artsFaculty->AddSpecialty (paintingFreeSpecialty))
     {
-        std::cout << "Can't add Painting specialty!" << std::endl;
+        std::cout << "Can't add Painting free specialty!" << std::endl;
         delete artsFaculty;
-        return 0;
+        return nullptr;
     }
 
-    UEAA::SharedPointer <UEAA::Specialty> theatreSpecialty (
-            CreateArtsSpecialty (artsFaculty, ArtsFaculty::THEATRE,
-                                 ArtsFaculty::THEATRE_MAX_ENROLLEES_IN_FREE_FORM,
-                                 ArtsFaculty::THEATRE_MAX_ENROLLEES_IN_PAID_FORM));
+    UEAA::SharedPointer <UEAA::Specialty> paintingPaidSpecialty (
+            CreateArtsSpecialty (artsFaculty, ArtsFaculty::PAINTING_PAID, ArtsFaculty::PAINTING_MAX_ENROLLEES_IN_PAID));
 
-    if (!artsFaculty->AddSpecialty (theatreSpecialty))
+    if (!artsFaculty->AddSpecialty (paintingPaidSpecialty))
     {
-        std::cout << "Can't add Theatre specialty!" << std::endl;
+        std::cout << "Can't add Painting paid specialty!" << std::endl;
         delete artsFaculty;
-        return 0;
+        return nullptr;
+    }
+
+    UEAA::SharedPointer <UEAA::Specialty> theatreFreeSpecialty (
+            CreateArtsSpecialty (artsFaculty, ArtsFaculty::THEATRE_FREE, ArtsFaculty::THEATRE_MAX_ENROLLEES_IN_FREE));
+
+    if (!artsFaculty->AddSpecialty (theatreFreeSpecialty))
+    {
+        std::cout << "Can't add Theatre free specialty!" << std::endl;
+        delete artsFaculty;
+        return nullptr;
+    }
+
+    UEAA::SharedPointer <UEAA::Specialty> theatrePaidSpecialty (
+            CreateArtsSpecialty (artsFaculty, ArtsFaculty::THEATRE_PAID, ArtsFaculty::THEATRE_MAX_ENROLLEES_IN_PAID));
+
+    if (!artsFaculty->AddSpecialty (theatrePaidSpecialty))
+    {
+        std::cout << "Can't add Theatre paid specialty!" << std::endl;
+        delete artsFaculty;
+        return nullptr;
     }
     return artsFaculty;
 }
 
-UEAA::Specialty *CreateArtsSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees, unsigned maxPaidEnrollees)
+UEAA::Specialty *CreateArtsSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxEnrollees)
 {
     UEAA::Specialty *specialty = new UEAA::Specialty (faculty, id);
-    specialty->SetMaxEnrolleesInFreeForm (maxFreeEnrollees);
-    specialty->SetMaxEnrolleesInPaidForm (maxPaidEnrollees);
+    specialty->SetMaxEnrollees (maxEnrollees);
     specialty->AddAcceptedRODSubject (SOCIETY_EXAM);
     specialty->SetIsPedagogical (true);
 
