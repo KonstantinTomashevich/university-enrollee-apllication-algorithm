@@ -19,21 +19,21 @@ const unsigned ARTS_INTERNAL_EXAM = UEAA::CStringToHash ("Arts");
 const unsigned TECH_FACULTY = UEAA::CStringToHash ("Tech");
 namespace TechFaculty
 {
-const unsigned APPLIED_COMPUTER_SCIENCE = UEAA::CStringToHash ("AppliedComputerScience");
-const unsigned COMPUTER_SCIENCE = UEAA::CStringToHash ("ComputerScience");
+const unsigned APPLIED_COMPUTER_SCIENCE_FREE = UEAA::CStringToHash ("AppliedComputerScience (Free)");
+const unsigned COMPUTER_SCIENCE_FREE = UEAA::CStringToHash ("ComputerScience (Free)");
 
-const unsigned ACS_MAX_ENROLLEES_IN_FREE_FORM = 25;
-const unsigned CS_MAX_ENROLLEES_IN_FREE_FORM = 100;
+const unsigned ACS_MAX_ENROLLEES_IN_FREE = 25;
+const unsigned CS_MAX_ENROLLEES_IN_FREE = 100;
 }
 
 const unsigned ARTS_FACULTY = UEAA::CStringToHash ("Arts");
 namespace ArtsFaculty
 {
-const unsigned PAINTING = UEAA::CStringToHash ("Painting");
-const unsigned THEATRE = UEAA::CStringToHash ("Theatre");
+const unsigned PAINTING_FREE = UEAA::CStringToHash ("Painting (Free)");
+const unsigned THEATRE_FREE = UEAA::CStringToHash ("Theatre (Free)");
 
-const unsigned PAINTING_MAX_ENROLLEES_IN_FREE_FORM = 50;
-const unsigned THEATRE_MAX_ENROLLEES_IN_FREE_FORM = 50;
+const unsigned PAINTING_MAX_ENROLLEES_IN_FREE = 50;
+const unsigned THEATRE_MAX_ENROLLEES_IN_FREE = 50;
 }
 
 const unsigned TECH_ENROLLEES = 125;
@@ -45,7 +45,7 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
 
 UEAA::University *CreateTestUniversity ();
 UEAA::Faculty *CreateTechFaculty (UEAA::University *university);
-UEAA::Specialty *CreateTechSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees);
+UEAA::Specialty *CreateTechSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxEnrollees);
 UEAA::Faculty *CreateArtsFaculty (UEAA::University *university);
-UEAA::Specialty *CreateArtsSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees);
+UEAA::Specialty *CreateArtsSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxEnrollees);
 void PrintEnrollee (const UEAA::Enrollee *enrollee, UEAA::DeHashTable *deHashTable);
