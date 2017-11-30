@@ -103,7 +103,7 @@ bool GenerateNextEnrollee (tinyxml2::XMLElement *enrolleeElement, const std::str
     std::vector <unsigned> marksSubjects = enrollee->GetCertificateMarksSubjects ();
     for (auto iterator = marksSubjects.begin (); iterator != marksSubjects.end (); iterator++)
     {
-        enrollee->SetCertificateMark (*iterator, enrollee->GetExamResult (*iterator) + (rand () % (marksDelta * 2) - marksDelta));
+        enrollee->SetCertificateMark (*iterator, enrollee->GetCertificateMark (*iterator) + (rand () % (marksDelta * 2) - marksDelta));
     }
 
     tinyxml2::XMLDocument document;
