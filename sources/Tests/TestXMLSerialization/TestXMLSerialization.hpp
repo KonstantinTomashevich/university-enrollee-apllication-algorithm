@@ -19,27 +19,33 @@ unsigned ARTS_INTERNAL_EXAM = 0;
 unsigned TECH_FACULTY = 0;
 namespace TechFaculty
 {
-unsigned APPLIED_COMPUTER_SCIENCE = 0;
-unsigned COMPUTER_SCIENCE = 0;
+unsigned APPLIED_COMPUTER_SCIENCE_FREE = 0;
+unsigned COMPUTER_SCIENCE_FREE = 0;
 
-unsigned ACS_MAX_ENROLLEES_IN_FREE_FORM = 25;
-unsigned ACS_MAX_ENROLLEES_IN_PAID_FORM = 15;
+unsigned APPLIED_COMPUTER_SCIENCE_PAID = 0;
+unsigned COMPUTER_SCIENCE_PAID = 0;
 
-unsigned CS_MAX_ENROLLEES_IN_FREE_FORM = 100;
-unsigned CS_MAX_ENROLLEES_IN_PAID_FORM = 10;
+unsigned ACS_MAX_ENROLLEES_IN_FREE = 25;
+unsigned ACS_MAX_ENROLLEES_IN_PAID = 15;
+
+unsigned CS_MAX_ENROLLEES_IN_FREE = 100;
+unsigned CS_MAX_ENROLLEES_IN_PAID = 10;
 }
 
 unsigned ARTS_FACULTY = 0;
 namespace ArtsFaculty
 {
-unsigned PAINTING = 0;
-unsigned THEATRE = 0;
+unsigned PAINTING_FREE = 0;
+unsigned THEATRE_FREE = 0;
 
-unsigned PAINTING_MAX_ENROLLEES_IN_FREE_FORM = 50;
-unsigned PAINTING_MAX_ENROLLEES_IN_PAID_FORM = 100;
+unsigned PAINTING_PAID = 0;
+unsigned THEATRE_PAID = 0;
 
-unsigned THEATRE_MAX_ENROLLEES_IN_FREE_FORM = 50;
-unsigned THEATRE_MAX_ENROLLEES_IN_PAID_FORM = 100;
+unsigned PAINTING_MAX_ENROLLEES_IN_FREE = 50;
+unsigned PAINTING_MAX_ENROLLEES_IN_PAID = 100;
+
+unsigned THEATRE_MAX_ENROLLEES_IN_FREE = 50;
+unsigned THEATRE_MAX_ENROLLEES_IN_PAID = 100;
 }
 
 unsigned TECH_ENROLLEES = 100;
@@ -52,7 +58,7 @@ UEAA::Enrollee *GenerateEnrollee (bool addTech, bool addArts, UEAA::DeHashTable 
 
 UEAA::University *CreateTestUniversity ();
 UEAA::Faculty *CreateTechFaculty (UEAA::University *university);
-UEAA::Specialty *CreateTechSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees, unsigned maxPaidEnrollees);
+UEAA::Specialty *CreateTechSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxEnrollees);
 UEAA::Faculty *CreateArtsFaculty (UEAA::University *university);
-UEAA::Specialty *CreateArtsSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxFreeEnrollees, unsigned maxPaidEnrollees);
+UEAA::Specialty *CreateArtsSpecialty (UEAA::Faculty *faculty, unsigned id, unsigned maxEnrollees);
 void PrintEnrollee (const UEAA::Enrollee *enrollee, const UEAA::DeHashTable *deHashTable);

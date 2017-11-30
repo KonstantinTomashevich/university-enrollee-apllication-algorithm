@@ -131,7 +131,7 @@ else
     exit 1
 fi
 
-echo "<specialty name=\"SomeSpecialty\" maxEnrolleesInFreeForm=\"50\" maxEnrolleesInPaidForm=\"50\" isPedagogical=\"false\"></specialty>" > CorrectSpecialty.xml
+echo "<specialty name=\"SomeSpecialty\" maxEnrollees=\"50\" isPedagogical=\"false\"></specialty>" > CorrectSpecialty.xml
 thirdTestAddRemoveSpecialty="${UEADB} NewFaculty SomeFaculty , AddSpecialty SomeFaculty CorrectSpecialty.xml , RemoveSpecialty SomeFaculty SomeSpecialty"
 echo "Test: ${thirdTestAddRemoveSpecialty}"
 
