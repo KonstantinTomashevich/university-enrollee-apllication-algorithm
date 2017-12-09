@@ -84,6 +84,16 @@ void University::RemoveAllFaculties ()
     faculties_.clear ();
 }
 
+std::map <unsigned int, UEAA::SharedPointer <UEAA::Faculty>>::const_iterator University::GetFacultiesBegin () const
+{
+    return faculties_.cbegin ();
+}
+
+std::map <unsigned int, UEAA::SharedPointer <UEAA::Faculty>>::const_iterator University::GetFacultiesEnd () const
+{
+    return faculties_.cend ();
+}
+
 bool University::AddEnrollee (Enrollee *enrollee)
 {
     if (!enrollee)
@@ -136,6 +146,16 @@ Enrollee *University::GetEnrolleeByIndex (unsigned index) const
     {
         return nullptr;
     }
+}
+
+std::map <unsigned int, UEAA::SharedPointer <UEAA::Enrollee>>::const_iterator University::GetEnrolleesBegin () const
+{
+    return enrollees_.cbegin ();
+}
+
+std::map <unsigned int, UEAA::SharedPointer <UEAA::Enrollee>>::const_iterator University::GetEnrolleesEnd () const
+{
+    return enrollees_.cend ();
 }
 
 bool University::RemoveEnrollee (unsigned id)

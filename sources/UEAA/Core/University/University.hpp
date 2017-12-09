@@ -23,6 +23,8 @@ public:
 
     bool RemoveFaculty (unsigned id);
     void RemoveAllFaculties ();
+    std::map <unsigned, SharedPointer <Faculty> >::const_iterator GetFacultiesBegin () const;
+    std::map <unsigned, SharedPointer <Faculty> >::const_iterator GetFacultiesEnd () const;
 
     bool AddEnrollee (Enrollee *enrollee);
     Enrollee *GetEnrollee (unsigned id) const;
@@ -30,6 +32,8 @@ public:
 
     unsigned GetEnrolleesCount () const;
     Enrollee *GetEnrolleeByIndex (unsigned index) const;
+    std::map <unsigned, SharedPointer <Enrollee> >::const_iterator GetEnrolleesBegin () const;
+    std::map <unsigned, SharedPointer <Enrollee> >::const_iterator GetEnrolleesEnd () const;
 
     bool RemoveEnrollee (unsigned id);
     void RemoveAllEnrollees ();
