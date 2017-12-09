@@ -23,9 +23,8 @@ public:
     std::vector <unsigned> GetPassedExamsSubjects () const;
 
     bool HasMoreChoices () const;
-    unsigned GetCurrentChoiceIndex () const;
-    void IncreaseChoiceIndex ();
-    void RefreshChoiceIndex ();
+    void StepToNextChoice ();
+    void RefreshCurrentChoice ();
 
     unsigned GetChoicesCount () const;
     const std::list <SharedPointer <EnrolleeChoice> > &GetChoices () const;
@@ -67,7 +66,7 @@ private:
     unsigned id_;
     /// Exams results map. Key is exam subject name hash. Results will be in range (0, 100].
     std::map <unsigned, unsigned char> examsResults_;
-    unsigned currentChoiceIndex_;
+    std::list <SharedPointer <EnrolleeChoice> >::iterator currentChoice_;
     std::list <SharedPointer <EnrolleeChoice> > choices_;
     SharedPointer <EnrolleeChoice> lastUpdateResult_;
 

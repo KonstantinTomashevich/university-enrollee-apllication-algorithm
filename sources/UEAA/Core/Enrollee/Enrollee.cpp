@@ -13,8 +13,8 @@ Enrollee::Enrollee (unsigned id) :
     id_ (id),
 
     examsResults_ (),
-    currentChoiceIndex_ (0),
     choices_ (0),
+    currentChoice_ (choices_.begin ()),
     lastUpdateResult_ (nullptr),
 
     certificateMarks_ (),
@@ -66,22 +66,20 @@ std::vector <unsigned> Enrollee::GetPassedExamsSubjects () const
 
 bool Enrollee::HasMoreChoices () const
 {
-    return currentChoiceIndex_ < choices_.size ();
+    return !choices_.empty () && currentChoice_ != choices_.end ();
 }
 
-unsigned Enrollee::GetCurrentChoiceIndex () const
+void Enrollee::StepToNextChoice ()
 {
-    return currentChoiceIndex_;
+    if (HasMoreChoices ())
+    {
+        currentChoice_++;
+    }
 }
 
-void Enrollee::IncreaseChoiceIndex ()
+void Enrollee::RefreshCurrentChoice ()
 {
-    currentChoiceIndex_++;
-}
-
-void Enrollee::RefreshChoiceIndex ()
-{
-    currentChoiceIndex_ = 0;
+    currentChoice_ = choices_.begin ();
 }
 
 unsigned Enrollee::GetChoicesCount () const
@@ -96,7 +94,14 @@ const std::list <SharedPointer <EnrolleeChoice> > &Enrollee::GetChoices () const
 
 EnrolleeChoice *Enrollee::GetCurrentChoice () const
 {
-    return GetChoiceByIndex (currentChoiceIndex_);
+    if (HasMoreChoices ())
+    {
+        return *currentChoice_;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 EnrolleeChoice *Enrollee::GetChoiceByIndex (unsigned index) const
@@ -115,7 +120,13 @@ EnrolleeChoice *Enrollee::GetChoiceByIndex (unsigned index) const
 
 void Enrollee::AddChoiceToBack (EnrolleeChoice *choice)
 {
-    choices_.push_back (SharedPointer <EnrolleeChoice> (choice));
+    bool first = choices_.empty ();
+    choices_.emplace_back (SharedPointer <EnrolleeChoice> (choice));
+
+    if (first)
+    {
+        currentChoice_ = choices_.begin ();
+    }
 }
 
 void Enrollee::RemoveChoiceByIndex (unsigned index)
@@ -124,7 +135,15 @@ void Enrollee::RemoveChoiceByIndex (unsigned index)
     {
         auto iterator = choices_.begin ();
         for (; index > 0; iterator++, index--) {}
-        choices_.erase (iterator);
+
+        if (iterator == currentChoice_)
+        {
+            currentChoice_ = choices_.erase (iterator);
+        }
+        else
+        {
+            choices_.erase (iterator);
+        }
     }
 }
 
@@ -333,8 +352,8 @@ void Enrollee::LoadFromXML (tinyxml2::XMLElement *input, DeHashTable *deHashTabl
 void Enrollee::Clear ()
 {
     examsResults_.clear ();
-    currentChoiceIndex_ = 0;
     choices_.clear ();
+    RefreshCurrentChoice ();
 
     lastUpdateResult_.SetTrackingObject (nullptr);
     certificateMarks_.clear ();

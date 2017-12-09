@@ -83,7 +83,7 @@ int main ()
             std::cout << "Incorrect choice faculty!"<< std::endl;
             return 1;
         }
-        enrollee->IncreaseChoiceIndex ();
+        enrollee->StepToNextChoice ();
     }
 
     std::cout << "Has more choices: " << enrollee->HasMoreChoices () << std::endl;
@@ -93,7 +93,7 @@ int main ()
         return 1;
     }
 
-    enrollee->RefreshChoiceIndex ();
+    enrollee->RefreshCurrentChoice ();
     std::cout << "Choice index refreshed." << std::endl;
     std::cout << "Current choice: (faculty): " << enrollee->GetCurrentChoice ()->GetFaculty () << std::endl;
 

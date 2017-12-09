@@ -166,7 +166,7 @@ void University::ClearEnroleesApplicationInfo ()
     {
         Enrollee *enrollee = iterator->second;
         enrollee->SetLastUpdateResult (nullptr);
-        enrollee->RefreshChoiceIndex ();
+        enrollee->RefreshCurrentChoice ();
     }
 }
 
@@ -318,12 +318,12 @@ void University::ProcessEnrolleesChoices (std::list <Enrollee *> &processing, st
                 }
                 else
                 {
-                    enrollee->IncreaseChoiceIndex ();
+                    enrollee->StepToNextChoice ();
                 }
             }
             else
             {
-                enrollee->IncreaseChoiceIndex ();
+                enrollee->StepToNextChoice ();
             }
         }
 
@@ -346,7 +346,7 @@ void University::AddFacultiesExcessToProcessingList (std::list <Enrollee *> &pro
              excessInFacultyIterator != excessInFaculty.end (); excessInFacultyIterator++)
         {
             Enrollee *enrollee = *excessInFacultyIterator;
-            enrollee->IncreaseChoiceIndex ();
+            enrollee->StepToNextChoice ();
             processing.emplace_back (enrollee);
         }
     }

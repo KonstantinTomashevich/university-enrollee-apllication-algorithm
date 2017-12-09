@@ -55,7 +55,7 @@ int main ()
     for (auto iterator = excessEnrollees.begin (); iterator != excessEnrollees.end (); iterator++)
     {
         UEAA::Enrollee *enrollee = *iterator;
-        enrollee->RefreshChoiceIndex ();
+        enrollee->RefreshCurrentChoice ();
         while (enrollee->HasMoreChoices ())
         {
             UEAA::EnrolleeChoice *choice = enrollee->GetCurrentChoice ();
@@ -84,7 +84,7 @@ int main ()
                     }
                 }
             }
-            enrollee->IncreaseChoiceIndex ();
+            enrollee->StepToNextChoice ();
         }
     }
     return 0;
