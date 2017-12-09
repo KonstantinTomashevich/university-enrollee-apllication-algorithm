@@ -24,6 +24,9 @@ public:
 
     unsigned GetSpecialtiesCount () const;
     Specialty *GetSpecialtyByIndex (unsigned index) const;
+    std::map <unsigned, SharedPointer <Specialty> >::const_iterator GetSpecialtiesBegin () const;
+    std::map <unsigned, SharedPointer <Specialty> >::const_iterator GetSpecialtiesEnd () const;
+
     void RemoveAllSpecialties ();
     void ClearAllSpecialtiesEnrollees ();
     std::list <Enrollee *> GetExcessEnrollees ();

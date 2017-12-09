@@ -89,6 +89,16 @@ Specialty *Faculty::GetSpecialtyByIndex (unsigned index) const
     }
 }
 
+std::map <unsigned int, UEAA::SharedPointer <UEAA::Specialty>>::const_iterator Faculty::GetSpecialtiesBegin () const
+{
+    return specialties_.cbegin ();
+}
+
+std::map <unsigned int, UEAA::SharedPointer <UEAA::Specialty>>::const_iterator Faculty::GetSpecialtiesEnd () const
+{
+    return specialties_.cend ();
+}
+
 void Faculty::RemoveAllSpecialties ()
 {
     specialties_.clear ();
